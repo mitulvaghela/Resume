@@ -1,23 +1,145 @@
 
+textarea {
+    width: 90%;
+    height:90px;
+}
+.fullwidth {
+    width: 100% !important;
+    display: flex;
+}
+.previewbutton {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+
+}
+body {
+    height: 100%;
+    font-size: calc(0.75em + 1vmin);
+    /* font-size: 1rem; */
+    /* overflow: auto; */
+}
+html {
+    --root-font-size: calc(10px + (16 - 8) * ((100vw - 300px) / (1600 - 300)));
+      font-size: var(--root-font-size);
+      /* font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))); */
+}
+.resume-main {
+    font-size: var(--root-font-size);
+    overflow: auto;
+}
+
+span,p {
+   font-size: calc( var(--root-font-size)*(1) );
+}
+h1 {
+    font-size: calc( var(--root-font-size)*(2) );
+}
+h2 {
+    font-size: calc( var(--root-font-size)*(1.5 ) );
+    /* font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))); */
+}
+h3 {
+    font-size: calc( var(--root-font-size)*(1.25) );
+}
+h4 {
+    font-size: calc( var(--root-font-size)*(1) );
+}
+.hidden-form {
+    visibility: hidden;
+}
 .main {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+}
+label {
+      /* margin: 2%; */
+      width: 90%;
+      text-align: start;
+      /* margin-bottom: 1%; */
+      margin-left: 1%;
+      /* padding: auto; */
+}
+input {
+    width: 90%;
+    margin-left: 1%;
+    /* border: 2px solid rgb(109, 103, 109); */
+    /* border-radius: 5%; */
+    /* background-color: #ede9e3; */
+    height: 1.5rem;
+}
+.button-style {
+    display: flex;
+    
+    justify-content: space-around;
+   
+
+}
+button {
+    /* width: 40%; */
+    /* box-sizing: content-box; */
+    
+    /* margin-left: 20%; */
+    /* border-radius: 10%; */
+    width:5rem;
+    height: 2rem;
+}
+#resume-form {
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    height: 2rem;
+}
+.form-layout {
+    /* width: 50%; */
+    /* background-color: rgb(163, 201, 235); */
+    /* border: 1px solid #261f17; */
+
+    /* align-self: center; */
+    /* justify-content: center; */
+      /* margin: 3% 3%; */
+      display: flex;
+     /* margin-left: auto; */
+     flex-direction: column;
+     /* text-ali    gn: center; */
+     margin: 5%;
+    
+     
+     
+    
+}
+
+.form-main {
+    width: 40%;
+    border: 1px solid rgb(215, 215, 231);
+    margin: 3%;
+    background-color: rgb(233, 237, 240);
+    /* display: flex; */
+
+}
+.resume-main {
     /* border: 1px solid rgb(52, 54, 52); */
-    width: 70%;
+    width: 60%;
     /* height:3508px; */    
     
     display: flex;
     justify-content: center;
     position: relative;
-    margin: auto;
+    margin: 3%;
     border: 1PX solid rgb(216, 211, 211);
+    background-color: #F6F1EB;
 
 }
 .dotted-line {
     border: none;
     border-top: 1px dotted rgb(216,204,190);
-    color: #fff;
-    background-color: #fff;
+    color: rgb(61, 54, 54)(209, 89, 89);
+    background-color: rgb(134, 24, 24);
     height: 1px;
-    width:30%;
+    /* height: 20%; */
+    /* width:30%; */
+    /* width:fit-content; */
     margin-top:6%
   }
 
@@ -38,7 +160,7 @@
     border: 1px solid white;
     border-radius: 25px;
     padding: 10px;
-    color:white;
+    color:white; 
     align-self: flex-start;
   }
 
@@ -61,6 +183,7 @@
     display: flex;
     position: relative;
     flex-direction: column;
+    background-color: white;
     /* overflow: hidden; */
 }
 
@@ -106,7 +229,9 @@ h3 {
 
 
 }
-
+.small-content-item {
+    flex: 20%;
+}
 .content-title {
     display: flex;
     flex-wrap: wrap;
@@ -123,6 +248,10 @@ h3 {
     margin-right: auto;
     
     /* margin-left:5%; */
+}
+
+.paragraph {
+    overflow-wrap: break-word;
 }
 .content-item {
   flex:50%;
@@ -155,11 +284,13 @@ span {
 .small-item {
     list-style: none;
     flex: 33%;
+    justify-content:left;
+
   
 }
 
 @media  only screen and (max-width:549px)  {
-    .main {
+    .resume_main {
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -173,14 +304,14 @@ span {
         width:100%;
     }
 
-    .section-name {
-        /* margin-left: 5%; */
-    }
+    /* .section-name {
+        margin-left: 5%;
+    } */
     
 }
 
 @media only screen and (max-width:848px) {
-    .main {
+    .resume_main {
       width: 100%;
     }
 }

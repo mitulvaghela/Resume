@@ -12,21 +12,134 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="main">
+ <div class="main">
+     <form class="form-main">
+        <div class='form-row form-layout'>
+            <!-- <label for='resume-form'>Resume Form</label><br> -->
+            <select id='resume-form' name='resume-form'>
+                <option value="none" selected disabled hidden >Select an Option</option>
+              <option value='intro'>Personal Intro</option>
+              <option value='education'>Education</option>
+              <option value='experience'>Experience</option>
+              <option value='skills'>Skills</option>
+              <option value='personal-info'>Personal Information</option>
+              <option value='achievements'>Achievements</option>
+            </select>
+
+          </div>
+
+    <div class="formOptions"></div>
+    <!-- <div  class="intro hidden-form form-layout">
+        <label for="fname">First Name:</label><br>
+        <input type="text" id="fname" name="fname"><br>
+        
+        <label for="fname">Last Name:</label><br>
+        <input type="text" id="lname" name="lname"><br>
+        
+        <label for="rolename">Type of Role:</label><br>
+        <input type="text" id="rolename" name="rolename"><br>
+        
+        <label for="introduction">Introduce Yourself </label><br>
+        <input type="textarea" id="introduction" name="introduction"><br>
+        <label for="profile-img">Profile Pic Link</label> <br>
+        <input type="file" id="profile-img" name="profile-img" accept="image/*"><br>
+        <button type="reset">Reset</button>
+        <button type="button" id="intro-submit" value="submit">Submit</button>
+        </div>
+
+         <div  class="personal-info hidden-form form-layout">
+                <label for="tnumber">Telephone number</label><br>
+                <input type="tel" id="tnumber" name="tnumber"><br>
+                <label for="emailid">Email ID</label><br>
+                <input type="email" id="emailid" name="emailid"><br>
+                
+                <label for="linkedinid">Linkedin Profile URL</label><br>
+                <input type="text" id="linkedinid" name="linkedinid"><br>
+                <label for="address">Address </label><br>
+                <input type="text" id="address" name="address"><br>
+                <div class="button-style">
+                <button type="reset">Reset</button>
+                <button type="button"  id="ps-submit"   value="submit">Submit</button>
+                </div>
+            </div>
+            <div  class="education hidden-form  form-layout">
+                <label for="uname">University Name:</label><br>
+                <input type="text" id="uname" name="uname"><br>
+                <label for="qname">Qualification:</label><br>
+                <input type="text" id="qname" name="qname"><br>
+                <label for="cname">Course Name:</label><br>
+                <input type="text" id="cname" name="cname"><br>
+                <label for="syear">Starting Year</label><br>
+                <input type="number" placeholder="YYYY" id="syear" name="syear"><br>
+                <label for="eyear">Ending Year</label><br>
+                <input type="number" id="eyear" name="eyear"><br>
+                
+                <div class="button-style">
+                <button type="reset">Reset</button>
+                <button type="button"  id="edu-submit"   value="submit">Submit</button>
+                </div>
+        
+                </div>`
+
+
+                <div  class="experience hidden-form  form-layout">
+                    <label for="jposition">Job Position:</label><br>
+                    <input type="text" id="jposition" name="jposition"><br>
+                    <label for="jlocation">Job Location:</label><br>
+                    <input type="text" id="jlocation" name="jlocation"><br>
+                    <label for="jstart">Job Start</label><br>
+                    <input type="month" placeholder="MM-YYYY"  id="jstart" name="jstart"><br>
+                    <label for="jend"> Job End</label><br>
+                    <input type="month" placeholder="MM-YYYY" id="jend" name="jend"><br>
+                    <label for="jdescription">Description</label><br>
+                    <input type="text" id="jdescription" name="jdescription"><br>
+                    
+                    <div class="button-style">
+                    <button type="reset">Reset</button>
+                    <button type="button"  id="exp-submit"   value="submit">Submit</button>
+                    </div>
+                    </div>
+
+
+                                <div  class="skills hidden-form form-layout">
+                                    <label for="skill-field">Skill</label><br>
+                                    <input type="text" id="skill-field" name="skill-field"><br>
+                                    <div class="button-style">
+                                    <button type="reset">Reset</button>
+                                    <button type="button"  id="skills-submit"   value="add">Submit</button>
+                                    </div>
+                                    </div> 
+
+
+
+                    <div  class="achievements hidden-form  form-layout">
+                    <label for="achievements-field">Achievements</label><br>
+                    <textarea type="text" id="achievements-field" name="achievements-field"></textarea><br>
+                    <div class="button-style">
+                    <button type="reset">Reset</button>
+                    <button type="button"  id="achievements-submit"   value="add">Submit</button>
+                    </div>
+                    </div>
+      -->
+   
+    </form>
+    
+    <div class="resume-main">
      <div class="left">
         <!-- Part-1 --> 
-        <div class="content-layout">
-          <h1 class="name">LUCIFER  <br/> MORNINGSTAR</h1>
-          <H2 class="sub-heading">Angel of Hell</H2>
+        <div class="introduction-section"></div>
+        <!-- <div class="content-layout">
+          <h1 class="name">LUCIFER  <br> MORNINGSTAR</h1>
+          <h2 class="sub-heading">Angel of Hell</h2>
        </div>
 
-        <!-- <div class="profile-pic">  -->
-        <img class="pic" src="lucifer.jpeg" alt="Profile Pics" />
+         <div class="profile-pic">  -->
+        <!-- <img class="pic" src="lucifer.jpeg" alt="Profile Pics" /> -->
         <!-- </div> -->
        
-        <div class="content-layout"> 
+        <!-- <div class="content-layout  "> 
             <h3 style="border-bottom:1px solid rgb(216,204,190)">Profile</h3> 
-            <p class="paragraph">
+            <p class="paragraph" id="personal-intro">
              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
              when an unknown printer took a galley of type and scrambled it to make a type specimen book.
@@ -34,36 +147,36 @@
              It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
              and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </p>
-        </div>
-
-        <div class="icon-layout content-layout">
+        </div> --> 
+        <div class="contact-section"></div>
+        <!-- <div class="icon-layout content-layout">
             <h3 style="border-bottom:1px solid rgb(216,204,190)">CONTACT</h3>
 
             <div class="section-layout">
                 <i  class="fa-solid fa-phone icon-color"></i>   
-                <div class="icon-info">telephone: 9662833396</div>
+                <a class="icon-info" id="telephone-div" href="tel+919662833396"> Tel: +91 9662833396</a>
             </div>
 
             <div class="section-layout">
                 <i class="fa-solid fa-inbox icon-color"></i>
-                <a class="icon-info" href="mailto:mitulvaghela0@gmail.com? subject = link is not opening " target="_blank"> mitulvaghela0@gmail.com</a>
+                <a class="icon-info" id="email-div"href="mailto:mitulvaghela0@gmail.com?subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you" target="_blank" > mitulvaghela0@gmail.com</a>
             </div> 
 
             <div class="section-layout">
                 <i class="fa-brands fa-linkedin icon-color"></i>
-                <a class="icon-info" href="https://www.linkedin.com/in/mitul-vaghela-285171190" target="_blank">linkedin.com/mitulvaghela</a>
+                <a class="icon-info " id="linkedin-div" href="https://www.linkedin.com/in/mitul-vaghela-285171190" target="_blank">linkedin.com/mitulvaghela</a>
             </div>
 
             <div class="section-layout">
                 <i class="fa-solid fa-location-dot icon-color"></i>
-                <p class="icon-info" >Sutton Place in an Upper East Side brownstone</p>
+                <p class="icon-info" id="add-div">Sutton Place in an Upper East Side brownstone</p>
             </div> 
 
-        </div>
+        </div> -->
      </div>
      <div class="right">
         <!-- Part-2 -->
-        <header class="content-layout">
+        <header class="content-layout" id="edu-details">
             <div class="section-layout">
                 <div class="logo">
                 <i class="fa-solid fa-user-graduate icon-color" ></i> 
@@ -73,7 +186,8 @@
                  <hr class="dotted-line"/>
                
             </div>
-            
+         
+<!--             
             <div class="">
                 <div class="content-title">
                     <h4 class="content-item"> Bachelor Degree - DAIICT</h4>
@@ -89,11 +203,11 @@
                     <p class="content-item">ICT with minor CS</p>   
                 </div>
             </div>
-               
+                -->
 
         </header>
 
-        <div class="content-layout">
+        <div class="content-layout" id="work-details">
             <div class="section-layout">
                 <div class="logo">
                     <i class="fa-solid fa-briefcase icon-color"></i>
@@ -101,7 +215,7 @@
                 <h2 class="section-name">WORK EXPERIENCE</h2>
                 <hr class="dotted-line"/>
             </div>
-            <div>
+<!--             
                 <div class="">
                     <div class="content-title">
                         <h4 class="content-item">Enter Job Position Here</h4>
@@ -113,9 +227,9 @@
                         Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
                         when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
 
-                </div>
+                </div> -->
 
-                <div class="">
+                <!-- <div class="">
                     <div class="content-title">
                         <h4 class="content-item">Enter Job Position Here</h4>
                         <span class="content-item extreme-right-item">2014 - Present</span> 
@@ -138,11 +252,11 @@
                         when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                         
                 </div>
-                
-            </div>
+                 -->
+            
         </div>
 
-        <div class="content-layout">
+        <div class="content-layout" >
             <div class="section-layout">
                 <div class="logo">
                   <i class="fa-solid fa-flask icon-color"></i>
@@ -151,17 +265,12 @@
                 <hr class="dotted-line"/>
             </div>
 
-            <ol class="parent-small-item">
-                <li class="small-item">block1</li>
-                <li class="small-item">block1</li>
-                <li class="small-item">block1</li>
-                <li class="small-item">block1</li> 
-                <li class="small-item">block1</li>
-                <li class="small-item">block1</li> 
+            <ol class="parent-small-item" id="skills-details">
+               
             </ol>  
         </div>
 
-        <div class="content-layout">
+        <div class="content-layout" id="achievements-details">
             <div class="section-layout">
                 <div class="logo">
                   <i class="fa-solid fa-trophy icon-color"></i>
@@ -170,18 +279,24 @@
                 <hr class="dotted-line"/>
             </div>
 
-            <div class="">
+            <!-- <div class="">
                 <p class="paragraph"> Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
                     when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
                 <p class="paragraph"> Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
                     when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
-            </div>
+            </div> -->
            
         </div>
 
      </div>
     </div>
+    
+</div>
+<div class="previewbutton">
+    <button type="button" id="preview"> Preview</button>
+</div>
+<script src="interactive.js"></script>   
 </body>
 </html>

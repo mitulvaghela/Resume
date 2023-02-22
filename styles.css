@@ -10,7 +10,7 @@ textarea {
 .previewbutton {
     display: flex;
     justify-content: center;
-    margin: auto;
+    margin-top:2%;
 
 }
 body {
@@ -211,7 +211,7 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content:space-between;
+    /* justify-content:space-between; */
     
 }
 .icon-info {
@@ -243,10 +243,12 @@ h3 {
 .logo { 
     margin: auto 5%;
     margin-left: 0;
+    width: 6%;
+
 }
 .section-name {
-    margin-right: auto;
-    
+    /* margin-right: auto; */
+    width: 39.5%;
     /* margin-left:5%; */
 }
 
@@ -290,7 +292,7 @@ span {
 }
 
 @media  only screen and (max-width:549px)  {
-    .resume_main {
+    .resume-main {
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -311,7 +313,7 @@ span {
 }
 
 @media only screen and (max-width:848px) {
-    .resume_main {
+    .resume-main {
       width: 100%;
     }
 }

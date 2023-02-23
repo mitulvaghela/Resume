@@ -1,69 +1,69 @@
 
 let options = document.getElementById("resume-form");
-let old_value = options.value;
-let current_value;
+let oldOptionValue = options.value;
+let currentOptionValue;
 let suffixID = "-";
 let previewButton = document.getElementById("preview");
-let cnt=0;
+let flagPreview = false;
 let form = document.getElementsByClassName("form-main")[0];
 let resumeBlock = document.getElementsByClassName("resume-main")[0];
 
-let firstname ;
-let lastname ;
-let rolename;
-let introname ;
-let profile_link;
+let firstName ;
+let lastName ;
+let roleName;
+let introductionName ;
+let ProfileImageLink;
 let IntroductionData = {
-    firstname,
-    lastname,
-    rolename,
-    introname,
-    profile_link,
+    firstName,
+    lastName,
+    roleName,
+    introductionName,
+    ProfileImageLink,
 }
-let uni_name  ;
-let q_name;
-let c_name ;
-let s_year ;
-let e_year;
+let universityName  ;
+let qualificationName;
+let courseName ;
+let startYear ;
+let endYear;
 let educationData = {
-    uni_name,
-    q_name,
-    c_name,
-    s_year,
-    e_year,
+    universityName,
+    qualificationName,
+    courseName,
+    startYear,
+    endYear,
 };
-let t_no;
-let email_id;
-let linkedin_id;
-let add_ress ;
-let ps_submit;
+let telephoneNumber;
+let EmailId;
+let linkedinId;
+let addressDetails ;
+let personalInfoSubmit;
 let personalData = {
-    t_no,
-    email_id,
-    linkedin_id,
-    add_ress,
+    telephoneNumber,
+    EmailId,
+    linkedinId,
+    addressDetails,
 };
 
-let j_position ;
-let j_location ;
-let j_start ;
-let j_end ;
-let j_description;
+let jobPosition ;
+let jobLocation ;
+let jobStart ;
+let jobEnd ;
+let jobDescription;
 let jobData = {
-    j_description,
-    j_position,
-    j_start,
-    j_end,
-    j_location,
+    jobDescription,
+    jobPosition,
+    jobStart,
+    jobEnd,
+    jobLocation,
 };
 
-let skill_field;
+let skillField;
 let skillData = {
-    skill_field,
+    skillField,
 };
-let achievement_data;
+let achievementDetails;
 let achievementData = {
-    achievement_data,
+    achievementDetails,
 };
 
 let dataModel = {
@@ -76,25 +76,26 @@ let dataModel = {
 }
 
 function emptyFormData ( currentData) {
-    for ( let prop in currentData){
-        currentData[prop].value = "";
+    for ( let properties in currentData){
+        currentData[properties].value = "";
     }
 }
 previewButton.addEventListener ("click", (e)=> {
    
-    cnt++;
-    if(cnt%2) {
-    // resumeBlock.setAttribute("class","fullwidth");
-    // resumeBlock.style.margin = "auto" ;
-    resumeBlock.style="width: 80% !important; margin: auto !important; height:3508px";
-    form.style.display = "none";
     
+    if(flagPreview == false) {
+   
+
+    resumeBlock.style="width: 80% ;height: 1000px; margin: auto ; ";
+    form.style.display = "none";
+    flagPreview = true;
     }
     else{
         
-        resumeBlock.style="width: 60% !important";
+        resumeBlock.style="";
         // resumeBlock.classList.remove("fullwidth");
         form.style.display = "block";
+        flagPreview = false;
           
     }
 
@@ -118,15 +119,14 @@ function generateRandomID (){
 }
 
 function removecontainer (e) {
-    let parent_id = e.target.parentNode.id;
-    console.log(e.target.parentNode);
+    let parentId = e.target.parentNode.id;
+    // console.log(e.target.parentNode);
 
     //delete that block
-    console.log(document.getElementById(parent_id+suffixID));   // use var for hyphen (-)
-    console.log(document.getElementById(parent_id));
-    document.getElementById(parent_id+suffixID).remove();
-  
-    document.getElementById(parent_id).remove();
+    console.log(document.getElementById(parentId+suffixID));   // use var for hyphen (-)
+    console.log(document.getElementById(parentId));
+    document.getElementById(parentId+suffixID).remove();
+    document.getElementById(parentId).remove();
 }
 // duplicate  Tag  - removed it 😊.
 function createTag (tagType) {
@@ -142,43 +142,60 @@ function createTag (tagType) {
 //     return document.createElement('h4');
 // }
 function createPreviewContainer (previewContainer,currentContainer) {
-    let btn = createButton(buttonType.remove);
-    let edt_btn = createButton(buttonType.edit);
-    let pre_view = createTag("div");
+    let removeButton = createButton(buttonType.remove);
+    let editButton = createButton(buttonType.edit);
+    let previewBlock = createTag("div");
     let cloneContainer = currentContainer.cloneNode(true);
-    pre_view.appendChild(cloneContainer);
+    previewBlock.appendChild(cloneContainer);
     
-     pre_view.appendChild(btn);
-     pre_view.appendChild(edt_btn);
-     previewContainer.appendChild(pre_view);
+     previewBlock.appendChild(removeButton);
+     previewBlock.appendChild(editButton);
+     previewContainer.appendChild(previewBlock);
 
-     let curr_id = generateRandomID();
-     pre_view.setAttribute('id',curr_id);
-     currentContainer.setAttribute('id', curr_id+suffixID);
+     let currentId = generateRandomID();
+     previewBlock.setAttribute('id',currentId);
+     currentContainer.setAttribute('id', currentId+suffixID);
          
+}
+
+let previewIntroductionFormContainer = createTag("div");
+let previewPersonalInfoFormContainer = createTag("div");
+let previewEducationFormContainer = createTag("div");
+let previewExperienceFormContainer = createTag("div");
+let previewSkillFormContainer = createTag("div");
+let previewAchievementsFormContainer = createTag("div");
+
+let previewBlockDOM = {
+          ["intro"]: previewIntroductionFormContainer,
+          ["personal-info"]: previewPersonalInfoFormContainer,
+          ["education"]: previewEducationFormContainer,
+          ["experience"]:previewExperienceFormContainer,
+          ["skills"] : previewSkillFormContainer,
+          ["achievements"]: previewAchievementsFormContainer,
+       
 }
 function onSubmit() {
    
   
-    let introduction_section = document.getElementsByClassName("introduction-section")[0];   //id
+    let introductionSection = document.getElementsByClassName("introduction-section")[0];   //id
     let picUrl;
-    introduction_section.innerHTML= `
+    introductionSection.innerHTML= `
          <div class="content-layout">
-            <h1 class="name">${IntroductionData.firstname.value} <br> ${IntroductionData.lastname.value}</h1>
-            <h2 class="sub-heading">${IntroductionData.rolename.value}</h2>
+            <h1 class="name">${IntroductionData.firstName.value} <br> ${IntroductionData.lastName.value}</h1>
+            <h2 class="sub-heading">${IntroductionData.roleName.value}</h2>
          </div>
          <img id="profilePicture" class="pic" alt="Profile Pics" />
          <div class="content-layout  "> 
             <h3 style="border-bottom:1px solid rgb(216,204,190)">Profile</h3> 
-            <p class="paragraph" id="personal-intro">${IntroductionData.introname.value} </p>
+            <p class="paragraph" id="personal-intro">${IntroductionData.introductionName.value} </p>
          </div>`;
 
-    let resume_pic = document.getElementById("profilePicture");
-    // console.log(resume_pic);
-    // console.log(profile_link.files[0]);
-    let files = IntroductionData.profile_link.files[0];
+    let resumePictureBlock = document.getElementById("profilePicture");
+    // console.log(resumePictureBlock);
+    // console.log(ProfileImageLink.files[0]);
+    let files = IntroductionData.ProfileImageLink.files[0];
     
-    resume_pic.src = URL.createObjectURL(files);
+    resumePictureBlock.src = URL.createObjectURL(files);
 
        emptyFormData(IntroductionData);
       // duplicate loop 
@@ -204,39 +221,41 @@ function onSubmit() {
     }
  function setEducationInformation(  setData, data ){
     
-        console.log(data.uni_name,data.q_name,setData.universityQualification);
+        console.log(data.universityName,data.qualificationName,setData.universityQualification);
     
-        setData.universityQualification.innerHTML = data.q_name.value + " - " + data.uni_name.value;
-        setData.courseName.innerHTML = data.c_name.value;
-        setData.duration.innerHTML = data.s_year.value + " - " + data.e_year.value;
+        setData.universityQualification.innerHTML = data.qualificationName.value + " - " + data.universityName.value;
+        setData.courseName.innerHTML = data.courseName.value;
+        setData.duration.innerHTML = data.startYear.value + " - " + data.endYear.value;
     }
 
  function EducationPreviewEditRemoveFeatures (e, educationData) {
     e.preventDefault();
-    console.log(e.target);
-    let curr_event = e.target.innerHTML;
-    let curr_event_id = e.target.parentNode.id;
-    console.log(curr_event_id);
     // console.log(e.target);
-    console.log(e.target.parentNode);
+    let currentEvent = e.target.innerHTML;
+    let parentEvent = e.target.parentNode;
+    let currentEventId = parentEvent.id;
+
+    console.log(currentEventId);
+    // console.log(e.target);
+    // console.log(e.target.parentNode);
     // for many buttons : do it without condition
-    switch (curr_event) {
+    switch (currentEvent) {
         case buttonType.remove:
             alert('if block');
             removecontainer(e);
             break;
         case buttonType.edit:
-            console.log("parentnode of preview");
-            console.log(e.target.parentNode);
-            let currentEducation = getEducationInformation(e.target.parentNode);
+            // console.log("parentnode of preview");
+            // console.log(e.target.parentNode);
+            let currentEducation = getEducationInformation(parentEvent);
                
-               educationData.uni_name.value = currentEducation.universityName;
-               educationData.q_name.value = currentEducation.Qualification;
-               educationData.c_name.value = currentEducation.courseName.innerHTML;
-               educationData.s_year.value = currentEducation.startYear;
-               educationData.e_year.value = currentEducation.endYear;
+               educationData.universityName.value = currentEducation.universityName;
+               educationData.qualificationName.value = currentEducation.Qualification;
+               educationData.courseName.value = currentEducation.courseName.innerHTML;
+               educationData.startYear.value = currentEducation.startYear;
+               educationData.endYear.value = currentEducation.endYear;
           
-               educationData.uni_name.setAttribute('class', curr_event_id);
+               educationData.universityName.setAttribute('class', currentEventId);
     }
    
 
@@ -248,14 +267,14 @@ function onEducationSubmit() {
  
 
 
-let edu_submit = document.getElementById("edu-submit");
-let edu_details = document.getElementById("edu-details");
-let preview_edu = createTag("div");
-let preview_edu_form = document.getElementsByClassName('education')[0];
+let educationSubmit = document.getElementById("edu-submit");
+let educationDetails = document.getElementById("edu-details");
+let previewEducationBlock = createTag("div");
+// let previewEducationFormContainer = document.getElementsByClassName('education')[0];
 
 
 
-let currBlockFilled = educationData.uni_name.classList[0];
+let currBlockFilled = educationData.universityName.classList[0];
 console.log(educationData);
      if(currBlockFilled && currBlockFilled[0]){
           console.log("event is edited");
@@ -265,15 +284,15 @@ console.log(educationData);
                 setEducationInformation(currentBlock,educationData);
 
                 
-               educationData.uni_name.removeAttribute('class');
+               educationData.universityName.removeAttribute('class');
               
      }
      else {
-// let pre_view = createTag("div");
-let degree_uni_name = createTag("h4");
-let year_of_education = createTag("span");  
-let course_name = createTag("p");
-let current_edu = createTag("div");
+// let previewBlock = createTag("div");
+let universityNameBlock = createTag("h4");
+let yearOfEducationBlock = createTag("span");  
+let courseNameBlock = createTag("p");
+let currentEducationBlock = createTag("div");
 
 //  button element  -> btn redundancy has been removed
 // let btn = createRemoveButton();
@@ -281,44 +300,44 @@ let current_edu = createTag("div");
 
 
 // add classes
-current_edu.classList.add("content-title");
-degree_uni_name.classList.add("content-item");
-year_of_education.classList.add("content-item");
-year_of_education.classList.add("extreme-right-item");
-course_name.classList.add("content-item");
+currentEducationBlock.classList.add("content-title");
+universityNameBlock.classList.add("content-item");
+yearOfEducationBlock.classList.add("content-item");
+yearOfEducationBlock.classList.add("extreme-right-item");
+courseNameBlock.classList.add("content-item");
 
-// console.log(uni_name.value);
+// console.log(universityName.value);
 // change value of html
-degree_uni_name.innerHTML = educationData.q_name.value + " - " + educationData.uni_name.value;
-year_of_education.innerHTML = educationData.s_year.value + " - " + educationData.e_year.value;
-course_name.innerHTML = educationData.c_name.value;
+universityNameBlock.innerHTML = educationData.qualificationName.value + " - " + educationData.universityName.value;
+yearOfEducationBlock.innerHTML = educationData.startYear.value + " - " + educationData.endYear.value;
+courseNameBlock.innerHTML = educationData.courseName.value;
 
 
-current_edu.appendChild(degree_uni_name);
-current_edu.appendChild(year_of_education);
-current_edu.appendChild(course_name);
-edu_details.appendChild(current_edu);
+currentEducationBlock.appendChild(universityNameBlock);
+currentEducationBlock.appendChild(yearOfEducationBlock);
+currentEducationBlock.appendChild(courseNameBlock);
+educationDetails.appendChild(currentEducationBlock);
 
-// let clone_current_edu = current_edu.cloneNode(true);
+// let clone_current_edu = currentEducationBlock.cloneNode(true);
 
-createPreviewContainer(preview_edu,current_edu);
+createPreviewContainer(previewEducationBlock,currentEducationBlock);
 
-// pre_view.appendChild(btn);
-// pre_view.appendChild(edt_btn);
-// preview_edu.appendChild(pre_view);
+// previewBlock.appendChild(btn);
+// previewBlock.appendChild(edt_btn);
+// previewEducationBlock.appendChild(previewBlock);
 
 //  unique id 
-// let curr_id = generateRandomID();
-// pre_view.setAttribute('id',curr_id);
-// current_edu.setAttribute('id', curr_id+suffixID);
+// let currentId = generateRandomID();
+// previewBlock.setAttribute('id',currentId);
+// currentEducationBlock.setAttribute('id', currentId+suffixID);
  
-console.log(preview_edu);
-console.log(preview_edu_form);
-preview_edu_form.appendChild(preview_edu);
+console.log(previewEducationBlock);
+console.log(previewEducationFormContainer);
+previewEducationFormContainer.appendChild(previewEducationBlock);
 
-console.log(document.getElementsByClassName(current_value)[0]);
+// console.log(document.getElementsByClassName(currentOptionValue)[0]);
 
-preview_edu.addEventListener("click", (e)=> { 
+previewEducationBlock.addEventListener("click", (e)=> { 
     EducationPreviewEditRemoveFeatures(e,educationData);
 })
      }
@@ -330,60 +349,58 @@ function onPersonalInformationSubmit () {
 
   
     
-    let telephone_div = document.getElementById("telephone-div");
-    let email_div = document.getElementById("email-div");
-    let linkedin_div = document.getElementById("linkedin-div");
-    let add_div = document.getElementById("add-div");
+    // let telephoneNumber = document.getElementById("telephone-div");
+    // let email_div = document.getElementById("email-div");
+    // let linkedin_div = document.getElementById("linkedin-div");
+    // let add_div = document.getElementById("add-div");
 
-let contact_section = document.getElementsByClassName("contact-section")[0];
+let contactSection = document.getElementsByClassName("contact-section")[0];
 
     
    console.log("DSFffdbb");
-    let personal_block = createTag("div");
-    personal_block.setAttribute('class','icon-layout content-layout');
+    let personalBlock = createTag("div");
+    personalBlock.setAttribute('class','icon-layout content-layout');
 
-     personal_block.innerHTML = `
+     personalBlock.innerHTML = `
     <h3 style="border-bottom:1px solid rgb(216,204,190)">CONTACT</h3>
 
     <div class="section-layout">
         <i  class="fa-solid fa-phone icon-color"></i>   
-        <a class="icon-info" id="telephone-div" href="tel+919662833396"> Tel: ${personalData.t_no.value}</a>
+        <a class="icon-info" id="telephone-div" href="tel+919662833396"> Tel: ${personalData.telephoneNumber.value}</a>
     </div>
 
     <div class="section-layout">
         <i class="fa-solid fa-inbox icon-color"></i>
-        <a class="icon-info" id="email-div"href="mailto:${personalData.email_id.value}?
+        <a class="icon-info" id="email-div"href="mailto:${personalData.EmailId.value}?
         subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you"
-         target="_blank" >${personalData.email_id.value}</a>
+         target="_blank" >${personalData.EmailId.value}</a>
     </div> 
 
     <div class="section-layout">
         <i class="fa-brands fa-linkedin icon-color"></i>
-        <a class="icon-info " id="linkedin-div" href="${personalData.linkedin_id.value}" target="_blank">${personalData.linkedin_id.value}</a>
+        <a class="icon-info " id="linkedin-div" href="${personalData.linkedinId.value}" target="_blank">${personalData.linkedinId.value}</a>
     </div>
 
     <div class="section-layout">
         <i class="fa-solid fa-location-dot icon-color"></i>
-        <p class="icon-info" id="add-div">${personalData.add_ress.value}</p>
+        <p class="icon-info" id="add-div">${personalData.addressDetails.value}</p>
     </div> 
 
 </div>`;
-  contact_section.appendChild(personal_block);
+  contactSection.appendChild(personalBlock);
 
-     for( let prop in personalData){
-        personalData[prop].value = "";
-     }
+     emptyFormData(personalData);
  
 
 }
 
 function setJobInformation ( setData, data) {
-    setData.location.innerHTML = data.j_location.value;
-    setData.start.innerHTML = data.j_start.value;
-    setData.end.innerHTML = data.j_end.value;
-    setData.description.innerHTML = data.j_description.value;
-    setData.position.innerHTML = data.j_position.value;
-    // setData.timeline.innerHTML = data.j_start + " - " + data.j_end;
+    setData.location.innerHTML = data.jobLocation.value;
+    setData.start.innerHTML = data.jobStart.value;
+    setData.end.innerHTML = data.jobEnd.value;
+    setData.description.innerHTML = data.jobDescription.value;
+    setData.position.innerHTML = data.jobPosition.value;
+    // setData.timeline.innerHTML = data.jobStart + " - " + data.jobEnd;
 }
 function getJobInformation (currentData) {
     console.log("currentData" + currentData.innerHTML);
@@ -405,12 +422,12 @@ function getJobInformation (currentData) {
 function  ExperiencePreviewEditRemoveFeatures (e,jobData) {
     e.preventDefault();
     console.log(e.target);
-    let curr_event = e.target.innerHTML;
-    let curr_event_id = e.target.parentNode.id;
-    console.log(curr_event_id);
+    let currentEvent = e.target.innerHTML;
+    let currentEventId = e.target.parentNode.id;
+    console.log(currentEventId);
     // console.log(e.target);
     console.log(e.target.parentNode);
-    switch (curr_event) {
+    switch (currentEvent) {
         case buttonType.remove:
              removecontainer(e);
              break;
@@ -419,28 +436,28 @@ function  ExperiencePreviewEditRemoveFeatures (e,jobData) {
             console.log(e.target.parentNode);
             let currentJob = getJobInformation(e.target.parentNode);
             
-            jobData.j_location.value = currentJob.location.innerHTML; 
-            jobData.j_start.value = currentJob.start.innerHTML;
-            jobData.j_end.value = currentJob.end.innerHTML;
-            jobData.j_description.value = currentJob.description.innerHTML;
-            jobData.j_position.value = currentJob.position.innerHTML;
-            jobData.j_location.setAttribute('class', curr_event_id);
+            jobData.jobLocation.value = currentJob.location.innerHTML; 
+            jobData.jobStart.value = currentJob.start.innerHTML;
+            jobData.jobEnd.value = currentJob.end.innerHTML;
+            jobData.jobDescription.value = currentJob.description.innerHTML;
+            jobData.jobPosition.value = currentJob.position.innerHTML;
+            jobData.jobLocation.setAttribute('class', currentEventId);
     }
 
 }
 function onExperienceSubmit(){
 
-let work_details = document.getElementById("work-details");
-let exp_submit =document.getElementById("exp-submit");
+let workDetails = document.getElementById("work-details");
+let experienceSubmit =document.getElementById("exp-submit");
 
 
-let preview_exp = createTag("div");
-let preview_exp_form = document.getElementsByClassName("experience")[0];
+let previewExperienceBlock = createTag("div");
+// let previewExperienceFormContainer = document.getElementsByClassName("experience")[0];
 
 
 
         
-    let currBlockFilled = jobData.j_location.classList[0];
+    let currBlockFilled = jobData.jobLocation.classList[0];
    
         if(currBlockFilled)
         {
@@ -451,75 +468,75 @@ let preview_exp_form = document.getElementsByClassName("experience")[0];
                setJobInformation(currentPreviewBlock,jobData);
                setJobInformation(currentBlock,jobData);
             //    currBlockFilled.removeAttribute("class");
-               jobData.j_location.removeAttribute("class");
+               jobData.jobLocation.removeAttribute("class");
 
         }
         else 
         {
-        let work_container = createTag("div");
-        // work_container.classList.add("content-layout");
-        let work_header = createTag("div");
-        work_header.setAttribute('class','content-title');
+        let workContainerBlock = createTag("div");
+        // workContainerBlock.classList.add("content-layout");
+        let workHeaderBlock = createTag("div");
+        workHeaderBlock.setAttribute('class','content-title');
         
-        let job_position = createTag("h4");
-        job_position.setAttribute('class','content-item');
+        let jobPositionBlock = createTag("h4");
+        jobPositionBlock.setAttribute('class','content-item');
 
-        let job_end = createTag("span");
-        job_end.setAttribute('class',' small-content-item extreme-right-item');
-        let job_start  = createTag("span");
-        job_start.setAttribute('class','small-content-item extreme-right-item');
-        let job_location = createTag("p");
-        job_location.setAttribute('class','content-item');
+        let jobEndYearBlock = createTag("span");
+        jobEndYearBlock.setAttribute('class',' small-content-item extreme-right-item');
+        let jobStartYearBlock  = createTag("span");
+        jobStartYearBlock.setAttribute('class','small-content-item extreme-right-item');
+        let jobLocationBlock = createTag("p");
+        jobLocationBlock.setAttribute('class','content-item');
 
-        work_header.appendChild(job_position);
-        work_header.appendChild(job_start);
+        workHeaderBlock.appendChild(jobPositionBlock);
+        workHeaderBlock.appendChild(jobStartYearBlock);
         
-        work_header.appendChild(job_end);
-        work_header.appendChild(job_location);
+        workHeaderBlock.appendChild(jobEndYearBlock);
+        workHeaderBlock.appendChild(jobLocationBlock);
 
-        let job_description =createTag("p");
-        job_description.setAttribute('class','paragraph');
+        let jobDescriptionBlock =createTag("p");
+        jobDescriptionBlock.setAttribute('class','paragraph');
 
 
-        work_container.appendChild(work_header);
-        work_container.appendChild(job_description);
+        workContainerBlock.appendChild(workHeaderBlock);
+        workContainerBlock.appendChild(jobDescriptionBlock);
 
      //  button element     //  reuse btn each time using function
      
        
-        job_position.innerHTML = jobData.j_position.value;
-        job_location.innerHTML = jobData.j_location.value;
-        job_description.innerHTML = jobData.j_description.value;
-        job_start.innerHTML = jobData.j_start.value;
-        job_end.innerHTML = jobData.j_end.value;
+        jobPositionBlock.innerHTML = jobData.jobPosition.value;
+        jobLocationBlock.innerHTML = jobData.jobLocation.value;
+        jobDescriptionBlock.innerHTML = jobData.jobDescription.value;
+        jobStartYearBlock.innerHTML = jobData.jobStart.value;
+        jobEndYearBlock.innerHTML = jobData.jobEnd.value;
 
 
-        // let clone_current_exp = work_container.cloneNode(true);
-         createPreviewContainer(preview_exp,work_container);
+        // let clone_current_exp = workContainerBlock.cloneNode(true);
+         createPreviewContainer(previewExperienceBlock,workContainerBlock);
         
         
         //  unique id  
-        // let curr_id = generateRandomID();
-        // pre_view.setAttribute('id',curr_id);
-        // work_container.setAttribute('id', curr_id+suffixID);
+        // let currentId = generateRandomID();
+        // previewBlock.setAttribute('id',currentId);
+        // workContainerBlock.setAttribute('id', currentId+suffixID);
          
-        console.log(preview_exp);
-        console.log(work_container);
+        console.log(previewExperienceBlock);
+        console.log(workContainerBlock);
        
-        preview_exp_form.appendChild(preview_exp);
+        previewExperienceFormContainer.appendChild(previewExperienceBlock);
         
-        work_details.appendChild(work_container);
+        workDetails.appendChild(workContainerBlock);
         }
 
         emptyFormData(jobData);
-    //    j_position.value="";
-    //    j_location.value= "";
-    //    j_description.value="";
-    //    j_start.value = "";
-    //     j_end.value = "";     
+    //    jobPosition.value="";
+    //    jobLocation.value= "";
+    //    jobDescription.value="";
+    //    jobStart.value = "";
+    //     jobEnd.value = "";     
         // make objects   and for loop 
     
-preview_exp.addEventListener("click", (e)=> {
+previewExperienceBlock.addEventListener("click", (e)=> {
        ExperiencePreviewEditRemoveFeatures(e,jobData);
 })
 }
@@ -527,80 +544,106 @@ preview_exp.addEventListener("click", (e)=> {
 function skillPreviewEditRemoveFeatures (e) {
 
     e.preventDefault();
-    let curr_event = e.target.innerHTML;
-    let curr_event_id = e.target.parentNode.id;
-    console.log(curr_event_id);
+    let currentEvent = e.target.innerHTML;
+    let currentEventId = e.target.parentNode.id;
+    console.log(currentEventId);
     // console.log(e.target);
-    switch(curr_event) {
+    switch(currentEvent) {
 
     case buttonType.remove:
          removecontainer(e);
          break;
     case buttonType.edit:
         console.log(e.target.parentNode.getElementsByTagName("p")[0]);
-        let curr_block = e.target.parentNode.firstChild;
-        console.log(curr_block);
-        skillData.skill_field.value = curr_block.innerHTML; 
-        skillData.skill_field.setAttribute('class', curr_event_id);
+        let currentBlock = e.target.parentNode.firstChild;
+        console.log(currentBlock);
+        skillData.skillField.value = currentBlock.innerHTML; 
+        skillData.skillField.setAttribute('class', currentEventId);
         break;   
     }
 }
+
+// create skill list
+
+// let createSkillOrderList= function (){
+//         let orderList;
+
+//         function createInstance (skillDetailsContainer){
+//             let orderList = createTag('ol');
+//             orderList.setAttribute('class', 'parent-small-item');
+//             orderList.setAttribute('id','skills-details');
+//             skillDetailsContainer.appendChild(orderList);
+
+//             return orderList;
+//         }
+//         return {
+//              getInstance: function (skillDetailsContainer){
+              
+//                    if(!orderList) {
+//                     orderList = createInstance(skillDetailsContainer);
+//                    }
+//                    return orderList;
+//             }
+//         } 
+
+// }
+
 function onSkillsSubmit () {
     
-let skills_details = document.getElementById("skills-details");
 
-let skills_submit = document.getElementById("skills-submit");
-let preview_skill_form = document.getElementsByClassName("skills")[0];
+let skillsDetailsBlock = document.getElementById("skills-details");
+let skillsSubmit = document.getElementById("skills-submit");
+// let previewSkillFormContainer = document.getElementsByClassName("skills")[0];
 
-let preview_skill = createTag("div");
-preview_skill.setAttribute('class','parent-small-item');
-
-
+let previewSkillBlock = createTag("div");
+previewSkillBlock.setAttribute('class','parent-small-item');
 
 
-    let curr_preview_block = document.getElementById(skillData.skill_field.classList[0]);
-    let curr_block = document.getElementById(skillData.skill_field.classList[0]+suffixID);
-    console.log(curr_preview_block);
-    console.log("hello",curr_block);
+
+
+    let currentPreviewBlock = document.getElementById(skillData.skillField.classList[0]);
+    let currentBlock = document.getElementById(skillData.skillField.classList[0]+suffixID);
+    console.log(currentPreviewBlock);
+    console.log("hello",currentBlock);
     
-    if(curr_preview_block){
-           curr_preview_block.firstChild.innerHTML = skillData.skill_field.value;
-            curr_block.innerHTML = skillData.skill_field.value;
-            skillData.skill_field.removeAttribute('class');
+    if(currentPreviewBlock){
+           currentPreviewBlock.firstChild.innerHTML = skillData.skillField.value;
+            currentBlock.innerHTML = skillData.skillField.value;
+            skillData.skillField.removeAttribute('class');
     }
     else {
 
-    // let pre_view = createTag("div");
+    // let previewBlock = createTag("div");
   
     // let btn = createRemoveButton();
     // let edt_btn = createEditButton();
-    let skill_item = document.createElement("li");
-    skill_item.setAttribute('class','small-item');
+    let skillItem = document.createElement("li");
+    skillItem.setAttribute('class','small-item');
 
-    skill_item.innerHTML = skillData.skill_field.value;
+    skillItem.innerHTML = skillData.skillField.value;
 
     
     
-//    let clone_skill_item = skill_item.cloneNode(true);
-   createPreviewContainer(preview_skill,skill_item);
-//    pre_view.setAttribute('class','small-item');
+//    let clone_skill_item = skillItem.cloneNode(true);
+   createPreviewContainer(previewSkillBlock,skillItem);
+//    previewBlock.setAttribute('class','small-item');
 
-    // pre_view.appendChild(btn);
-    // pre_view.appendChild(edt_btn);
+    // previewBlock.appendChild(btn);
+    // previewBlock.appendChild(edt_btn);
 
-    // let curr_id = generateRandomID();
-    // pre_view.setAttribute('id',curr_id);
-    // skill_item.setAttribute('id', curr_id+suffixID);
+    // let currentId = generateRandomID();
+    // previewBlock.setAttribute('id',currentId);
+    // skillItem.setAttribute('id', currentId+suffixID);
 
-    // preview_skill.appendChild(pre_view);
-    skills_details.appendChild(skill_item);
-    preview_skill_form.appendChild(preview_skill);
+    // previewSkillBlock.appendChild(previewBlock);
+    skillsDetailsBlock.appendChild(skillItem);
+    previewSkillFormContainer.appendChild(previewSkillBlock);
     }
      emptyFormData(skillData);
 
 
 
-preview_skill.addEventListener("click", (e)=> {
+previewSkillBlock.addEventListener("click", (e)=> {
         skillPreviewEditRemoveFeatures(e);
      // removecontainer(e);
 })
@@ -613,51 +656,51 @@ function onAchievementsSubmit() {
 
 // let achievement_submit = document.getElementById("achievements-submit");
 
-let achievements_details = document.getElementById("achievements-details");
+let achievementsDetails = document.getElementById("achievements-details");
 
-let preview_achiv = createTag("div");
-let preview_achiv_form = document.getElementsByClassName("achievements")[0];
+let previewAchievementsBlock = createTag("div");
+// let previewAchievementsFormContainer = document.getElementsByClassName("achievements")[0];
 
 
 // achievement_submit.addEventListener("click", (e)=> {
    
-    let curr_preview_block = document.getElementById(achievementData.achievement_data.classList[0]);
-    let curr_block = document.getElementById(achievementData.achievement_data.classList[0]+suffixID);
-    console.log(curr_preview_block);
-    console.log("hello",curr_block);
+    let currentPreviewBlock = document.getElementById(achievementData.achievementDetails.classList[0]);
+    let currentBlock = document.getElementById(achievementData.achievementDetails.classList[0]+suffixID);
+    console.log(currentPreviewBlock);
+    console.log("hello",currentBlock);
     
-    if(curr_preview_block){
-           curr_preview_block.firstChild.innerHTML = achievementData.achievement_data.value;
-            curr_block.innerHTML = achievementData.achievement_data.value;
-            achievementData.achievement_data.removeAttribute('class');
+    if(currentPreviewBlock){
+           currentPreviewBlock.firstChild.innerHTML = achievementData.achievementDetails.value;
+            currentBlock.innerHTML = achievementData.achievementDetails.value;
+            achievementData.achievementDetails.removeAttribute('class');
     }
     else {
    
 
         // let btn = createRemoveButton();
         // let edt_btn = createEditButton();
-    let achiv_block = createTag("p");
-    achiv_block.setAttribute('class','paragraph');
-    // let pre_view = createTag("div");
+    let achievementsBlock = createTag("p");
+    achievementsBlock.setAttribute('class','paragraph');
+    // let previewBlock = createTag("div");
     
-    achiv_block.innerHTML = achievementData.achievement_data.value;
+    achievementsBlock.innerHTML = achievementData.achievementDetails.value;
     
 
-    // let clone_achiv_block = achiv_block.cloneNode(true);
-    createPreviewContainer(preview_achiv,achiv_block);
+    // let clone_achiv_block = achievementsBlock.cloneNode(true);
+    createPreviewContainer(previewAchievementsBlock,achievementsBlock);
 
-    // pre_view.appendChild(btn);
-    // pre_view.appendChild(edt_btn);
-    // preview_achiv.appendChild(pre_view);
-    let curr_id = generateRandomID();
-    // pre_view.setAttribute('id',curr_id);
-    // achiv_block.setAttribute('id', curr_id+suffixID);
+    // previewBlock.appendChild(btn);
+    // previewBlock.appendChild(edt_btn);
+    // previewAchievementsBlock.appendChild(previewBlock);
+    let currentId = generateRandomID();
+    // previewBlock.setAttribute('id',currentId);
+    // achievementsBlock.setAttribute('id', currentId+suffixID);
 
 
     
-    preview_achiv_form.appendChild(preview_achiv);
+    previewAchievementsFormContainer.appendChild(previewAchievementsBlock);
 
-    achievements_details.appendChild(achiv_block);
+    achievementsDetails.appendChild(achievementsBlock);
    
    
     }
@@ -666,27 +709,27 @@ let preview_achiv_form = document.getElementsByClassName("achievements")[0];
 // })
 
  
-preview_achiv.addEventListener( "click", (e)=>{
-     achievementsPreviewEditRemoveFeatures
+previewAchievementsBlock.addEventListener( "click", (e)=>{
+     achievementsPreviewEditRemoveFeatures(e);
 })
 
 
 }
  function achievementsPreviewEditRemoveFeatures (e) {
     e.preventDefault();
-    let curr_event = e.target.innerHTML;
-    let curr_event_id = e.target.parentNode.id;
-    console.log(curr_event_id);
+    let currentEvent = e.target.innerHTML;
+    let currentEventId = e.target.parentNode.id;
+    console.log(currentEventId);
     // console.log(e.target);
-    switch (curr_event) {
+    switch (currentEvent) {
         case buttonType.remove:
             removecontainer(e);
             break;
         case buttonType.edit:
             console.log(e.target.parentNode.getElementsByTagName("p")[0]);
-            let curr_block = e.target.parentNode.getElementsByTagName("p")[0];
-            achievementData.achievement_data.value = curr_block.innerHTML; 
-            achievementData.achievement_data.setAttribute('class', curr_event_id);
+            let currentBlock = e.target.parentNode.getElementsByTagName("p")[0];
+            achievementData.achievementDetails.value = currentBlock.innerHTML; 
+            achievementData.achievementDetails.setAttribute('class', currentEventId);
             break;
     }
  }
@@ -700,8 +743,8 @@ let introBlock =  `
 <label for="fname">Last Name:</label><br>
 <input type="text" id="lname" name="lname"><br>
 
-<label for="rolename">Type of Role:</label><br>
-<input type="text" id="rolename" name="rolename"><br>
+<label for="roleName">Type of Role:</label><br>
+<input type="text" id="roleName" name="roleName"><br>
 
 <label for="introduction">Introduce Yourself </label><br>
 <input type="textarea" id="introduction" name="introduction"><br>
@@ -744,7 +787,7 @@ let educationBlock =`
 <label for="syear">Starting Year</label><br>
 <input type="number" placeholder="YYYY" id="syear" name="syear"><br>
 <label for="eyear">Ending Year</label><br>
-<input type="number" id="eyear" name="eyear"><br>
+<input type="number" placeholder="YYYY" id="eyear" name="eyear"><br>
 
 <div class="button-style">
 <button type="reset">Reset</button>
@@ -812,150 +855,151 @@ let fetchObjects = {
 }
 
 function introFetch(){
-     IntroductionData.firstname = document.getElementById("fname");
-     IntroductionData.lastname = document.getElementById("lname");
-     IntroductionData.rolename = document.getElementById("rolename");
-     IntroductionData.introname = document.getElementById("introduction");
-     IntroductionData.profile_link = document.getElementById("profile-img");
+     IntroductionData.firstName = document.getElementById("fname");
+     IntroductionData.lastName = document.getElementById("lname");
+     IntroductionData.roleName = document.getElementById("roleName");
+     IntroductionData.introductionName = document.getElementById("introduction");
+     IntroductionData.ProfileImageLink = document.getElementById("profile-img");
     
 }
 function personalInfoFetch () {
-    personalData.t_no = document.getElementById("tnumber");
-    personalData.email_id = document.getElementById("emailid");
-    personalData.linkedin_id = document.getElementById("linkedinid");
-    personalData.add_ress = document.getElementById("address");
-    personalData.ps_submit = document.getElementById("ps-submit");
+    personalData.telephoneNumber = document.getElementById("tnumber");
+    personalData.EmailId = document.getElementById("emailid");
+    personalData.linkedinId = document.getElementById("linkedinid");
+    personalData.addressDetails = document.getElementById("address");
+    personalData.personalInfoSubmit = document.getElementById("ps-submit");
 }
 
 function educationFetch () {
-    educationData.uni_name  = document.getElementById("uname");
-    educationData.q_name = document.getElementById("qname");
-    educationData.c_name = document.getElementById("cname");
-    educationData.s_year = document.getElementById("syear");
-    educationData.e_year = document.getElementById("eyear");
+    educationData.universityName  = document.getElementById("uname");
+    educationData.qualificationName = document.getElementById("qname");
+    educationData.courseName = document.getElementById("cname");
+    educationData.startYear = document.getElementById("syear");
+    educationData.endYear = document.getElementById("eyear");
     console.log("fetch is compeleted");
 }
 
 function experienceFetch () {
-    jobData.j_position = document.getElementById("jposition");
-    jobData.j_location = document.getElementById("jlocation");
-    jobData.j_start = document.getElementById("jstart");
-    jobData.j_end = document.getElementById("jend");
-    jobData.j_description = document.getElementById("jdescription");
+    jobData.jobPosition = document.getElementById("jposition");
+    jobData.jobLocation = document.getElementById("jlocation");
+    jobData.jobStart = document.getElementById("jstart");
+    jobData.jobEnd = document.getElementById("jend");
+    jobData.jobDescription = document.getElementById("jdescription");
 }
 function skillsFetch () {
-     skillData.skill_field = document.getElementById("skill-field");
+     skillData.skillField = document.getElementById("skill-field");
 }
 function achievementsFetch () {
-     achievementData.achievement_data =  document.getElementById("achievements-field");
+     achievementData.achievementDetails =  document.getElementById("achievements-field");
 }
 let formParent = document.getElementsByClassName('formOptions')[0];
 
 
+
 options.addEventListener( "change", ()=> {
         // e.preventDefault();
-    let current_value = options.value;
-    // console.log(formBlock[current_value]);
-    formParent.innerHTML = formBlock[current_value]; 
-    fetchObjects[current_value]();
+    let currentOptionValue = options.value;
+    // console.log(formBlock[currentOptionValue]);
+    formParent.innerHTML = formBlock[currentOptionValue] ;
+    formParent.appendChild(previewBlockDOM[currentOptionValue]); 
+    fetchObjects[currentOptionValue]();
 
-    // document.getElementsByClassName(current_value)[0].classList.remove("hidden-form");
-    // if(old_value!= "none")
-    // document.getElementsByClassName(old_value)[0].classList.add("hidden-form");
+    // document.getElementsByClassName(currentOptionValue)[0].classList.remove("hidden-form");
+    // if(oldOptionValue!= "none")
+    // document.getElementsByClassName(oldOptionValue)[0].classList.add("hidden-form");
    
 
-    // console.log(firstname.value);    
-    // console.log(lastname.value);
-    // console.log(introname.value);
+    // console.log(firstName.value);    
+    // console.log(lastName.value);
+    // console.log(introductionName.value);
 //  console.log(document.getElementsByClassName("name")[0].innerHTML)  ;
-//  document.getElementsByClassName("name")[0].innerHTML= firstname.value + "<br>"+ lastname.value;
-//  document.getElementsByClassName("sub-heading")[0].innerHTML = rolename.value;
+//  document.getElementsByClassName("name")[0].innerHTML= firstName.value + "<br>"+ lastName.value;
+//  document.getElementsByClassName("sub-heading")[0].innerHTML = roleName.value;
 //  console.log(document.getElementById("personal-intro"));
-//  document.getElementById("personal-intro").innerHTML = introname.value;
+//  document.getElementById("personal-intro").innerHTML = introductionName.value;
  
 })
 
 
  
 
-console.log('=> outside =>');
 
 // let   submit = document.getElementById("intro-submit");
-// let firstname = document.getElementById("fname");
-// let lastname = document.getElementById("lname");
-// let rolename = document.getElementById("rolename");
-// let introname = document.getElementById("introduction");
-// let profile_link = document.getElementById("profile-img");
-// let introduction_section = document.getElementsByClassName("introduction-section")[0];   //id
+// let firstName = document.getElementById("fname");
+// let lastName = document.getElementById("lname");
+// let roleName = document.getElementById("roleName");
+// let introductionName = document.getElementById("introduction");
+// let ProfileImageLink = document.getElementById("profile-img");
+// let introductionSection = document.getElementsByClassName("introduction-section")[0];   //id
 // let picUrl;
 
-// profile_link.addEventListener( "change", (e)=> {
+// ProfileImageLink.addEventListener( "change", (e)=> {
 //     picUrl = URL.createObjectURL(e.target.files[0]);
 
 // })
 // submit.addEventListener( "click", (e)=> {
 //     e.preventDefault();
-// introduction_section.innerHTML= `
+// introductionSection.innerHTML= `
 //      <div class="content-layout">
-//         <h1 class="name">${firstname.value} <br> ${lastname.value}</h1>
-//         <h2 class="sub-heading">${rolename.value}</h2>
+//         <h1 class="name">${firstName.value} <br> ${lastName.value}</h1>
+//         <h2 class="sub-heading">${roleName.value}</h2>
 //      </div>
 //      <img class="pic" src="$_{picUrl}" alt="Profile Pics" />
 //      <div class="content-layout  "> 
 //         <h3 style="border-bottom:1px solid rgb(216,204,190)">Profile</h3> 
-//         <p class="paragraph" id="personal-intro">${introname.value} </p>
+//         <p class="paragraph" id="personal-intro">${introductionName.value} </p>
 //      </div>`;
 // });
    
-//   console.log(profile_link);
+//   console.log(ProfileImageLink);
     
   
 //      submit.addEventListener( "click", (e)=> {
 //         e.preventDefault();
-//     introduction_section.innerHTML= `
+//     introductionSection.innerHTML= `
 //          <div class="content-layout">
-//             <h1 class="name">${firstname.value} <br> ${lastname.value}</h1>
-//             <h2 class="sub-heading">${rolename.value}</h2>
+//             <h1 class="name">${firstName.value} <br> ${lastName.value}</h1>
+//             <h2 class="sub-heading">${roleName.value}</h2>
 //          </div>
 //          <img class="pic" src="lucifer.jpeg" alt="Profile Pics" />
 //          <div class="content-layout  "> 
 //             <h3 style="border-bottom:1px solid rgb(216,204,190)">Profile</h3> 
-//             <p class="paragraph" id="personal-intro">${introname.value} </p>
+//             <p class="paragraph" id="personal-intro">${introductionName.value} </p>
 //          </div>`;
 
-//     console.log(firstname.value);    
-//     console.log(lastname.value);
-//     console.log(introname.value);
+//     console.log(firstName.value);    
+//     console.log(lastName.value);
+//     console.log(introductionName.value);
 // //  console.log(document.getElementsByClassName("name")[0].innerHTML)  ;
-// //  document.getElementsByClassName("name")[0].innerHTML= firstname.value + "<br>"+ lastname.value;
-// //  document.getElementsByClassName("sub-heading")[0].innerHTML = rolename.value;
+// //  document.getElementsByClassName("name")[0].innerHTML= firstName.value + "<br>"+ lastName.value;
+// //  document.getElementsByClassName("sub-heading")[0].innerHTML = roleName.value;
 // //  console.log(document.getElementById("personal-intro"));
-// //  document.getElementById("personal-intro").innerHTML = introname.value;
+// //  document.getElementById("personal-intro").innerHTML = introductionName.value;
  
 // })
 
 
 
 
-// let uni_name = document.getElementById("uname");
-// let q_name = document.getElementById("qname");
-// let c_name = document.getElementById("cname");
-// let s_year = document.getElementById("syear");
-// let e_year = document.getElementById("eyear");
+// let universityName = document.getElementById("uname");
+// let qualificationName = document.getElementById("qname");
+// let courseName = document.getElementById("cname");
+// let startYear = document.getElementById("syear");
+// let endYear = document.getElementById("eyear");
 
 
-// let edu_submit = document.getElementById("edu-submit");
-// let edu_details = document.getElementById("edu-details");
-// let preview_edu = createTag("div");
-// // preview_edu.setAttribute('id','preview-edu');
-// let preview_edu_form = document.getElementsByClassName('education')[0];
-// console.log(preview_edu_form);
+// let educationSubmit = document.getElementById("edu-submit");
+// let educationDetails = document.getElementById("edu-details");
+// let previewEducationBlock = createTag("div");
+// // previewEducationBlock.setAttribute('id','preview-edu');
+// let previewEducationFormContainer = document.getElementsByClassName('education')[0];
+// console.log(previewEducationFormContainer);
 // let educationData = {
-//     uni_name,
-//     q_name,
-//     c_name,
-//     s_year,
-//     e_year,
+//     universityName,
+//     qualificationName,
+//     courseName,
+//     startYear,
+//     endYear,
 // };
 
 // function getEducationInformation ( currentData ) {
@@ -977,17 +1021,17 @@ console.log('=> outside =>');
 // }
 // function setEducationInformation(  setData, data ){
 
-//     console.log(data.uni_name,data.q_name,setData.universityQualification);
+//     console.log(data.universityName,data.qualificationName,setData.universityQualification);
 
-//     setData.universityQualification.innerHTML = data.uni_name.value + " - " + data.q_name.value;
-//     setData.courseName.innerHTML = data.c_name.value;
-//     setData.duration.innerHTML = data.s_year.value + " - " + data.e_year.value;
+//     setData.universityQualification.innerHTML = data.universityName.value + " - " + data.qualificationName.value;
+//     setData.courseName.innerHTML = data.courseName.value;
+//     setData.duration.innerHTML = data.startYear.value + " - " + data.endYear.value;
 // }
 
-// edu_submit.addEventListener("click", () => {
+// educationSubmit.addEventListener("click", () => {
 //     // to make container  
 
-//      let currBlockFilled = uni_name.classList[0];
+//      let currBlockFilled = universityName.classList[0];
 //      if(currBlockFilled){
 //                let currentPreviewBlock = getEducationInformation(document.getElementById(currBlockFilled));
 //                let currentBlock = getEducationInformation(document.getElementById(currBlockFilled+suffixID));
@@ -995,78 +1039,78 @@ console.log('=> outside =>');
 //                 setEducationInformation(currentBlock,educationData);
 
                 
-//                uni_name.removeAttribute('class');
+//                universityName.removeAttribute('class');
 //      }
 //      else
 //      {
-//     let current_edu = createTag("div");
-//     let pre_view = createTag("div");
-//     let degree_uni_name = createTag("h4");
-//     let year_of_education = createTag("span");  
-//     let course_name = createTag("p");
+//     let currentEducationBlock = createTag("div");
+//     let previewBlock = createTag("div");
+//     let universityNameBlock = createTag("h4");
+//     let yearOfEducationBlock = createTag("span");  
+//     let courseNameBlock = createTag("p");
 //     //  button element  -> btn redundancy has been removed
 //     let btn = createRemoveButton();
 //     let edt_btn = createEditButton();
   
     
 //     // add classes
-//     current_edu.classList.add("content-title");
-//     degree_uni_name.classList.add("content-item");
-//     year_of_education.classList.add("content-item");
-//     year_of_education.classList.add("extreme-right-item");
-//     course_name.classList.add("content-item");
+//     currentEducationBlock.classList.add("content-title");
+//     universityNameBlock.classList.add("content-item");
+//     yearOfEducationBlock.classList.add("content-item");
+//     yearOfEducationBlock.classList.add("extreme-right-item");
+//     courseNameBlock.classList.add("content-item");
 
-//     // console.log(uni_name.value);
+//     // console.log(universityName.value);
 //     // change value of html
-//     degree_uni_name.innerHTML = q_name.value + " - " + uni_name.value;
-//     year_of_education.innerHTML = s_year.value + " - " + e_year.value;
-//     course_name.innerHTML = c_name.value;
+//     universityNameBlock.innerHTML = qualificationName.value + " - " + universityName.value;
+//     yearOfEducationBlock.innerHTML = startYear.value + " - " + endYear.value;
+//     courseNameBlock.innerHTML = courseName.value;
 
     
-//     current_edu.appendChild(degree_uni_name);
-//     current_edu.appendChild(year_of_education);
-//     current_edu.appendChild(course_name);
-//     edu_details.appendChild(current_edu);
+//     currentEducationBlock.appendChild(universityNameBlock);
+//     currentEducationBlock.appendChild(yearOfEducationBlock);
+//     currentEducationBlock.appendChild(courseNameBlock);
+//     educationDetails.appendChild(currentEducationBlock);
 
-//     let clone_current_edu = current_edu.cloneNode(true);
-//     pre_view.appendChild(clone_current_edu);
+//     let clone_current_edu = currentEducationBlock.cloneNode(true);
+//     previewBlock.appendChild(clone_current_edu);
 
-//     pre_view.appendChild(btn);
-//     pre_view.appendChild(edt_btn);
-//     preview_edu.appendChild(pre_view);
+//     previewBlock.appendChild(btn);
+//     previewBlock.appendChild(edt_btn);
+//     previewEducationBlock.appendChild(previewBlock);
     
 //     //  unique id 
-//     let curr_id = Date.now() + Math.random().toString(16).slice(2);
-//     pre_view.setAttribute('id',curr_id);
-//     current_edu.setAttribute('id', curr_id+suffixID);
+//     let currentId = Date.now() + Math.random().toString(16).slice(2);
+//     previewBlock.setAttribute('id',currentId);
+//     currentEducationBlock.setAttribute('id', currentId+suffixID);
      
-//     console.log(preview_edu);
-//     console.log(preview_edu_form);
-//     preview_edu_form.appendChild(preview_edu);
+//     console.log(previewEducationBlock);
+//     console.log(previewEducationFormContainer);
+//     previewEducationFormContainer.appendChild(previewEducationBlock);
    
-//     console.log(document.getElementsByClassName(current_value)[0]);
+//     console.log(document.getElementsByClassName(currentOptionValue)[0]);
 //      }
-//     s_year.value ="";
-//     e_year.value ="";
-//     c_name.value = "";
-//     uni_name.value="";
-//     q_name.value = "";
+//     startYear.value ="";
+//     endYear.value ="";
+//     courseName.value = "";
+//     universityName.value="";
+//     qualificationName.value = "";
    
 // })
 
 
 
-// preview_edu.addEventListener("click", (e)=> {
+// previewEducationBlock.addEventListener("click", (e)=> {
    
 //     e.preventDefault();
 //     alert('edit');
 //     console.log(e.target);
-//     let curr_event = e.target.innerHTML;
-//     let curr_event_id = e.target.parentNode.id;
-//     console.log(curr_event_id);
+//     let currentEvent = e.target.innerHTML;
+//     let currentEventId = e.target.parentNode.id;
+//     console.log(currentEventId);
 //     // console.log(e.target);
 //     console.log(e.target.parentNode);
-//     if(curr_event === "x"){
+//     if(currentEvent === "x"){
 //         alert('if block');
 //         removecontainer(e);
 //     }
@@ -1076,13 +1120,13 @@ console.log('=> outside =>');
 //          console.log(e.target.parentNode);
 //          let currentJob = getEducationInformation(e.target.parentNode);
       
-//            uni_name.value = currentJob.universityName;
-//            q_name.value = currentJob.Qualification;
-//            c_name.value = currentJob.courseName.innerHTML;
-//            s_year.value = currentJob.startYear;
-//            e_year.value = currentJob.endYear;
+//            universityName.value = currentJob.universityName;
+//            qualificationName.value = currentJob.Qualification;
+//            courseName.value = currentJob.courseName.innerHTML;
+//            startYear.value = currentJob.startYear;
+//            endYear.value = currentJob.endYear;
       
-//         uni_name.setAttribute('class', curr_event_id);
+//         universityName.setAttribute('class', currentEventId);
 //     }
 
 // //    removecontainer(e);
@@ -1093,14 +1137,14 @@ console.log('=> outside =>');
 
 // personal information
 
-// let t_no = document.getElementById("tnumber");
-// let email_id = document.getElementById("emailid");
-// let linkedin_id = document.getElementById("linkedinid");
-// let add_ress = document.getElementById("address");
-// let ps_submit = document.getElementById("ps-submit");
+// let telephoneNumber = document.getElementById("tnumber");
+// let EmailId = document.getElementById("emailid");
+// let linkedinId = document.getElementById("linkedinid");
+// let addressDetails = document.getElementById("address");
+// let personalInfoSubmit = document.getElementById("ps-submit");
 
 
-// let telephone_div = document.getElementById("telephone-div");
+// let telephoneNumber = document.getElementById("telephone-div");
 // let email_div = document.getElementById("email-div");
 // let linkedin_div = document.getElementById("linkedin-div");
 // let add_div = document.getElementById("add-div");
@@ -1117,52 +1161,52 @@ console.log('=> outside =>');
 // let ps_block = document.createAttribute("div");
 
 
-// let contact_section = document.getElementsByClassName("contact-section")[0];
+// let contactSection = document.getElementsByClassName("contact-section")[0];
 
-// ps_submit.addEventListener("click", (e)=> {
+// personalInfoSubmit.addEventListener("click", (e)=> {
     
 //    console.log("DSFffdbb");
-//     let personal_block = createTag("div");
-//     personal_block.setAttribute('class','icon-layout content-layout');
+//     let personalBlock = createTag("div");
+//     personalBlock.setAttribute('class','icon-layout content-layout');
 
-//      personal_block.innerHTML = `
+//      personalBlock.innerHTML = `
 //     <h3 style="border-bottom:1px solid rgb(216,204,190)">CONTACT</h3>
 
 //     <div class="section-layout">
 //         <i  class="fa-solid fa-phone icon-color"></i>   
-//         <a class="icon-info" id="telephone-div" href="tel+919662833396"> Tel: ${t_no.value}</a>
+//         <a class="icon-info" id="telephone-div" href="tel+919662833396"> Tel: ${telephoneNumber.value}</a>
 //     </div>
 
 //     <div class="section-layout">
 //         <i class="fa-solid fa-inbox icon-color"></i>
-//         <a class="icon-info" id="email-div"href="mailto:${email_id.value}?
+//         <a class="icon-info" id="email-div"href="mailto:${EmailId.value}?
 //         subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you"
-//          target="_blank" >${email_id.value}</a>
+//          target="_blank" >${EmailId.value}</a>
 //     </div> 
 
 //     <div class="section-layout">
 //         <i class="fa-brands fa-linkedin icon-color"></i>
-//         <a class="icon-info " id="linkedin-div" href="${linkedin_id.value}" target="_blank">linkedin.com/${firstname.value}${lastname.value}</a>
+//         <a class="icon-info " id="linkedin-div" href="${linkedinId.value}" target="_blank">linkedin.com/${firstName.value}${lastName.value}</a>
 //     </div>
 
 //     <div class="section-layout">
 //         <i class="fa-solid fa-location-dot icon-color"></i>
-//         <p class="icon-info" id="add-div">${add_ress.value}</p>
+//         <p class="icon-info" id="add-div">${addressDetails.value}</p>
 //     </div> 
 
 // </div>`;
-//   contact_section.appendChild(personal_block);
+//   contactSection.appendChild(personalBlock);
 
   // unimportant code
-    //    telephone_div.innerHTML = "Tel: +" + t_no.value;
-    //    email_div.innerHTML = email_id.value;
+    //    telephoneNumber.innerHTML = "Tel: +" + telephoneNumber.value;
+    //    email_div.innerHTML = EmailId.value;
        
-    //    linkedin_div.innerHTML = linkedin_id.value;
-    //    add_div.innerHTML = add_ress.value;
-    //    email_div.href = "mailto:${email_id.value}?subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you" ;
+    //    linkedin_div.innerHTML = linkedinId.value;
+    //    add_div.innerHTML = addressDetails.value;
+    //    email_div.href = "mailto:${EmailId.value}?subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you" ;
     //    email_div.setAttribute('target','_blank');
-    //    console.log(linkedin_id.value);
-    //    linkedin_div.href = linkedin_id.value;
+    //    console.log(linkedinId.value);
+    //    linkedin_div.href = linkedinId.value;
        
 // })
 
@@ -1173,38 +1217,38 @@ console.log('=> outside =>');
 
 
 
-// let work_details = document.getElementById("work-details");
-// let exp_submit =document.getElementById("exp-submit");
+// let workDetails = document.getElementById("work-details");
+// let experienceSubmit =document.getElementById("exp-submit");
 
-// let j_position = document.getElementById("jposition");
-// let j_location = document.getElementById("jlocation");
-// let j_start = document.getElementById("jstart");
-// let j_end = document.getElementById("jend");
-// let j_description = document.getElementById("jdescription");
+// let jobPosition = document.getElementById("jposition");
+// let jobLocation = document.getElementById("jlocation");
+// let jobStart = document.getElementById("jstart");
+// let jobEnd = document.getElementById("jend");
+// let jobDescription = document.getElementById("jdescription");
 // let jobData = {
-//     j_description,
-//     j_position,
-//     j_start,
-//     j_end,
-//     j_location,
+//     jobDescription,
+//     jobPosition,
+//     jobStart,
+//     jobEnd,
+//     jobLocation,
 // };
-// let preview_exp = createTag("div");
-// let preview_exp_form = document.getElementsByClassName("experience")[0];
+// let previewExperienceBlock = createTag("div");
+// let previewExperienceFormContainer = document.getElementsByClassName("experience")[0];
 
 
 // function setJobInformation ( setData, data) {
-//     setData.location.innerHTML = data.j_location.value;
-//     setData.start.innerHTML = data.j_start.value;
-//     setData.end.innerHTML = data.j_end.value;
-//     setData.description.innerHTML = data.j_description.value;
-//     setData.position.innerHTML = data.j_position.value;
-//     // setData.timeline.innerHTML = data.j_start + " - " + data.j_end;
+//     setData.location.innerHTML = data.jobLocation.value;
+//     setData.start.innerHTML = data.jobStart.value;
+//     setData.end.innerHTML = data.jobEnd.value;
+//     setData.description.innerHTML = data.jobDescription.value;
+//     setData.position.innerHTML = data.jobPosition.value;
+//     // setData.timeline.innerHTML = data.jobStart + " - " + data.jobEnd;
 // }
 // function getJobInformationPreview ( currentData ) {
   
 //     let job = {
 
-//         position: j_position,
+//         position: jobPosition,
 //         timeline: currentData.getElementsByTagName('span')[0].innerText,
 //         location: currentData.getElementsByTagName('p')[0],
 //         description: currentData.getElementsByTagName('p')[1],
@@ -1216,9 +1260,9 @@ console.log('=> outside =>');
 //    job.end = job.timeline.substring(filterIndex);
 //    return job;
 // }
-// exp_submit.addEventListener( "click", (e) => {
+// experienceSubmit.addEventListener( "click", (e) => {
         
-//     let currBlockFilled = j_location.classList[0];
+//     let currBlockFilled = jobLocation.classList[0];
    
 //         if(currBlockFilled)
 //         {
@@ -1229,103 +1273,103 @@ console.log('=> outside =>');
 //                setJobInformation(currentPreviewBlock,jobData);
 //                setJobInformation(currentBlock,jobData);
 //             //    currBlockFilled.removeAttribute("class");
-//                j_location.removeAttribute("class");
+//                jobLocation.removeAttribute("class");
 
 //         }
 //         else 
 //         {
-//         let work_container = createTag("div");
-//         // work_container.classList.add("content-layout");
-//         let work_header = createTag("div");
-//         work_header.setAttribute('class','content-title');
+//         let workContainerBlock = createTag("div");
+//         // workContainerBlock.classList.add("content-layout");
+//         let workHeaderBlock = createTag("div");
+//         workHeaderBlock.setAttribute('class','content-title');
         
-//         let job_position = createTag("h4");
-//         job_position.setAttribute('class','content-item');
+//         let jobPositionBlock = createTag("h4");
+//         jobPositionBlock.setAttribute('class','content-item');
 
-//         let job_end = createTag("span");
-//         job_end.setAttribute('class',' small-content-item extreme-right-item');
-//         let job_start  = createTag("span");
-//         job_start.setAttribute('class','small-content-item extreme-right-item');
-//         let job_location = createTag("p");
-//         job_location.setAttribute('class','content-item');
+//         let jobEndYearBlock = createTag("span");
+//         jobEndYearBlock.setAttribute('class',' small-content-item extreme-right-item');
+//         let jobStartYearBlock  = createTag("span");
+//         jobStartYearBlock.setAttribute('class','small-content-item extreme-right-item');
+//         let jobLocationBlock = createTag("p");
+//         jobLocationBlock.setAttribute('class','content-item');
 
-//         work_header.appendChild(job_position);
-//         work_header.appendChild(job_start);
+//         workHeaderBlock.appendChild(jobPositionBlock);
+//         workHeaderBlock.appendChild(jobStartYearBlock);
         
-//         work_header.appendChild(job_end);
-//         work_header.appendChild(job_location);
+//         workHeaderBlock.appendChild(jobEndYearBlock);
+//         workHeaderBlock.appendChild(jobLocationBlock);
 
-//         let job_description =createTag("p");
-//         job_description.setAttribute('class','paragraph');
+//         let jobDescriptionBlock =createTag("p");
+//         jobDescriptionBlock.setAttribute('class','paragraph');
 
 
-//         work_container.appendChild(work_header);
-//         work_container.appendChild(job_description);
+//         workContainerBlock.appendChild(workHeaderBlock);
+//         workContainerBlock.appendChild(jobDescriptionBlock);
 
 //      //  button element     //  reuse btn each time using function
 //      let btn = createRemoveButton();
 //      let edt_btn = createEditButton();
-//      let pre_view = createTag("div");
+//      let previewBlock = createTag("div");
        
-//         job_position.innerHTML = j_position.value;
-//         job_location.innerHTML = j_location.value;
-//         job_description.innerHTML = j_description.value;
-//         job_start.innerHTML = j_start.value;
-//         job_end.innerHTML = j_end.value;
+//         jobPositionBlock.innerHTML = jobPosition.value;
+//         jobLocationBlock.innerHTML = jobLocation.value;
+//         jobDescriptionBlock.innerHTML = jobDescription.value;
+//         jobStartYearBlock.innerHTML = jobStart.value;
+//         jobEndYearBlock.innerHTML = jobEnd.value;
 
 
-//         let clone_current_exp = work_container.cloneNode(true);
-//         pre_view.appendChild(clone_current_exp);
+//         let clone_current_exp = workContainerBlock.cloneNode(true);
+//         previewBlock.appendChild(clone_current_exp);
 //        // re use 
-//         pre_view.appendChild(btn);
-//         pre_view.appendChild(edt_btn);
-//         preview_exp.appendChild(pre_view);
+//         previewBlock.appendChild(btn);
+//         previewBlock.appendChild(edt_btn);
+//         previewExperienceBlock.appendChild(previewBlock);
         
 //         //  unique id  
-//         let curr_id = Date.now() + Math.random().toString(16).slice(2);
-//         pre_view.setAttribute('id',curr_id);
-//         work_container.setAttribute('id', curr_id+suffixID);
+//         let currentId = Date.now() + Math.random().toString(16).slice(2);
+//         previewBlock.setAttribute('id',currentId);
+//         workContainerBlock.setAttribute('id', currentId+suffixID);
          
-//         console.log(preview_exp);
-//         console.log(work_container);
+//         console.log(previewExperienceBlock);
+//         console.log(workContainerBlock);
        
-//         preview_exp_form.appendChild(preview_exp);
+//         previewExperienceFormContainer.appendChild(previewExperienceBlock);
         
-//         work_details.appendChild(work_container);
+//         workDetails.appendChild(workContainerBlock);
 //         }
-//        j_position.value="";
-//        j_location.value= "";
-//        j_description.value="";
-//        j_start.value = "";
-//         j_end.value = "";     
+//        jobPosition.value="";
+//        jobLocation.value= "";
+//        jobDescription.value="";
+//        jobStart.value = "";
+//         jobEnd.value = "";     
 //         // make objects   and for loop 
        
 // });
 
-// preview_exp.addEventListener("click", (e)=> {
+// previewExperienceBlock.addEventListener("click", (e)=> {
 //     e.preventDefault();
 //     console.log(e.target);
-//     let curr_event = e.target.innerHTML;
-//     let curr_event_id = e.target.parentNode.id;
-//     console.log(curr_event_id);
+//     let currentEvent = e.target.innerHTML;
+//     let currentEventId = e.target.parentNode.id;
+//     console.log(currentEventId);
 //     // console.log(e.target);
 //     console.log(e.target.parentNode);
-//     if(curr_event == "x")
+//     if(currentEvent == "x")
 //     removecontainer(e);
 //     else {
 //         console.log("parentnode of preview");
 //          console.log(e.target.parentNode);
 //          let currentJob = getJobInformation(e.target.parentNode);
       
-//         j_location.value = currentJob.location.innerHTML; 
-//         j_start.value = currentJob.start.innerHTML;
-//         j_end.value = currentJob.end.innerHTML;
-//         j_description.value = currentJob.description.innerHTML;
-//         j_position.value = currentJob.position.innerHTML;
+//         jobLocation.value = currentJob.location.innerHTML; 
+//         jobStart.value = currentJob.start.innerHTML;
+//         jobEnd.value = currentJob.end.innerHTML;
+//         jobDescription.value = currentJob.description.innerHTML;
+//         jobPosition.value = currentJob.position.innerHTML;
 //         // console.log(currentJob.start);
        
       
-//         j_location.setAttribute('class', curr_event_id);
+//         jobLocation.setAttribute('class', currentEventId);
 //     }
 
 // })
@@ -1336,75 +1380,75 @@ console.log('=> outside =>');
 // skills 
 
 
-// let skills_details = document.getElementById("skills-details");
+// let skillsDetailsBlock = document.getElementById("skills-details");
 
-// let skills_submit = document.getElementById("skills-submit");
-// let preview_skill_form = document.getElementsByClassName("skills")[0];
-// let skill_field = document.getElementById("skill-field");
-// let preview_skill = createTag("div");
-// preview_skill.setAttribute('class','parent-small-item');
-
-
-// skills_submit.addEventListener("click", (e)=> {
+// let skillsSubmit = document.getElementById("skills-submit");
+// let previewSkillFormContainer = document.getElementsByClassName("skills")[0];
+// let skillField = document.getElementById("skill-field");
+// let previewSkillBlock = createTag("div");
+// previewSkillBlock.setAttribute('class','parent-small-item');
 
 
-//     let curr_preview_block = document.getElementById(skill_field.classList[0]);
-//     let curr_block = document.getElementById(skill_field.classList[0]+suffixID);
-//     console.log(curr_preview_block);
-//     console.log("hello",curr_block);
+// skillsSubmit.addEventListener("click", (e)=> {
+
+
+//     let currentPreviewBlock = document.getElementById(skillField.classList[0]);
+//     let currentBlock = document.getElementById(skillField.classList[0]+suffixID);
+//     console.log(currentPreviewBlock);
+//     console.log("hello",currentBlock);
     
-//     if(curr_preview_block){
-//            curr_preview_block.firstChild.innerHTML = skill_field.value;
-//             curr_block.innerHTML = skill_field.value;
-//             skill_field.removeAttribute('class');
+//     if(currentPreviewBlock){
+//            currentPreviewBlock.firstChild.innerHTML = skillField.value;
+//             currentBlock.innerHTML = skillField.value;
+//             skillField.removeAttribute('class');
 //     }
 //     else {
 
-//     let pre_view = createTag("div");
-//     pre_view.setAttribute('class','small-item');
+//     let previewBlock = createTag("div");
+//     previewBlock.setAttribute('class','small-item');
 //     let btn = createRemoveButton();
 //     let edt_btn = createEditButton();
-//     let skill_item = document.createElement("li");
-//     skill_item.setAttribute('class','small-item');
+//     let skillItem = document.createElement("li");
+//     skillItem.setAttribute('class','small-item');
 
-//     skill_item.innerHTML = skill_field.value;
+//     skillItem.innerHTML = skillField.value;
 
     
     
-//    let clone_skill_item = skill_item.cloneNode(true);
-//     pre_view.appendChild(clone_skill_item);
+//    let clone_skill_item = skillItem.cloneNode(true);
+//     previewBlock.appendChild(clone_skill_item);
 
-//     pre_view.appendChild(btn);
-//     pre_view.appendChild(edt_btn);
+//     previewBlock.appendChild(btn);
+//     previewBlock.appendChild(edt_btn);
 
-//     let curr_id = Date.now() +  Math.random().toString(16).slice(2);
-//     pre_view.setAttribute('id',curr_id);
-//     skill_item.setAttribute('id', curr_id+suffixID);
+//     let currentId = Date.now() +  Math.random().toString(16).slice(2);
+//     previewBlock.setAttribute('id',currentId);
+//     skillItem.setAttribute('id', currentId+suffixID);
 
-//     preview_skill.appendChild(pre_view);
-//     skills_details.appendChild(skill_item);
-//     preview_skill_form.appendChild(preview_skill);
+//     previewSkillBlock.appendChild(previewBlock);
+//     skillsDetailsBlock.appendChild(skillItem);
+//     previewSkillFormContainer.appendChild(previewSkillBlock);
 //     }
-//      skill_field.value ="";
+//      skillField.value ="";
 // });
 
 
-// preview_skill.addEventListener("click", (e)=> {
+// previewSkillBlock.addEventListener("click", (e)=> {
 
 //     e.preventDefault();
-//     let curr_event = e.target.innerHTML;
-//     let curr_event_id = e.target.parentNode.id;
-//     console.log(curr_event_id);
+//     let currentEvent = e.target.innerHTML;
+//     let currentEventId = e.target.parentNode.id;
+//     console.log(currentEventId);
 //     // console.log(e.target);
-//     if(curr_event == "x")
+//     if(currentEvent == "x")
 //     removecontainer(e);
 //     else {
 
 //         console.log(e.target.parentNode.getElementsByTagName("p")[0]);
-//         let curr_block = e.target.parentNode.firstChild;
-//         console.log(curr_block);
-//         skill_field.value = curr_block.innerHTML; 
-//         skill_field.setAttribute('class', curr_event_id);
+//         let currentBlock = e.target.parentNode.firstChild;
+//         console.log(currentBlock);
+//         skillField.value = currentBlock.innerHTML; 
+//         skillField.setAttribute('class', currentEventId);
    
 //     }
     
@@ -1415,76 +1459,76 @@ console.log('=> outside =>');
 // Achievements 
 
 
-// let achievement_data =  document.getElementById("achievements-field");
+// let achievementDetails =  document.getElementById("achievements-field");
 
 // let achievement_submit = document.getElementById("achievements-submit");
 
-// let achievements_details = document.getElementById("achievements-details");
+// let achievementsDetails = document.getElementById("achievements-details");
 
-// let preview_achiv = createTag("div");
-// let preview_achiv_form = document.getElementsByClassName("achievements")[0];
+// let previewAchievementsBlock = createTag("div");
+// let previewAchievementsFormContainer = document.getElementsByClassName("achievements")[0];
 
 
 // achievement_submit.addEventListener("click", (e)=> {
    
-//     let curr_preview_block = document.getElementById(achievement_data.classList[0]);
-//     let curr_block = document.getElementById(achievement_data.classList[0]+suffixID);
-//     console.log(curr_preview_block);
-//     console.log("hello",curr_block);
+//     let currentPreviewBlock = document.getElementById(achievementDetails.classList[0]);
+//     let currentBlock = document.getElementById(achievementDetails.classList[0]+suffixID);
+//     console.log(currentPreviewBlock);
+//     console.log("hello",currentBlock);
     
-//     if(curr_preview_block){
-//            curr_preview_block.firstChild.innerHTML = achievement_data.value;
-//             curr_block.innerHTML = achievement_data.value;
-//             achievement_data.removeAttribute('class');
+//     if(currentPreviewBlock){
+//            currentPreviewBlock.firstChild.innerHTML = achievementDetails.value;
+//             currentBlock.innerHTML = achievementDetails.value;
+//             achievementDetails.removeAttribute('class');
 //     }
 //     else {
    
 
 //         let btn = createRemoveButton();
 //         let edt_btn = createEditButton();
-//     let achiv_block = createTag("p");
-//     achiv_block.setAttribute('class','paragraph');
-//     let pre_view = createTag("div");
+//     let achievementsBlock = createTag("p");
+//     achievementsBlock.setAttribute('class','paragraph');
+//     let previewBlock = createTag("div");
     
-//     achiv_block.innerHTML = achievement_data.value;
+//     achievementsBlock.innerHTML = achievementDetails.value;
 
 
-//     let clone_achiv_block = achiv_block.cloneNode(true);
-//     pre_view.appendChild(clone_achiv_block);
+//     let clone_achiv_block = achievementsBlock.cloneNode(true);
+//     previewBlock.appendChild(clone_achiv_block);
 
-//     pre_view.appendChild(btn);
-//     pre_view.appendChild(edt_btn);
-//     preview_achiv.appendChild(pre_view);
-//     let curr_id = Date.now() +  Math.random().toString(16).slice(2);
-//     pre_view.setAttribute('id',curr_id);
-//     achiv_block.setAttribute('id', curr_id+suffixID);
+//     previewBlock.appendChild(btn);
+//     previewBlock.appendChild(edt_btn);
+//     previewAchievementsBlock.appendChild(previewBlock);
+//     let currentId = Date.now() +  Math.random().toString(16).slice(2);
+//     previewBlock.setAttribute('id',currentId);
+//     achievementsBlock.setAttribute('id', currentId+suffixID);
 
 
     
-//     preview_achiv_form.appendChild(preview_achiv);
+//     previewAchievementsFormContainer.appendChild(previewAchievementsBlock);
 
-//     achievements_details.appendChild(achiv_block);
+//     achievementsDetails.appendChild(achievementsBlock);
    
-//     achievement_data.value ="";
+//     achievementDetails.value ="";
 //     }
 
 // })
 
  
-// preview_achiv.addEventListener( "click", (e)=>{
+// previewAchievementsBlock.addEventListener( "click", (e)=>{
 //     // e.preventDefault();
-//     let curr_event = e.target.innerHTML;
-//     let curr_event_id = e.target.parentNode.id;
-//     console.log(curr_event_id);
+//     let currentEvent = e.target.innerHTML;
+//     let currentEventId = e.target.parentNode.id;
+//     console.log(currentEventId);
 //     // console.log(e.target);
-//     if(curr_event == "x")
+//     if(currentEvent == "x")
 //     removecontainer(e);
 //     else {
  
 //         console.log(e.target.parentNode.getElementsByTagName("p")[0]);
-//         let curr_block = e.target.parentNode.getElementsByTagName("p")[0];
-//         achievement_data.value = curr_block.innerHTML; 
-//         achievement_data.setAttribute('class', curr_event_id);
+//         let currentBlock = e.target.parentNode.getElementsByTagName("p")[0];
+//         achievementDetails.value = currentBlock.innerHTML; 
+//         achievementDetails.setAttribute('class', currentEventId);
 //        // reuse edit button
 //     }
 // })

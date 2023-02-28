@@ -1,12 +1,12 @@
 
-let options = document.getElementById("resume-form");
-let oldOptionValue = options.value;
+// let options = document.getElementById("resume-form");
+// let oldOptionValue = options.value;
 let currentOptionValue;
 let suffixID = "-";
 let previewButton = document.getElementById("preview");
 let flagPreview = false;
-let form = document.getElementsByClassName("form-main")[0];
-let resumeBlock = document.getElementsByClassName("resume-main")[0];
+let form = document.getElementsByClassName("formOptions")[0];
+let resumeBlock = document.getElementsByClassName("previewResume")[0];
 
 let firstName ;
 let lastName ;
@@ -36,7 +36,7 @@ let telephoneNumber;
 let EmailId;
 let linkedinId;
 let addressDetails ;
-let personalInfoSubmit;
+
 let personalData = {
     telephoneNumber,
     EmailId,
@@ -67,12 +67,13 @@ let achievementData = {
 };
 
 let dataModel = {
-    IntroductionData,
-    personalData,
-    educationData,
-    jobData,
-    skillData,
-    achievementData,
+    
+        ["intro"]:  IntroductionData,  
+        ["personal-info"]: personalData,
+        ["education"]:  educationData,
+        ["experience"]:    jobData,
+        ["skills"] : skillData,
+        ["achievements"]: achievementData,
 }
 
 function emptyFormData ( currentData) {
@@ -80,26 +81,45 @@ function emptyFormData ( currentData) {
         currentData[properties].value = "";
     }
 }
+let closeModalButton;
+let currentModal = document.getElementById("modal");
+
 previewButton.addEventListener ("click", (e)=> {
    
-    
-    if(flagPreview == false) {
    
-
-    resumeBlock.style="width: 80% ;height: 1000px; margin: auto ; ";
-    form.style.display = "none";
-    flagPreview = true;
+    let closeButton = createButton(buttonType.remove);
+    closeButton.innerHTML="Close Preview";
+    closeButton.classList.add("class","closeModalButton","prevButton");
+    closeModalButton=closeButton;
+    closeModalButton.addEventListener("click",(e)=>{
+        e.preventDefault();
+        currentModal.close();
+    }
+    )
+    if(flagPreview == false) {
+        let cloneBlock = resumeBlock.cloneNode(true);
+        currentModal.appendChild(closeButton);
+        currentModal.appendChild (cloneBlock);
+        
+    currentModal.showModal();
+      currentModal.style = "width: 90%";
+      cloneBlock.style="width: 80% ;height: 1000px; margin: auto ; ";
+    
+     flagPreview = true;
     }
     else{
-        
-        resumeBlock.style="";
-        // resumeBlock.classList.remove("fullwidth");
-        form.style.display = "block";
-        flagPreview = false;
-          
+       currentModal.innerHTML="";
+       flagPreview = false;        
+    }
+})
+window.onclick = function(event) {
+    if (event.target == currentModal) {
+      
+      currentModal.innerHTML="";
+      currentModal.style.display = "none";
     }
 
-})
+  }
 let buttonType = {
     remove: "x",
     edit:"Edit",
@@ -119,14 +139,15 @@ function generateRandomID (){
 }
 
 function removecontainer (e) {
-    let parentId = e.target.parentNode.id;
+    let currentId = e.target.id;
+    let parentId = currentId.slice(0,-1);
     // console.log(e.target.parentNode);
 
     //delete that block
     console.log(document.getElementById(parentId+suffixID));   // use var for hyphen (-)
-    console.log(document.getElementById(parentId));
+    console.log(document.getElementById(parentId+parentSuffixID));
     document.getElementById(parentId+suffixID).remove();
-    document.getElementById(parentId).remove();
+    document.getElementById(parentId+parentSuffixID).remove();
 }
 // duplicate  Tag  - removed it 😊.
 function createTag (tagType) {
@@ -141,19 +162,28 @@ function createTag (tagType) {
 // function createH4 () {
 //     return document.createElement('h4');
 // }
+let parentSuffixID = "parent";
+let removeButtonSuffixId = "r";
+let editButtonSuffixId = "e";
 function createPreviewContainer (previewContainer,currentContainer) {
     let removeButton = createButton(buttonType.remove);
     let editButton = createButton(buttonType.edit);
     let previewBlock = createTag("div");
     let cloneContainer = currentContainer.cloneNode(true);
     previewBlock.appendChild(cloneContainer);
-    
-     previewBlock.appendChild(removeButton);
-     previewBlock.appendChild(editButton);
+     let buttonParent = createTag("div");
+     buttonParent.classList.add("buttonParent");
+     removeButton.classList.add("buttonStyle","submitButton");
+     editButton.classList.add("buttonStyle","resetButton");
+     buttonParent.appendChild(removeButton);
+     buttonParent.appendChild(editButton);
+     previewBlock.appendChild(buttonParent);
      previewContainer.appendChild(previewBlock);
-
+     previewContainer.classList.add("formMargin");
      let currentId = generateRandomID();
-     previewBlock.setAttribute('id',currentId);
+     removeButton.setAttribute('id',currentId+removeButtonSuffixId);
+     editButton.setAttribute('id',currentId+editButtonSuffixId);
+     previewBlock.setAttribute('id',currentId+parentSuffixID);
      currentContainer.setAttribute('id', currentId+suffixID);
          
 }
@@ -164,7 +194,7 @@ let previewEducationFormContainer = createTag("div");
 let previewExperienceFormContainer = createTag("div");
 let previewSkillFormContainer = createTag("div");
 let previewAchievementsFormContainer = createTag("div");
-
+previewAchievementsFormContainer.classList.add("previewBlockInForm");
 let previewBlockDOM = {
           ["intro"]: previewIntroductionFormContainer,
           ["personal-info"]: previewPersonalInfoFormContainer,
@@ -174,9 +204,31 @@ let previewBlockDOM = {
           ["achievements"]: previewAchievementsFormContainer,
        
 }
-function onSubmit() {
-   
-  
+
+const handleSubmitState = (currentdata,selectedElement,currentSubmitButton) => () => {
+    let isSubmitActive = true;
+      for (let properties in currentdata) {
+        console.log(currentdata, properties, currentdata[properties].value);
+          if(currentdata[properties].value == "")
+            isSubmitActive = false;
+      }
+      console.log(isSubmitActive, currentSubmitButton);
+      if(isSubmitActive)
+      currentSubmitButton.disabled = false;   //   currentSubmitButton.removeAttribute('disabled');
+}
+
+let introSubmitButton;
+let personalInfoSubmitButton;
+let educationSubmitButton;
+let experienceSubmitButton;
+let skillsSubmitButton;
+let achievementsSubmitButton;
+
+
+function onSubmit(event) {
+    console.log("snfnjfnf");
+   console.log(event);
+   event.preventDefault();
     let introductionSection = document.getElementsByClassName("introduction-section")[0];   //id
     let picUrl;
     introductionSection.innerHTML= `
@@ -211,12 +263,17 @@ function onSubmit() {
             duration : currentData.getElementsByTagName('span')[0],
             
         };
+        console.log(education);
         let filterIndex = education.universityQualification.innerHTML.indexOf("-");
         education.Qualification = education.universityQualification.innerHTML.substring(0,filterIndex-1);
         education.universityName = education.universityQualification.innerHTML.substring(filterIndex+2);
-        let filterIndexForDuration = education.duration.innerHTML.indexOf("-");
+       
+        let filterIndexForDuration = 8;
         education.startYear = education.duration.innerHTML.substring(0,filterIndexForDuration-1);
+       
         education.endYear = education.duration.innerHTML.substring(filterIndexForDuration+2);
+        console.log(education.startYear);
+        console.log(education.endYear);
         return education;
     }
  function setEducationInformation(  setData, data ){
@@ -232,21 +289,26 @@ function onSubmit() {
     e.preventDefault();
     // console.log(e.target);
     let currentEvent = e.target.innerHTML;
-    let parentEvent = e.target.parentNode;
-    let currentEventId = parentEvent.id;
+    let currentEventId = e.target.id;
+    console.log((e.target.id).slice(0,-1)+ parentSuffixID);
+    let parentId =(e.target.id).slice(0,-1)+ parentSuffixID;
+    let parentEvent = document.getElementById(parentId).firstChild;
+    // let parentEvent = e.target.parentNode;
+    // let currentEventId = parentEvent.id;
 
-    console.log(currentEventId);
+   
     // console.log(e.target);
     // console.log(e.target.parentNode);
     // for many buttons : do it without condition
     switch (currentEvent) {
         case buttonType.remove:
-            alert('if block');
+            // alert('if block');
             removecontainer(e);
             break;
         case buttonType.edit:
             // console.log("parentnode of preview");
             // console.log(e.target.parentNode);
+            console.log(parentEvent);
             let currentEducation = getEducationInformation(parentEvent);
                
                educationData.universityName.value = currentEducation.universityName;
@@ -255,7 +317,7 @@ function onSubmit() {
                educationData.startYear.value = currentEducation.startYear;
                educationData.endYear.value = currentEducation.endYear;
           
-               educationData.universityName.setAttribute('class', currentEventId);
+               educationData.universityName.setAttribute('class', currentEventId.slice(0,-1));
     }
    
 
@@ -278,7 +340,7 @@ let currBlockFilled = educationData.universityName.classList[0];
 console.log(educationData);
      if(currBlockFilled && currBlockFilled[0]){
           console.log("event is edited");
-               let currentPreviewBlock = getEducationInformation(document.getElementById(currBlockFilled));
+               let currentPreviewBlock = getEducationInformation(document.getElementById(currBlockFilled+parentSuffixID));
                let currentBlock = getEducationInformation(document.getElementById(currBlockFilled+suffixID));
                 setEducationInformation(currentPreviewBlock,educationData);
                 setEducationInformation(currentBlock,educationData);
@@ -358,10 +420,9 @@ let contactSection = document.getElementsByClassName("contact-section")[0];
 
     
    console.log("DSFffdbb");
-    let personalBlock = createTag("div");
-    personalBlock.setAttribute('class','icon-layout content-layout');
-
-     personalBlock.innerHTML = `
+  
+     contactSection.innerHTML = `
+     <div class="icon-layout content-layout>
     <h3 style="border-bottom:1px solid rgb(216,204,190)">CONTACT</h3>
 
     <div class="section-layout">
@@ -386,8 +447,9 @@ let contactSection = document.getElementsByClassName("contact-section")[0];
         <p class="icon-info" id="add-div">${personalData.addressDetails.value}</p>
     </div> 
 
+</div>
 </div>`;
-  contactSection.appendChild(personalBlock);
+
 
      emptyFormData(personalData);
  
@@ -420,21 +482,25 @@ function getJobInformation (currentData) {
 }
 
 function  ExperiencePreviewEditRemoveFeatures (e,jobData) {
-    e.preventDefault();
-    console.log(e.target);
+    // e.preventDefault();
+    console.log("clicked on remove/edit button");
+    // console.log(e,e.target.parent.parent);
+    // console.log(e.target.parent);
     let currentEvent = e.target.innerHTML;
-    let currentEventId = e.target.parentNode.id;
+    let currentEventId = (e.target.id).slice(0,-1);
+    let parentEvent = document.getElementById(currentEventId+parentSuffixID);
     console.log(currentEventId);
     // console.log(e.target);
     console.log(e.target.parentNode);
     switch (currentEvent) {
         case buttonType.remove:
+             alert("removing container");
              removecontainer(e);
              break;
         case buttonType.edit:
             console.log("parentnode of preview");
             console.log(e.target.parentNode);
-            let currentJob = getJobInformation(e.target.parentNode);
+            let currentJob = getJobInformation(parentEvent);
             
             jobData.jobLocation.value = currentJob.location.innerHTML; 
             jobData.jobStart.value = currentJob.start.innerHTML;
@@ -462,7 +528,7 @@ let previewExperienceBlock = createTag("div");
         if(currBlockFilled)
         {
             console.log(document.getElementById(currBlockFilled+suffixID));
-               let currentPreviewBlock = getJobInformation(document.getElementById(currBlockFilled));
+               let currentPreviewBlock = getJobInformation(document.getElementById(currBlockFilled+parentSuffixID));
                let currentBlock = getJobInformation(document.getElementById(currBlockFilled+suffixID));
                  
                setJobInformation(currentPreviewBlock,jobData);
@@ -596,7 +662,6 @@ let skillsSubmit = document.getElementById("skills-submit");
 // let previewSkillFormContainer = document.getElementsByClassName("skills")[0];
 
 let previewSkillBlock = createTag("div");
-previewSkillBlock.setAttribute('class','parent-small-item');
 
 
 
@@ -736,105 +801,170 @@ previewAchievementsBlock.addEventListener( "click", (e)=>{
 
 
 let introBlock =  `
-<div  class="intro  form-layout">
-<label for="fname">First Name:</label><br>
-<input type="text" id="fname" name="fname"><br>
+<form  class="intro  form-layout">
+<div class="firstLastName">
+   <div class="formMargin smallChild">
+    <label class="profileLabel" for="profile-img">Upload Profile Picture </label> 
+    
+    <img id="previewProfilePicture" class="pic" alt="Profile Pics" src="lucifer.jpeg" />
+    <input type="file" id="profile-img" name="profile-img   accept="image/* ">
+    <button onclick="event.preventDefault(); document.getElementById('profile-img').click();" class="buttonImage" >Choose File</button>
+  </div >
 
-<label for="fname">Last Name:</label><br>
-<input type="text" id="lname" name="lname"><br>
-
-<label for="roleName">Type of Role:</label><br>
-<input type="text" id="roleName" name="roleName"><br>
-
-<label for="introduction">Introduce Yourself </label><br>
-<input type="textarea" id="introduction" name="introduction"><br>
-<label for="profile-img">Upload Profile Pic </label> <br>
-<input type="file" id="profile-img" name="profile-img  accept="image/* "><br>
-<div class="button-style">
-<button type="reset">Reset</button>
-<button type="button"  id="intro-submit"   value="submit" onClick="onSubmit()">Submit</button>
+<div class="bigChild">
+    <div class="firstLastName">
+        <div class="halfChild formMargin">
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" placeHolder="e.g. Mitul" name="fname">
+        </div>
+        <div class="halfChild formMargin">
+        <label for="fname">Last Name:</label>
+        <input type="text" id="lname" placeHolder="e.g. Vaghela" name="lname">
+        </div>
+    </div>
+        <div class="formMargin">
+        <label for="roleName">Type of Role:</label>
+        <input type="text" id="roleName" placeHolder="e.g. Software Engineer" name="roleName">
+        </div>
+        <div class="formMargin">
+        <label for="introduction">Introduce Yourself </label>
+        <input type="textarea" id="introduction" placeHolder="e.g. I have good knowledge regarding data-structures,..."name="introduction">
+        </div>
+    
+        <div class="buttonParent formMargin">
+        <button type="reset" class="buttonStyle resetButton">Reset</button>
+        <button type="button"  id="intro-submit" class="buttonStyle submitButton"  value="submit" onClick="onSubmit(event)">Submit</button>
+        </div>
+</div>        
 </div>
-</div>
+
+    </form>
 `;
 
 let personalInfoBlock = `
-<div  class="personal-info  form-layout">
-<label for="tnumber">Telephone number</label><br>
-<input type="tel" id="tnumber" name="tnumber"><br>
-<label for="emailid">Email ID</label><br>
-<input type="email" id="emailid" name="emailid"><br>
-
-<label for="linkedinid">Linkedin Profile URL</label><br>
-<input type="text" id="linkedinid" name="linkedinid"><br>
-<label for="address">Address </label><br>
-<input type="text" id="address" name="address"><br>
-<div class="button-style">
-<button type="reset">Reset</button>
-<button type="button"  id="ps-submit"   value="submit" onClick="onPersonalInformationSubmit()">Submit</button>
+<form  class="personal-info  form-layout">
+<div class="firstLastName">
+<div class="formMargin halfChild" >
+<label for="tnumber">Telephone number</label>
+<input type="tel" placeHolder="e.g. +91 9662833396" id="tnumber" name="tnumber">
+</div>
+<div class="formMargin halfChild" >
+<label for="emailid">Email ID</label>
+<input type="email" placeHolder="e.g. vmdipakbhai@tekion.com "id="emailid" name="emailid">
 </div>
 </div>
+<div class="firstLastName">
+<div class="formMargin halfChild" >
+<label for="linkedinid">Linkedin Profile URL</label>
+<input type="text" placeHolder="e.g. https://linkedin/com/mitul-vaghela" id="linkedinid" name="linkedinid">
+</div>
+<div class="formMargin halfChild" >
+<label for="address">Address </label>
+<input type="text" placeHolder="e.g. Katargam, Surat, Gujarat" id="address" name="address">
+</div>
+</div>
+<div class="buttonParent formMargin">
+<button type="reset" class="resetButton buttonStyle">Reset</button>
+<button type="button"  class="submitButton buttonStyle" id="ps-submit"   value="submit" onClick="onPersonalInformationSubmit()">Submit</button>
+</div>
+</form>
 `;
 
 
 let educationBlock =` 
-<div  class="education  form-layout">
-<label for="uname">University Name:</label><br>
-<input type="text" id="uname" name="uname"><br>
-<label for="qname">Qualification:</label><br>
-<input type="text" id="qname" name="qname"><br>
-<label for="cname">Course Name:</label><br>
-<input type="text" id="cname" name="cname"><br>
-<label for="syear">Starting Year</label><br>
-<input type="number" placeholder="YYYY" id="syear" name="syear"><br>
-<label for="eyear">Ending Year</label><br>
-<input type="number" placeholder="YYYY" id="eyear" name="eyear"><br>
+<form  class="education  form-layout">
+    <div class="firstLastName">
+        <div class="formMargin halfChild">
+            <label for="uname">University Name:</label>
+            <input type="text" id="uname" placeHolder="e.g. Nirma " name="uname">
+        </div>
+        <div class="formMargin halfChild">
+            <label for="qname">Qualification:</label>
+            <input type="text" id="qname" placeHolder="e.g. Bachelor Degree " name="qname">
+        </div> 
+    </div>
+    <div class="formMargin">
+        <label for="cname">Course Name:</label>
+        <input type="text" id="cname"  placeholder="e.g. Computer Science " name="cname">
+    </div>
+    <div class="firstLastName">
+        <div class="formMargin halfChild">
+            <label for="syear">Starting Year</label>
+            <input type="text" placeholder="Date" onfocus="(this.type='month')" onblur="(this.type='text')" id="syear" name="syear">
+        </div>
+        <div class="formMargin halfChild">
+            <label for="eyear">Ending Year</label>
+            <input type="text" placeholder="Date" onfocus="(this.type='month')" onblur="(this.type='text')" id="eyear" name="eyear">
+        </div>
+    </div>
 
-<div class="button-style">
-<button type="reset">Reset</button>
-<button type="button"  id="edu-submit"   value="submit" onClick='onEducationSubmit()'>Submit</button>
-</div>
-<br>
-</div>`
+    <div class="buttonParent formMargin">
+        <button type="reset" class="buttonStyle resetButton">Reset</button>
+        <button type="button"  id="edu-submit"   class="buttonStyle submitButton" value="submit" onClick='onEducationSubmit()'>Submit</button>
+    </div>
+
+</form>
+`
 ;
 
-let experienceBlock  = `<div  class="experience  form-layout">
-<label for="jposition">Job Position:</label><br>
-<input type="text" id="jposition" name="jposition"><br>
-<label for="jlocation">Job Location:</label><br>
-<input type="text" id="jlocation" name="jlocation"><br>
-<label for="jstart">Job Start</label><br>
-<input type="month" placeholder="MM-YYYY"  id="jstart" name="jstart"><br>
-<label for="jend"> Job End</label><br>
-<input type="month" placeholder="MM-YYYY" id="jend" name="jend"><br>
-<label for="jdescription">Description</label><br>
-<input type="text" id="jdescription" name="jdescription"><br>
+let experienceBlock  = `
+<form  class="experience  form-layout">
+    <div class="firstLastName">
+        <div class="formMargin halfChild">
+            <label for="jposition">Job Position:</label>
+            <input type="text" id="jposition" placeholder="e.g. Software Engineer" name="jposition">
+        </div>
+        <div class="formMargin halfChild">
+            <label for="jlocation">Job Location:</label>
+            <input type="text" id="jlocation" placeholder="e.g. Surat " name="jlocation">
+        </div>
+    </div>
+    <div class="firstLastName">
+    <div class="formMargin halfChild">
+        <label for="jstart">Job Start</label>
+        <input type="text" placeholder="Date" onfocus="(this.type='month')" onblur="(this.type='text')"   id="jstart" name="jstart">
+    </div>
+    
+    <div class="formMargin halfChild">
+        <label for="jend"> Job End</label>
+        <input type="text" placeholder="Date" onfocus="(this.type='month')" onblur="(this.type='text')" id="jend" name="jend">
+    </div>
+    </div>
+    <div class="formMargin">
+        <label for="jdescription">Description</label>
+        <input type="text" id="jdescription" placeholder="I have worked on many techonologies,..." name="jdescription">
+    </div>
 
-<div class="button-style">
-<button type="reset">Reset</button>
-<button type="button"  id="exp-submit"   value="submit" onClick="onExperienceSubmit()">Submit</button>
-</div>
-</div>
+    <div class="buttonParent formMargin">
+        <button type="reset" class="buttonStyle resetButton" >Reset</button>
+        <button type="button"  class="buttonStyle submitButton" id="exp-submit"   value="submit" onClick="onExperienceSubmit()">Submit</button>
+    </div>
+</form>
 `;
 
 let skillsBlock = `
-<div  class="skills form-layout">
-<label for="skill-field">Skill</label><br>
-<input type="text" id="skill-field" name="skill-field"><br>
-<div class="button-style">
-<button type="reset">Reset</button>
-<button type="button"  id="skills-submit"   value="add" onClick="onSkillsSubmit()">Submit</button>
+<form  class="skills form-layout">
+<div class="formMargin">
+<label for="skill-field">Skill</label>
+<input type="text" placeHolder="e.g. Java, MATLAB,... " id="skill-field" name="skill-field">
 </div>
-</div> `;
+<div class="buttonParent formMargin">
+<button type="reset" class="resetButton buttonStyle">Reset</button>
+<button type="button"  class="submitButton buttonStyle " id="skills-submit"   value="add" onClick="onSkillsSubmit()">Submit</button>
+</div>
+</form> `;
 
 let achievementsBlock  =`
-<div  class="achievements  form-layout">
-<label for="achievements-field">Achievements</label><br>
-<textarea type="text" id="achievements-field" name="achievements-field"></textarea><br>
-<div class="button-style">
-<button type="reset">Reset</button>
-<button type="button"  id="achievements-submit"   value="add" onClick="onAchievementsSubmit()">Submit</button>
+<form  class="achievements  form-layout">
+<div class="formMargin">
+<label for="achievements-field">Achievements</label>
+<textarea type="text" placeHolder="e.g. I have secured 4th Rank in Regional Board Exam " id="achievements-field" name="achievements-field"></textarea>
 </div>
-</div>`;
+<div class="buttonParent formMargin">
+<button type="reset" class="resetButton buttonStyle " >Reset</button>
+<button type="button" class="submitButton buttonStyle " id="achievements-submit"   value="add" onClick="onAchievementsSubmit()">Submit</button>
+</div>
+</form>`;
 
 let formBlock = {
           ["intro"]: introBlock,  
@@ -854,682 +984,181 @@ let fetchObjects = {
     ["achievements"]: achievementsFetch,
 }
 
-function introFetch(){
+function introFetch(currentBlockValue){
      IntroductionData.firstName = document.getElementById("fname");
      IntroductionData.lastName = document.getElementById("lname");
      IntroductionData.roleName = document.getElementById("roleName");
      IntroductionData.introductionName = document.getElementById("introduction");
      IntroductionData.ProfileImageLink = document.getElementById("profile-img");
-    
+     submitButton[currentBlockValue] = document.getElementById("intro-submit");
+     console.log("fetched dom of introduction part",submitButton.introSubmitButton );
+     
+
 }
-function personalInfoFetch () {
+function personalInfoFetch (currentBlockValue) {
     personalData.telephoneNumber = document.getElementById("tnumber");
     personalData.EmailId = document.getElementById("emailid");
     personalData.linkedinId = document.getElementById("linkedinid");
     personalData.addressDetails = document.getElementById("address");
-    personalData.personalInfoSubmit = document.getElementById("ps-submit");
+    submitButton[currentBlockValue] = document.getElementById("ps-submit");
 }
 
-function educationFetch () {
+function educationFetch (currentBlockValue) {
     educationData.universityName  = document.getElementById("uname");
     educationData.qualificationName = document.getElementById("qname");
     educationData.courseName = document.getElementById("cname");
     educationData.startYear = document.getElementById("syear");
     educationData.endYear = document.getElementById("eyear");
+    submitButton[currentBlockValue] = document.getElementById("edu-submit");
+
     console.log("fetch is compeleted");
 }
 
-function experienceFetch () {
+function experienceFetch (currentBlockValue) {
     jobData.jobPosition = document.getElementById("jposition");
     jobData.jobLocation = document.getElementById("jlocation");
     jobData.jobStart = document.getElementById("jstart");
     jobData.jobEnd = document.getElementById("jend");
     jobData.jobDescription = document.getElementById("jdescription");
+    submitButton[currentBlockValue] = document.getElementById("exp-submit");
+
 }
-function skillsFetch () {
+function skillsFetch (currentBlockValue) {
      skillData.skillField = document.getElementById("skill-field");
+     submitButton[currentBlockValue] = document.getElementById("skills-submit");
 }
-function achievementsFetch () {
+function achievementsFetch (currentBlockValue) {
      achievementData.achievementDetails =  document.getElementById("achievements-field");
+     submitButton[currentBlockValue] = document.getElementById("achievements-submit");
+     console.log("achievments",submitButton[currentBlockValue]);
 }
 let formParent = document.getElementsByClassName('formOptions')[0];
 
+const submitButton = {
+    ["intro"]: introSubmitButton,  
+    ["personal-info"]: personalInfoSubmitButton,
+    ["education"]: educationSubmitButton,
+    ["experience"]:experienceSubmitButton,
+    ["skills"] : skillsSubmitButton,
+    ["achievements"]: achievementsSubmitButton,
+}
 
 
-options.addEventListener( "change", ()=> {
-        // e.preventDefault();
-    let currentOptionValue = options.value;
-    // console.log(formBlock[currentOptionValue]);
-    formParent.innerHTML = formBlock[currentOptionValue] ;
-    formParent.appendChild(previewBlockDOM[currentOptionValue]); 
-    fetchObjects[currentOptionValue]();
-
-    // document.getElementsByClassName(currentOptionValue)[0].classList.remove("hidden-form");
-    // if(oldOptionValue!= "none")
-    // document.getElementsByClassName(oldOptionValue)[0].classList.add("hidden-form");
-   
-
-    // console.log(firstName.value);    
-    // console.log(lastName.value);
-    // console.log(introductionName.value);
-//  console.log(document.getElementsByClassName("name")[0].innerHTML)  ;
-//  document.getElementsByClassName("name")[0].innerHTML= firstName.value + "<br>"+ lastName.value;
-//  document.getElementsByClassName("sub-heading")[0].innerHTML = roleName.value;
-//  console.log(document.getElementById("personal-intro"));
-//  document.getElementById("personal-intro").innerHTML = introductionName.value;
- 
-})
-
-
- 
-
-
-// let   submit = document.getElementById("intro-submit");
-// let firstName = document.getElementById("fname");
-// let lastName = document.getElementById("lname");
-// let roleName = document.getElementById("roleName");
-// let introductionName = document.getElementById("introduction");
-// let ProfileImageLink = document.getElementById("profile-img");
-// let introductionSection = document.getElementsByClassName("introduction-section")[0];   //id
-// let picUrl;
-
-// ProfileImageLink.addEventListener( "change", (e)=> {
-//     picUrl = URL.createObjectURL(e.target.files[0]);
-
-// })
-// submit.addEventListener( "click", (e)=> {
-//     e.preventDefault();
-// introductionSection.innerHTML= `
-//      <div class="content-layout">
-//         <h1 class="name">${firstName.value} <br> ${lastName.value}</h1>
-//         <h2 class="sub-heading">${roleName.value}</h2>
-//      </div>
-//      <img class="pic" src="$_{picUrl}" alt="Profile Pics" />
-//      <div class="content-layout  "> 
-//         <h3 style="border-bottom:1px solid rgb(216,204,190)">Profile</h3> 
-//         <p class="paragraph" id="personal-intro">${introductionName.value} </p>
-//      </div>`;
-// });
-   
-//   console.log(ProfileImageLink);
+function createPrevNextButton () {
     
+    let block = createTag("div");
+    block.classList.add("buttonParent","formMargin");
+    let prevButton = createTag("button");
+    prevButton.innerHTML="Previous";
+    prevButton.setAttribute("id","prevButtonForChange");
+    prevButton.classList.add("resetButton","prevButton");
+    
+    let nextButton = createTag("button");
+    nextButton.innerHTML="Next";
+    nextButton.classList.add("menuBarButton","nextButton");
+    nextButton.setAttribute("id","nextButtonForChange");
+    block.appendChild(prevButton);
+    block.appendChild(nextButton);
+    
+
+      return block;
+}
+let previousMenuBarButton= null;
+
+const sectionName = new Map([
+    
+    [1,"intro"],
+    [6 ,"personal-info"],
+   [ 2 , "education"],
+   [ 3 , "experience"],
+   [ 4 ,"skills"],
+    [5 , "achievements"],
+    ["intro", 1],
+    ["personal-info", 6],
+    ["education", 2] ,
+    ["experience", 3],
+    ["skills", 4],
+    [ "achievements", 5],
+]);
+let sectionCounter = 0;
+let previousNextButton = createPrevNextButton();
+let previousButton, nextButton ;
+
+console.log(previousButton);
+
+
+
+document.addEventListener("click", function(e){
+    const target = e.target.id; // Or any other selector.
   
-//      submit.addEventListener( "click", (e)=> {
-//         e.preventDefault();
-//     introductionSection.innerHTML= `
-//          <div class="content-layout">
-//             <h1 class="name">${firstName.value} <br> ${lastName.value}</h1>
-//             <h2 class="sub-heading">${roleName.value}</h2>
-//          </div>
-//          <img class="pic" src="lucifer.jpeg" alt="Profile Pics" />
-//          <div class="content-layout  "> 
-//             <h3 style="border-bottom:1px solid rgb(216,204,190)">Profile</h3> 
-//             <p class="paragraph" id="personal-intro">${introductionName.value} </p>
-//          </div>`;
-
-//     console.log(firstName.value);    
-//     console.log(lastName.value);
-//     console.log(introductionName.value);
-// //  console.log(document.getElementsByClassName("name")[0].innerHTML)  ;
-// //  document.getElementsByClassName("name")[0].innerHTML= firstName.value + "<br>"+ lastName.value;
-// //  document.getElementsByClassName("sub-heading")[0].innerHTML = roleName.value;
-// //  console.log(document.getElementById("personal-intro"));
-// //  document.getElementById("personal-intro").innerHTML = introductionName.value;
- 
-// })
-
-
-
-
-// let universityName = document.getElementById("uname");
-// let qualificationName = document.getElementById("qname");
-// let courseName = document.getElementById("cname");
-// let startYear = document.getElementById("syear");
-// let endYear = document.getElementById("eyear");
-
-
-// let educationSubmit = document.getElementById("edu-submit");
-// let educationDetails = document.getElementById("edu-details");
-// let previewEducationBlock = createTag("div");
-// // previewEducationBlock.setAttribute('id','preview-edu');
-// let previewEducationFormContainer = document.getElementsByClassName('education')[0];
-// console.log(previewEducationFormContainer);
-// let educationData = {
-//     universityName,
-//     qualificationName,
-//     courseName,
-//     startYear,
-//     endYear,
-// };
-
-// function getEducationInformation ( currentData ) {
-     
-
-//     let education = {
-//        universityQualification : currentData.getElementsByTagName('h4')[0],
-//        courseName : currentData.getElementsByTagName('p')[0],
-//         duration : currentData.getElementsByTagName('span')[0],
+    if(target=="prevButtonForChange"){
+        console.log(sectionCounter,"prev button");
         
-//     };
-//     let filterIndex = education.universityQualification.innerHTML.indexOf("-");
-//     education.Qualification = education.universityQualification.innerHTML.substring(0,filterIndex-1);
-//     education.universityName = education.universityQualification.innerHTML.substring(filterIndex+2);
-//     let filterIndexForDuration = education.duration.innerHTML.indexOf("-");
-//     education.startYear = education.duration.innerHTML.substring(0,filterIndexForDuration-1);
-//     education.endYear = education.duration.innerHTML.substring(filterIndexForDuration+2);
-//     return education;
-// }
-// function setEducationInformation(  setData, data ){
-
-//     console.log(data.universityName,data.qualificationName,setData.universityQualification);
-
-//     setData.universityQualification.innerHTML = data.universityName.value + " - " + data.qualificationName.value;
-//     setData.courseName.innerHTML = data.courseName.value;
-//     setData.duration.innerHTML = data.startYear.value + " - " + data.endYear.value;
-// }
-
-// educationSubmit.addEventListener("click", () => {
-//     // to make container  
-
-//      let currBlockFilled = universityName.classList[0];
-//      if(currBlockFilled){
-//                let currentPreviewBlock = getEducationInformation(document.getElementById(currBlockFilled));
-//                let currentBlock = getEducationInformation(document.getElementById(currBlockFilled+suffixID));
-//                 setEducationInformation(currentPreviewBlock,educationData);
-//                 setEducationInformation(currentBlock,educationData);
-
-                
-//                universityName.removeAttribute('class');
-//      }
-//      else
-//      {
-//     let currentEducationBlock = createTag("div");
-//     let previewBlock = createTag("div");
-//     let universityNameBlock = createTag("h4");
-//     let yearOfEducationBlock = createTag("span");  
-//     let courseNameBlock = createTag("p");
-//     //  button element  -> btn redundancy has been removed
-//     let btn = createRemoveButton();
-//     let edt_btn = createEditButton();
-  
-    
-//     // add classes
-//     currentEducationBlock.classList.add("content-title");
-//     universityNameBlock.classList.add("content-item");
-//     yearOfEducationBlock.classList.add("content-item");
-//     yearOfEducationBlock.classList.add("extreme-right-item");
-//     courseNameBlock.classList.add("content-item");
-
-//     // console.log(universityName.value);
-//     // change value of html
-//     universityNameBlock.innerHTML = qualificationName.value + " - " + universityName.value;
-//     yearOfEducationBlock.innerHTML = startYear.value + " - " + endYear.value;
-//     courseNameBlock.innerHTML = courseName.value;
-
-    
-//     currentEducationBlock.appendChild(universityNameBlock);
-//     currentEducationBlock.appendChild(yearOfEducationBlock);
-//     currentEducationBlock.appendChild(courseNameBlock);
-//     educationDetails.appendChild(currentEducationBlock);
-
-//     let clone_current_edu = currentEducationBlock.cloneNode(true);
-//     previewBlock.appendChild(clone_current_edu);
-
-//     previewBlock.appendChild(btn);
-//     previewBlock.appendChild(edt_btn);
-//     previewEducationBlock.appendChild(previewBlock);
-    
-//     //  unique id 
-//     let currentId = Date.now() + Math.random().toString(16).slice(2);
-//     previewBlock.setAttribute('id',currentId);
-//     currentEducationBlock.setAttribute('id', currentId+suffixID);
-     
-//     console.log(previewEducationBlock);
-//     console.log(previewEducationFormContainer);
-//     previewEducationFormContainer.appendChild(previewEducationBlock);
-   
-//     console.log(document.getElementsByClassName(currentOptionValue)[0]);
-//      }
-//     startYear.value ="";
-//     endYear.value ="";
-//     courseName.value = "";
-//     universityName.value="";
-//     qualificationName.value = "";
-   
-// })
-
-
-
-// previewEducationBlock.addEventListener("click", (e)=> {
-   
-//     e.preventDefault();
-//     alert('edit');
-//     console.log(e.target);
-//     let currentEvent = e.target.innerHTML;
-//     let currentEventId = e.target.parentNode.id;
-//     console.log(currentEventId);
-//     // console.log(e.target);
-//     console.log(e.target.parentNode);
-//     if(currentEvent === "x"){
-//         alert('if block');
-//         removecontainer(e);
-//     }
-//     else {
-//         alert('else block');
-//         console.log("parentnode of preview");
-//          console.log(e.target.parentNode);
-//          let currentJob = getEducationInformation(e.target.parentNode);
+        if(sectionCounter == 1)
+        {
+            return;
+        }
+        sectionCounter--;
+        // let currentSection = sectionName.get(sectionCounter);
       
-//            universityName.value = currentJob.universityName;
-//            qualificationName.value = currentJob.Qualification;
-//            courseName.value = currentJob.courseName.innerHTML;
-//            startYear.value = currentJob.startYear;
-//            endYear.value = currentJob.endYear;
+        let currentButton = document.getElementsByClassName("menuBar")[0];
+        
+        let currentSection = currentButton.getElementsByTagName("button")[sectionCounter-1];
+        console.log(currentSection);
+        formReload(currentSection);
+
+      // Do something with `target`.
+    }
+     if (target == "nextButtonForChange"){
+        console.log(sectionCounter,"next button");
+    
+        if(sectionCounter == 6)
+        {
+            return;
+        }
+        sectionCounter++;
+        // let currentSection = sectionName.get(sectionCounter);
       
-//         universityName.setAttribute('class', currentEventId);
-//     }
-
-// //    removecontainer(e);
-
-
-// })
-
-
-// personal information
-
-// let telephoneNumber = document.getElementById("tnumber");
-// let EmailId = document.getElementById("emailid");
-// let linkedinId = document.getElementById("linkedinid");
-// let addressDetails = document.getElementById("address");
-// let personalInfoSubmit = document.getElementById("ps-submit");
-
-
-// let telephoneNumber = document.getElementById("telephone-div");
-// let email_div = document.getElementById("email-div");
-// let linkedin_div = document.getElementById("linkedin-div");
-// let add_div = document.getElementById("add-div");
-// let ps_container = document.getElementsByClassName('personal-info')[0];
-// let preview_ps = createTag("div");
-
-//create container 
-
-// let parent_ps = createTag("div");
-// parent_ps.classList.add("icon-layout content-layout");
-
-// parent_ps.innerHTML =<h3 style="border-bottom:1px solid rgb(216,204,190)">CONTACT</h3>;
- 
-// let ps_block = document.createAttribute("div");
-
-
-// let contactSection = document.getElementsByClassName("contact-section")[0];
-
-// personalInfoSubmit.addEventListener("click", (e)=> {
-    
-//    console.log("DSFffdbb");
-//     let personalBlock = createTag("div");
-//     personalBlock.setAttribute('class','icon-layout content-layout');
-
-//      personalBlock.innerHTML = `
-//     <h3 style="border-bottom:1px solid rgb(216,204,190)">CONTACT</h3>
-
-//     <div class="section-layout">
-//         <i  class="fa-solid fa-phone icon-color"></i>   
-//         <a class="icon-info" id="telephone-div" href="tel+919662833396"> Tel: ${telephoneNumber.value}</a>
-//     </div>
-
-//     <div class="section-layout">
-//         <i class="fa-solid fa-inbox icon-color"></i>
-//         <a class="icon-info" id="email-div"href="mailto:${EmailId.value}?
-//         subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you"
-//          target="_blank" >${EmailId.value}</a>
-//     </div> 
-
-//     <div class="section-layout">
-//         <i class="fa-brands fa-linkedin icon-color"></i>
-//         <a class="icon-info " id="linkedin-div" href="${linkedinId.value}" target="_blank">linkedin.com/${firstName.value}${lastName.value}</a>
-//     </div>
-
-//     <div class="section-layout">
-//         <i class="fa-solid fa-location-dot icon-color"></i>
-//         <p class="icon-info" id="add-div">${addressDetails.value}</p>
-//     </div> 
-
-// </div>`;
-//   contactSection.appendChild(personalBlock);
-
-  // unimportant code
-    //    telephoneNumber.innerHTML = "Tel: +" + telephoneNumber.value;
-    //    email_div.innerHTML = EmailId.value;
-       
-    //    linkedin_div.innerHTML = linkedinId.value;
-    //    add_div.innerHTML = addressDetails.value;
-    //    email_div.href = "mailto:${EmailId.value}?subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you" ;
-    //    email_div.setAttribute('target','_blank');
-    //    console.log(linkedinId.value);
-    //    linkedin_div.href = linkedinId.value;
-       
-// })
-
-
-
-
-// work experience 
-
-
-
-// let workDetails = document.getElementById("work-details");
-// let experienceSubmit =document.getElementById("exp-submit");
-
-// let jobPosition = document.getElementById("jposition");
-// let jobLocation = document.getElementById("jlocation");
-// let jobStart = document.getElementById("jstart");
-// let jobEnd = document.getElementById("jend");
-// let jobDescription = document.getElementById("jdescription");
-// let jobData = {
-//     jobDescription,
-//     jobPosition,
-//     jobStart,
-//     jobEnd,
-//     jobLocation,
-// };
-// let previewExperienceBlock = createTag("div");
-// let previewExperienceFormContainer = document.getElementsByClassName("experience")[0];
-
-
-// function setJobInformation ( setData, data) {
-//     setData.location.innerHTML = data.jobLocation.value;
-//     setData.start.innerHTML = data.jobStart.value;
-//     setData.end.innerHTML = data.jobEnd.value;
-//     setData.description.innerHTML = data.jobDescription.value;
-//     setData.position.innerHTML = data.jobPosition.value;
-//     // setData.timeline.innerHTML = data.jobStart + " - " + data.jobEnd;
-// }
-// function getJobInformationPreview ( currentData ) {
-  
-//     let job = {
-
-//         position: jobPosition,
-//         timeline: currentData.getElementsByTagName('span')[0].innerText,
-//         location: currentData.getElementsByTagName('p')[0],
-//         description: currentData.getElementsByTagName('p')[1],
+        let currentButton = document.getElementsByClassName("menuBar")[0];
         
-//    }  
-//    let start;
-//    let filterIndex = 8;
-//    job.start= job.timeline.substring(0,filterIndex);
-//    job.end = job.timeline.substring(filterIndex);
-//    return job;
-// }
-// experienceSubmit.addEventListener( "click", (e) => {
-        
-//     let currBlockFilled = jobLocation.classList[0];
-   
-//         if(currBlockFilled)
-//         {
-//             console.log(document.getElementById(currBlockFilled+suffixID));
-//                let currentPreviewBlock = getJobInformation(document.getElementById(currBlockFilled));
-//                let currentBlock = getJobInformation(document.getElementById(currBlockFilled+suffixID));
-                 
-//                setJobInformation(currentPreviewBlock,jobData);
-//                setJobInformation(currentBlock,jobData);
-//             //    currBlockFilled.removeAttribute("class");
-//                jobLocation.removeAttribute("class");
-
-//         }
-//         else 
-//         {
-//         let workContainerBlock = createTag("div");
-//         // workContainerBlock.classList.add("content-layout");
-//         let workHeaderBlock = createTag("div");
-//         workHeaderBlock.setAttribute('class','content-title');
-        
-//         let jobPositionBlock = createTag("h4");
-//         jobPositionBlock.setAttribute('class','content-item');
-
-//         let jobEndYearBlock = createTag("span");
-//         jobEndYearBlock.setAttribute('class',' small-content-item extreme-right-item');
-//         let jobStartYearBlock  = createTag("span");
-//         jobStartYearBlock.setAttribute('class','small-content-item extreme-right-item');
-//         let jobLocationBlock = createTag("p");
-//         jobLocationBlock.setAttribute('class','content-item');
-
-//         workHeaderBlock.appendChild(jobPositionBlock);
-//         workHeaderBlock.appendChild(jobStartYearBlock);
-        
-//         workHeaderBlock.appendChild(jobEndYearBlock);
-//         workHeaderBlock.appendChild(jobLocationBlock);
-
-//         let jobDescriptionBlock =createTag("p");
-//         jobDescriptionBlock.setAttribute('class','paragraph');
+        let currentSection = currentButton.getElementsByTagName("button")[sectionCounter-1];
+        console.log(currentSection);
+        formReload(currentSection);
+     }
+  });
 
 
-//         workContainerBlock.appendChild(workHeaderBlock);
-//         workContainerBlock.appendChild(jobDescriptionBlock);
-
-//      //  button element     //  reuse btn each time using function
-//      let btn = createRemoveButton();
-//      let edt_btn = createEditButton();
-//      let previewBlock = createTag("div");
-       
-//         jobPositionBlock.innerHTML = jobPosition.value;
-//         jobLocationBlock.innerHTML = jobLocation.value;
-//         jobDescriptionBlock.innerHTML = jobDescription.value;
-//         jobStartYearBlock.innerHTML = jobStart.value;
-//         jobEndYearBlock.innerHTML = jobEnd.value;
-
-
-//         let clone_current_exp = workContainerBlock.cloneNode(true);
-//         previewBlock.appendChild(clone_current_exp);
-//        // re use 
-//         previewBlock.appendChild(btn);
-//         previewBlock.appendChild(edt_btn);
-//         previewExperienceBlock.appendChild(previewBlock);
-        
-//         //  unique id  
-//         let currentId = Date.now() + Math.random().toString(16).slice(2);
-//         previewBlock.setAttribute('id',currentId);
-//         workContainerBlock.setAttribute('id', currentId+suffixID);
-         
-//         console.log(previewExperienceBlock);
-//         console.log(workContainerBlock);
-       
-//         previewExperienceFormContainer.appendChild(previewExperienceBlock);
-        
-//         workDetails.appendChild(workContainerBlock);
-//         }
-//        jobPosition.value="";
-//        jobLocation.value= "";
-//        jobDescription.value="";
-//        jobStart.value = "";
-//         jobEnd.value = "";     
-//         // make objects   and for loop 
-       
-// });
-
-// previewExperienceBlock.addEventListener("click", (e)=> {
-//     e.preventDefault();
-//     console.log(e.target);
-//     let currentEvent = e.target.innerHTML;
-//     let currentEventId = e.target.parentNode.id;
-//     console.log(currentEventId);
-//     // console.log(e.target);
-//     console.log(e.target.parentNode);
-//     if(currentEvent == "x")
-//     removecontainer(e);
-//     else {
-//         console.log("parentnode of preview");
-//          console.log(e.target.parentNode);
-//          let currentJob = getJobInformation(e.target.parentNode);
+function formReload(block) {
+      console.log(block.value);
+      let currentBlockValue = block.value;
+     sectionCounter = sectionName.get(block.value);
+        if(previousMenuBarButton)
+        previousMenuBarButton.classList.remove("changeColor");
+        previousMenuBarButton = block;
+        block.classList.add("changeColor");
       
-//         jobLocation.value = currentJob.location.innerHTML; 
-//         jobStart.value = currentJob.start.innerHTML;
-//         jobEnd.value = currentJob.end.innerHTML;
-//         jobDescription.value = currentJob.description.innerHTML;
-//         jobPosition.value = currentJob.position.innerHTML;
-//         // console.log(currentJob.start);
+       console.log("form is opened");
+       formParent.innerHTML = formBlock[block.value] ;
+       formParent.appendChild(previousNextButton);
+       formParent.appendChild(previewBlockDOM[block.value]);
+       fetchObjects[block.value](currentBlockValue);
        
-      
-//         jobLocation.setAttribute('class', currentEventId);
-//     }
 
-// })
+     console.log(sectionCounter,"in formReload");
+       previousButton = document.getElementsByClassName("prevButton")[0];
+       nextButton = document.getElementsByClassName("nextButton")[0];
 
+       console.log(submitButton,currentBlockValue,submitButton[currentBlockValue]);
+       submitButton[currentBlockValue].setAttribute("disabled",true);
+      const currentBlockSection = dataModel[currentBlockValue];
+  for (let item in currentBlockSection) {
 
-
-
-// skills 
-
-
-// let skillsDetailsBlock = document.getElementById("skills-details");
-
-// let skillsSubmit = document.getElementById("skills-submit");
-// let previewSkillFormContainer = document.getElementsByClassName("skills")[0];
-// let skillField = document.getElementById("skill-field");
-// let previewSkillBlock = createTag("div");
-// previewSkillBlock.setAttribute('class','parent-small-item');
-
-
-// skillsSubmit.addEventListener("click", (e)=> {
-
-
-//     let currentPreviewBlock = document.getElementById(skillField.classList[0]);
-//     let currentBlock = document.getElementById(skillField.classList[0]+suffixID);
-//     console.log(currentPreviewBlock);
-//     console.log("hello",currentBlock);
-    
-//     if(currentPreviewBlock){
-//            currentPreviewBlock.firstChild.innerHTML = skillField.value;
-//             currentBlock.innerHTML = skillField.value;
-//             skillField.removeAttribute('class');
-//     }
-//     else {
-
-//     let previewBlock = createTag("div");
-//     previewBlock.setAttribute('class','small-item');
-//     let btn = createRemoveButton();
-//     let edt_btn = createEditButton();
-//     let skillItem = document.createElement("li");
-//     skillItem.setAttribute('class','small-item');
-
-//     skillItem.innerHTML = skillField.value;
-
-    
-    
-//    let clone_skill_item = skillItem.cloneNode(true);
-//     previewBlock.appendChild(clone_skill_item);
-
-//     previewBlock.appendChild(btn);
-//     previewBlock.appendChild(edt_btn);
-
-//     let currentId = Date.now() +  Math.random().toString(16).slice(2);
-//     previewBlock.setAttribute('id',currentId);
-//     skillItem.setAttribute('id', currentId+suffixID);
-
-//     previewSkillBlock.appendChild(previewBlock);
-//     skillsDetailsBlock.appendChild(skillItem);
-//     previewSkillFormContainer.appendChild(previewSkillBlock);
-//     }
-//      skillField.value ="";
-// });
-
-
-// previewSkillBlock.addEventListener("click", (e)=> {
-
-//     e.preventDefault();
-//     let currentEvent = e.target.innerHTML;
-//     let currentEventId = e.target.parentNode.id;
-//     console.log(currentEventId);
-//     // console.log(e.target);
-//     if(currentEvent == "x")
-//     removecontainer(e);
-//     else {
-
-//         console.log(e.target.parentNode.getElementsByTagName("p")[0]);
-//         let currentBlock = e.target.parentNode.firstChild;
-//         console.log(currentBlock);
-//         skillField.value = currentBlock.innerHTML; 
-//         skillField.setAttribute('class', currentEventId);
+    const selectedElement = currentBlockSection[item];
+    console.log(selectedElement);
+    selectedElement.addEventListener('change', handleSubmitState(currentBlockSection, selectedElement,submitButton[currentBlockValue]));
    
-//     }
-    
-//     // removecontainer(e);
-// })
+}
 
 
-// Achievements 
 
-
-// let achievementDetails =  document.getElementById("achievements-field");
-
-// let achievement_submit = document.getElementById("achievements-submit");
-
-// let achievementsDetails = document.getElementById("achievements-details");
-
-// let previewAchievementsBlock = createTag("div");
-// let previewAchievementsFormContainer = document.getElementsByClassName("achievements")[0];
-
-
-// achievement_submit.addEventListener("click", (e)=> {
-   
-//     let currentPreviewBlock = document.getElementById(achievementDetails.classList[0]);
-//     let currentBlock = document.getElementById(achievementDetails.classList[0]+suffixID);
-//     console.log(currentPreviewBlock);
-//     console.log("hello",currentBlock);
-    
-//     if(currentPreviewBlock){
-//            currentPreviewBlock.firstChild.innerHTML = achievementDetails.value;
-//             currentBlock.innerHTML = achievementDetails.value;
-//             achievementDetails.removeAttribute('class');
-//     }
-//     else {
-   
-
-//         let btn = createRemoveButton();
-//         let edt_btn = createEditButton();
-//     let achievementsBlock = createTag("p");
-//     achievementsBlock.setAttribute('class','paragraph');
-//     let previewBlock = createTag("div");
-    
-//     achievementsBlock.innerHTML = achievementDetails.value;
-
-
-//     let clone_achiv_block = achievementsBlock.cloneNode(true);
-//     previewBlock.appendChild(clone_achiv_block);
-
-//     previewBlock.appendChild(btn);
-//     previewBlock.appendChild(edt_btn);
-//     previewAchievementsBlock.appendChild(previewBlock);
-//     let currentId = Date.now() +  Math.random().toString(16).slice(2);
-//     previewBlock.setAttribute('id',currentId);
-//     achievementsBlock.setAttribute('id', currentId+suffixID);
-
-
-    
-//     previewAchievementsFormContainer.appendChild(previewAchievementsBlock);
-
-//     achievementsDetails.appendChild(achievementsBlock);
-   
-//     achievementDetails.value ="";
-//     }
-
-// })
-
- 
-// previewAchievementsBlock.addEventListener( "click", (e)=>{
-//     // e.preventDefault();
-//     let currentEvent = e.target.innerHTML;
-//     let currentEventId = e.target.parentNode.id;
-//     console.log(currentEventId);
-//     // console.log(e.target);
-//     if(currentEvent == "x")
-//     removecontainer(e);
-//     else {
- 
-//         console.log(e.target.parentNode.getElementsByTagName("p")[0]);
-//         let currentBlock = e.target.parentNode.getElementsByTagName("p")[0];
-//         achievementDetails.value = currentBlock.innerHTML; 
-//         achievementDetails.setAttribute('class', currentEventId);
-//        // reuse edit button
-//     }
-// })
-
+}

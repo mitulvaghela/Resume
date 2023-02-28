@@ -1,78 +1,189 @@
 
-textarea {
-    width: 90%;
-    height:90px;
+
+.firstLastName {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   
+}
+.menuBar {
+    margin: 2%;
 }
 
-.previewbutton {
+.nextButton, .menuBarButton {
+    border: 1px solid green;
+    background-color: rgb(240, 248, 243);
+    
+}
+
+.menuBarButton:hover {
+   background-color: rgb(42, 96, 58);
+   color: white;
+}
+.changeColor {
+    background-color:rgb(37, 94, 57) ;
+     color: white;
+}
+.halfChild {
+    flex-basis: 47%;
+}
+.smallChild {
+    width: 25%;
+    padding: auto;
+}
+
+.bigChild{
+    width: 75%;
+}
+.buttonImage,.profileLabel {
+    width: 60%;
+    text-align: center;
+}
+
+
+.previewButton {
     display: flex;
     justify-content: center;
     margin-top:2%;
+   
 
 }
+
+.prevButton,.nextButton {
+    width: 15%;
+}
+
+#preview:hover {
+    background-color: rgb(184, 213, 241);
+}
+.prevButton,.buttonImage,.resetButton,#preview {
+    border: 1px solid rgb(36, 97, 230);
+    background-color: white;
+    color:rgb(36, 97, 230);
+    
+}
+:where(.buttonImage,.resetButton):hover {
+    background-color: rgb(184, 213, 241);
+  
+}
+.submitButton:hover {
+    background-color: rgb(154, 28, 28);
+}
+
+.submitButton {
+     background-color: rgb(211, 8, 8);
+     color: white;
+     border: 1px solid rgb(32, 2, 2);
+}
+.submitButton:disabled {
+   opacity: 0.2;
+}
+.previewBlockInForm {
+    /* background-color: rgb    (229, 245, 230); */
+    /* padding: 2%; */
+}
+input {
+    border: 1px solid #D7DDE1;
+    display: block;
+    padding: 0.8rem;
+
+}
+label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 1.25rem;
+    
+
+}
+.formMargin {
+    padding: 2% 0%;
+}
+#profile-img {
+    border: hidden;
+    visibility: hidden;
+    width:0;
+    height: 0;
+}
+label,button {
+    font-weight: bold;
+    font-family:'Times New Roman', Times, serif;
+}
+textarea {
+    width: 100%;
+    height:50px;
+    font-size: 1.25rem;
+
+}
+
 body {
     height: 100%;
 }
 html {
-    /*  responsive font-size for changing window size ( each pixel change ) */
-    /* --root-font-size: calc(10px + (16 - 8) * ((100vw - 300px) / (1600 - 300))); */
+    
       font-size: 15px;
      
 }
 
 
 span,p,h4,a {
-   font-size: 1.25rem ;
+   font-size: 1rem ;
 }
 h1 {
-    font-size: 2rem ;
+    font-size: 1.25rem ;
 }
 h2 {
-    font-size: 1.5rem ;
+    font-size: 1.25rem ;
 }
 h3 {
-    font-size: 1.25rem ;
+    font-size: 1.15rem ;
 }
 
 
 .main {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-flow: row;
 }
 
-select,label,input {
+input{
     font-size: 1.25rem;
     height: 2rem;
-    width: 90%;
+    width: 100%;
+    box-sizing: border-box;
+   
 }
 
-.button-style {
+.buttonParent {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+}
+.closeModalButton {
+     margin:auto;
+     display: block;
+     margin-bottom:2%;
+    
+}
+.modal {
+    border: hidden;
 }
 button {
-    width:5rem;
     height: auto;
     padding: 0.5rem;
-    font-size: 1rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
 
-}
-#resume-form {
-    width: 80%;
-    text-align: center;
-    margin: auto;
-}
-.form-layout { 
-    display: flex;
-    flex-direction: column;
-    margin: 5%; 
+
+#previewModal {
+    border: 1px solid blue;
+    background-color: beige;
 }
 .formOptions {
-    overflow: auto;
+    width: 70%;
+    margin: 3%;
 }
 .form-main {
-    width: 34%;
+   
     border: 1px solid rgb(215, 215, 231);
     margin: 3%;
     background-color: rgb(233, 237, 240);
@@ -80,22 +191,13 @@ button {
 }
 .resume-main {
 
-    width: 54%;
+    width: 28%;
     display: flex;
     margin: 3%;
     border: 1PX solid rgb(216, 211, 211);
     background-color: #F6F1EB;
 
 }
-/* .dotted-line {
-    border: none;
-    border-top: 1px dotted rgb(216,204,190);
-    color: rgb(61, 54, 54);
-    background-color: rgb(134, 24, 24);
-    height: 1px;
-    
-  }
-  */
 
   .sub-heading {    
     color:rgb(209,196,171);
@@ -139,9 +241,10 @@ button {
 }
 
 .pic {  
+    
+    margin:0;
     display: block;
-    margin: auto;
-    border-radius: 50%;
+     
     width: 60%;
 }
 
@@ -203,6 +306,9 @@ span {
 }
 
 @media  only screen and (max-width:549px)  {
+    body {
+        font-size: 5px;
+    }
     .resume-main {
         flex-direction: column;
    }
@@ -212,42 +318,30 @@ span {
     .right {
         width:96%;
     }
-    html {
-        font-size: 8px;
-    }
+   
     .pic {
         width: 40%;
     }
-    h2 {
-        font-size: 2rem;
-    }
-    h3,select,label,input,a,p,h4,span {
-        font-size: 1.5rem;
-    }
+    
     .name,.sub-heading {
         margin: 2% auto;
     }   
-    /* .section-name {
-        margin-left: 5%;
-    } */
+   
     
 }
 
 @media only screen and (max-width:848px) {
     html {
-        font-size: 10px;
+        font-size: 8px;
     }
   
    
 }
 
 @media only screen and ( (min-width:849px) and (max-width:1230px) ) {
-    /* dotted line has been removed  */
-    /* .dotted-line {
-        display: none;
-    } */
+   
     html {
-        font-size: 12px;
+        font-size: 10px;
     }
     
 }

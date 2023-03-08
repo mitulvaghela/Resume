@@ -29,15 +29,25 @@
 }
 .smallChild {
     width: 25%;
-    padding: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .bigChild{
     width: 75%;
 }
-.buttonImage,.profileLabel {
-    width: 60%;
+
+.profileLabel {
     text-align: center;
+}
+.pic {
+    border-radius: 50%;
+}
+.buttonImage,.profileLabel,.pic {
+    width: 60%;
+    margin: auto;
+   
 }
 
 
@@ -62,7 +72,7 @@
     color:rgb(36, 97, 230);
     
 }
-:where(.buttonImage,.resetButton):hover {
+:where(.buttonImage,.resetButton,.prevButton):hover {
     background-color: rgb(184, 213, 241);
   
 }
@@ -78,16 +88,8 @@
 .submitButton:disabled {
    opacity: 0.2;
 }
-.previewBlockInForm {
-    /* background-color: rgb    (229, 245, 230); */
-    /* padding: 2%; */
-}
-input {
-    border: 1px solid #D7DDE1;
-    display: block;
-    padding: 0.8rem;
 
-}
+
 label {
     display: block;
     margin-bottom: 0.3rem;
@@ -101,8 +103,10 @@ label {
 #profile-img {
     border: hidden;
     visibility: hidden;
-    width:0;
+    width: 0;
     height: 0;
+    margin: 0;
+    padding: 0;
 }
 label,button {
     font-weight: bold;
@@ -114,43 +118,46 @@ textarea {
     font-size: 1.25rem;
 
 }
-
-body {
-    height: 100%;
-}
 html {
-    
-      font-size: 15px;
-     
+    font-size: 16px;
+}
+
+h3 {
+   border-bottom:1px solid rgb(216,204,190);
 }
 
 
 span,p,h4,a {
-   font-size: 1rem ;
+   font-size: 1.3em ;
+   /* overflow: auto; */
 }
 h1 {
-    font-size: 1.25rem ;
+    font-size: 2em ;
 }
 h2 {
-    font-size: 1.25rem ;
+    font-size: 1.5em ;
+    overflow: auto;
 }
 h3 {
-    font-size: 1.15rem ;
+    font-size: 1.5em ;
 }
 
 
 .main {
     display: flex;
-    justify-content: space-around;
-    flex-flow: row;
+    flex-direction: row;
 }
 
 input{
     font-size: 1.25rem;
-    height: 2rem;
     width: 100%;
-    box-sizing: border-box;
-   
+    box-sizing:border-box;
+
+    border: 1px solid #D7DDE1;
+    display: block;
+    padding: 0.5rem;
+    
+    
 }
 
 .buttonParent {
@@ -172,30 +179,27 @@ button {
     font-size: 1.3rem;
     cursor: pointer;
 }
-
-
-#previewModal {
-    border: 1px solid blue;
-    background-color: beige;
+.introduction-section {
+    display: flex;
+    flex-direction: column;
 }
+
+
 .formOptions {
-    width: 70%;
+    width: 64%;
     margin: 3%;
-}
-.form-main {
-   
-    border: 1px solid rgb(215, 215, 231);
-    margin: 3%;
-    background-color: rgb(233, 237, 240);
-
+    padding: 2%;
+    border: 1px solid lightgreen;
 }
 .resume-main {
 
-    width: 28%;
+    width: 87em;
     display: flex;
     margin: 3%;
     border: 1PX solid rgb(216, 211, 211);
-    background-color: #F6F1EB;
+    font-size: 8px;
+    height:90em;
+    /* padding: 2rem; */
 
 }
 
@@ -213,40 +217,39 @@ button {
   .icon-color {
     background-color: rgb(209,196,171);
     border: 1px solid white;
-    border-radius: 2rem;
-    padding: 1rem;
-    color:white; 
-    align-self: flex-start;
+    border-radius: 50%;
+    padding: 1em;
+    height: 30%;
+    color: white;
+   
   }
 
 .left {
-    width:31%;
+   
     background-color: #F6F1EB;
     display: flex;
+    width:30%;
     flex-direction: column;
     padding: 2%;
-  
-  
+    /* font-size: 1em; */
+    /* overflow: auto; */
+    
 
 }
 .body {
     color: rgb(76, 51, 21);
 }
 .right {
-    width:65%;
+    width:62%;
     display: flex;
     flex-direction: column;
     background-color: white;
     padding: 2%;
+    /* font-size:1em; */
+    /* overflow: auto; */
 }
 
-.pic {  
-    
-    margin:0;
-    display: block;
-     
-    width: 60%;
-}
+
 
 .section-layout {
     display: flex;
@@ -279,7 +282,8 @@ button {
 
 
 .paragraph {
-    overflow:scroll;
+    word-break: break-word;
+    /* overflow:scroll; */
 }
 .content-item {
   flex:50%;
@@ -338,10 +342,10 @@ span {
    
 }
 
-@media only screen and ( (min-width:849px) and (max-width:1230px) ) {
+/* @media only screen and ( (min-width:849px) and (max-width:1230px) ) {
    
     html {
         font-size: 10px;
     }
     
-}
+} */

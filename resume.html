@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
+      crossorigin="anonymous" 
+     referrerpolicy="no-referrer" />
+     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+
+    <link rel='stylesheet' href='./css/styles.css'/>  
+    <title>Document</title>
+
+</head>
+<body onload="formLoader()">
+     <div class="menuBar" > 
+        <button class="menuBarButton" value="intro" >Introduction</button>
+        <button class="menuBarButton" value="education" >Education</button>
+        <button class="menuBarButton" value="experience" >Experience</button>
+        <button class="menuBarButton" value="skills" >Skills</button>
+        <button class="menuBarButton" value="achievements"  >Achievements</button>
+        <button class="menuBarButton" value="personal-info" >Contact Information</button>
+
+     </div>
+ <div class="main">
+    <div class="formOptions"></div>
+    <div class="resume-main previewResume">
+        <div class="left">
+          
+           <div class="introduction-section">
+            <div class="content-layout">
+                <h1 class="name">Lucifer<br> Morningstar</h1>
+                <h2 class="sub-heading">Devil of Hell's Kitchen </h2>
+            </div>
+            <img id="profilePicture" class="pic" alt="Profile Pics" />
+             <div class="content-layout  "> 
+                <h3>Profile</h3> 
+                <p class="paragraph" id="personal-intro">What do you truly Desire? </p>
+             </div>
+           </div>
+          
+           <div class="contact-section">
+                <h3>CONTACT</h3>
+                <div class="section-layout">
+                    <i  class="fa-solid fa-phone icon-color"></i>   
+                    <a class="icon-info" id="telephone" href="tel+919662833396"> Tel: +919662833396</a>
+                </div>
+
+                <div class="section-layout">
+                    <i class="fa-solid fa-inbox icon-color"></i>
+                    <a class="icon-info" id="email"href="mailto:${personalData.EmailId.value}?
+                    subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you"
+                    target="_blank" >mitulvaghela0@gmail.com</a>
+                </div> 
+
+                <div class="section-layout">
+                    <i class="fa-brands fa-linkedin icon-color"></i>
+                    <a class="icon-info " id="linkedin" href="" target="_blank">linkedin.com/mitul-vaghela</a>
+                </div>
+
+                <div class="section-layout">
+                    <i class="fa-solid fa-location-dot icon-color"></i>
+                    <p class="icon-info" id="address">Katargam, Surat</p>
+                </div> 
+           </div>
+          
+        </div>
+        <div class="right">
+        
+           <header class="content-layout">
+               <div class="section-layout">
+                   <div class="logo">
+                   <i class="fa-solid fa-user-graduate icon-color" ></i> 
+                   </div>
+   
+                    <h2 class="section-name">HIGHER EDUCATION</h2>
+                    <!-- <hr class="dotted-line"/> -->
+                  
+               </div>
+               <div id="education-details"></div>
+        
+   
+           </header>
+   
+           <div class="content-layout" >
+               <div class="section-layout">
+                   <div class="logo">
+                       <i class="fa-solid fa-briefcase icon-color"></i>
+                   </div>
+                   <h2 class="section-name">WORK EXPERIENCE</h2>
+                   <!-- <hr class="dotted-line"/> -->
+               </div>
+               <div id="experience-details"></div>
+               
+           </div>
+   
+           <div class="content-layout"  >
+               <div class="section-layout">
+                   <div class="logo">
+                     <i class="fa-solid fa-flask icon-color"></i>
+                   </div>
+                   <h2 class="section-name">SKILLS</h2>
+                   <!-- <hr class="dotted-line"/> -->
+               </div>
+   
+               <ol class="parent-small-item" id="skills-details" >
+                  
+               </ol>  
+           </div>
+   
+           <div class="content-layout" >
+               <div class="section-layout">
+                   <div class="logo">
+                     <i class="fa-solid fa-trophy icon-color"></i>
+                   </div>
+                   <h2 class="section-name"> ACHIEVEMENTS</h2>
+                   <!-- <hr class="dotted-line"/> -->
+               </div>
+               <div id="achievements-details"></div>
+            
+           </div>
+   
+        </div>
+       </div> 
+    
+</div>
+<div class="previewButton">
+    <button type="button"  id="preview" class="resetButton" onclick="modal()"> Preview</button>
+    <dialog class="modal" id="modal" onfocus="closeModal()"></dialog>
+    <!-- <button onclick="myFunction(this)">jaadu</button> -->
+</div>
+
+<script type="module" src="./index.js">  </script>  
+<!-- <script type="module" src="previewModal.js"></script>  -->
+</body>
+</html>

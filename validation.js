@@ -1,5 +1,5 @@
 
-const handleSubmitState = (currentdata = {},selectedElement,currentSubmitButton) => () => {
+const handleSubmitState = (currentdata = {},currentSubmitButton) => () => {
     let isSubmitActive = true;
      console.log("handleSubmitState has been called");
       for (let properties in currentdata) {
@@ -13,7 +13,7 @@ const handleSubmitState = (currentdata = {},selectedElement,currentSubmitButton)
 }
 
 
-const inputValidation = (currentBlockValue)=> {
+const inputValidation = (currentBlockValue,dataModel)=> {
     
     //  console.log(submitButton[currentBlockValue]);
     submitButton[currentBlockValue].setAttribute("disabled",true);

@@ -60,7 +60,7 @@
 }
 
 .prevButton,.nextButton {
-    width: 15%;
+    /* width: ; */
 }
 
 #preview:hover {
@@ -156,7 +156,7 @@ input{
     border: 1px solid #D7DDE1;
     display: block;
     padding: 0.5rem;
-    
+    background-color: white;
     
 }
 

@@ -113,25 +113,36 @@
     //         ,{});
     // }
     // let response ={};
-     
-    for( let item in data){
-          data[item] = data[item].filter( (element,index,arr) => arr.indexOf(element) === index);   
-    }
+    
+    
 
-    const ans = Object.entries(data).reduce( function(response,item){
-                const r1 = response;
-                response = item[1].reduce( function(r1,value){
-                    if( !(value in r1))
-                     r1[value]= Array.from(item[0]);
-                    else
-                     r1[value].push(item[0]);
-                    return r1;
-                },r1);
-                //  console.log(response);
-                return response;
+
+
+
+
+
+
+
+
+
+    // for( let item in data){
+    //       data[item] = data[item].filter( (element,index,arr) => arr.indexOf(element) === index);   
+    // }
+
+    // const ans = Object.entries(data).reduce( function(response,item){
+    //             const r1 = response;
+    //             response = item[1].reduce( function(r1,value){
+    //                 if( !(value in r1))
+    //                  r1[value]= Array.from(item[0]);
+    //                 else
+    //                  r1[value].push(item[0]);
+    //                 return r1;
+    //             },r1);
+    //             //  console.log(response);
+    //             return response;
                   
-    },{});
-    console.log(ans);
+    // },{});
+    // console.log(ans);
     // Object.entries(data).forEach( function (item,index,array){
     //         console.log(item[1]);
     //       response=item[1].reduce(function(response,value){
@@ -153,3 +164,77 @@
 
 // fn()(2)
 // fn()(2)
+
+
+
+//////////////////////////////////////////////////////////////
+
+
+// Prototype:
+
+// ram shyam
+
+function person(name,graduation,salary){
+    this.name = name;
+    this.graduation = graduation;
+    this.salary = salary;
+    
+    function calTax(){
+        let tax = 0;
+
+        return tax;
+    }
+    //  console.log(this);
+}
+
+person.prototype = {
+    ...person.prototype,
+    getSalary(){
+        return this.salary;
+    }
+};
+// console.log(person.prototype);
+let ram= new person("ram","bachelor",10000);
+console.log(ram.getSalary());
+// class person {
+//     constructor (name,graduation,salary){
+//         this.name = name;
+//         this.graduation = graduation;
+//         this.salary = salary;
+//     }
+    
+//     getName(){
+//         return this.name;
+//     }
+
+// };
+
+// let ram= new person("ram","bachelor");
+// let shyam = new person("shyam","master");
+// console.log(ram.getName(),shyam.getName());
+
+
+
+//////////////
+// Object 
+
+// const obj1 = {
+//     message:"Hello World",
+//     getMessage: () => {
+//         function hii(){   
+//         const message = "Hello Earth";
+//         return this.message;
+//         }
+//        return  hii();
+//     }
+// }
+// console.log(obj1.getMessage());
+
+
+////////////
+
+
+for (var i = 0 ;i<10;i++){
+     
+}
+

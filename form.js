@@ -6,7 +6,7 @@ const introBlock =  `
     <label class="profileLabel" for="profile-img">Upload Profile Picture </label> 
     
     <img id="previewProfilePicture" class="pic" alt="Profile Pics" src="lucifer.jpeg" />
-    <input type="file" section="" id="profile-img" name="profile-img" onclick="loadImage(this)"   src="lucifer.jpeg" accept="image/* ">
+    <input type="file" section="image" id="profile-img" name="profile-img" onclick="loadImage(this)"   src="lucifer.jpeg" accept="image/* ">
     <button onclick="event.preventDefault(); document.getElementById('profile-img').click();" class="buttonImage" >Choose File</button>
   </div >
 
@@ -14,20 +14,20 @@ const introBlock =  `
     <div class="firstLastName">
         <div class="halfChild formMargin">
         <label for="fname">First Name:</label>
-        <input type="text" section="intro" id="fname" onchange=" fetchValue(this)" placeHolder="e.g. Mitul" name="fname">
+        <input type="text" section="intro" id="fname" oninput=" fetchValue(this)" placeHolder="e.g. Mitul" name="fname">
         </div>
         <div class="halfChild formMargin">
         <label for="fname">Last Name:</label>
-        <input type="text" section="intro" id="lname" onchange=" fetchValue(this)" placeHolder="e.g. Vaghela" name="lname">
+        <input type="text" section="intro" id="lname" oninput=" fetchValue(this)" placeHolder="e.g. Vaghela" name="lname">
         </div>
     </div>
         <div class="formMargin">
         <label for="roleName">Type of Role:</label>
-        <input type="text" section="intro" id="roleName" onchange="fetchValue(this)" placeHolder="e.g. Software Engineer" name="roleName">
+        <input type="text" section="intro" id="roleName" oninput="fetchValue(this)" placeHolder="e.g. Software Engineer" name="roleName">
         </div>
         <div class="formMargin">
         <label for="introduction">Introduce Yourself </label>
-        <input type="textarea" section="intro"  id="introduction" onchange="fetchValue(this)" placeHolder="e.g. I have good knowledge regarding data-structures,..."name="introduction">
+        <input type="textarea" section="intro"  id="introduction" oninput="fetchValue(this)" placeHolder="e.g. I have good knowledge regarding data-structures,..."name="introduction">
         </div>
     
         <div class="buttonParent formMargin">
@@ -49,7 +49,7 @@ const personalInfoBlock = `
 </div>
 <div class="formMargin halfChild" >
 <label for="emailid">Email ID</label>
-<input type="email" section="personal-info" onchange="fetchValue(this)" placeHolder="e.g. vmdipakbhai@tekion.com "id="emailid" name="emailid">
+<input type="email" section="personal-info" onchange="fetchValue(this)" placeHolder="e.g. vmdipakbhai@tekion.com " id="emailid" name="emailid">
 </div>
 </div>
 <div class="firstLastName">
@@ -99,7 +99,7 @@ const educationBlock =`
 
     <div class="buttonParent formMargin">
         <button type="reset" class="buttonStyle resetButton">Reset</button>
-        <button type="button" section="education"  id="education-submit"   class="buttonStyle submitButton" onclick="formSubmit(this)" value="education" >Submit</button>
+        <button type="button" section="education"  id="education-submit"   class="buttonStyle submitButton" onclick="formSubmit(this)" value="submit" >Submit</button>
     </div>
 
 </form>
@@ -121,7 +121,7 @@ const experienceBlock  = `
     <div class="firstLastName">
     <div class="formMargin halfChild">
         <label for="jstart">Job Start</label>
-        <input type="text" section="experience" "  placeholder="Date" onchange="(this.type='month');fetchValue(this);" onblur="(this.type='text')"   id="jstart" name="jstart">
+        <input type="text" section="experience"  placeholder="Date" onchange="(this.type='month');fetchValue(this);" onblur="(this.type='text')"   id="jstart" name="jstart">
     </div>
     
     <div class="formMargin halfChild">
@@ -136,7 +136,7 @@ const experienceBlock  = `
 
     <div class="buttonParent formMargin">
         <button type="reset" class="buttonStyle resetButton" >Reset</button>
-        <button type="button" section="experience"  class="buttonStyle submitButton" id="experience-submit"  onclick="formSubmit(this)" value="experience" >Submit</button>
+        <button type="button" section="experience"  class="buttonStyle submitButton" id="experience-submit"  onclick="formSubmit(this)" value="submit" >Submit</button>
     </div>
 </form>
 `;
@@ -144,24 +144,24 @@ const experienceBlock  = `
 const skillsBlock = `
 <form  class="skills form-layout">
 <div class="formMargin">
-<label for="skill-field">Skill</label>
+<label for="skillField">Skill</label>
 <input type="text" section="skills" onchange="fetchValue(this)"  placeHolder="e.g. Java, MATLAB,... " id="skillField" name="skill-field">
 </div>
 <div class="buttonParent formMargin">
 <button type="reset" class="resetButton buttonStyle">Reset</button>
-<button type="button" section="skills" class="submitButton buttonStyle " id="skills-submit" onclick="formSubmit(this)"  value="skills" >Submit</button>
+<button type="button" section="skills" class="submitButton buttonStyle " id="skills-submit" onclick="formSubmit(this)"  value="submit" >Submit</button>
 </div>
 </form> `;
 
 const achievementsBlock  =`
 <form  class="achievements  form-layout">
 <div class="formMargin">
-<label for="achievements-field">Achievements</label>
+<label for="achievementsField">Achievements</label>
 <textarea type="text" section="achievements" onchange="fetchValue(this)" placeHolder="e.g. I have secured 4th Rank in Regional Board Exam " id="achievementsField" name="achievements-field"></textarea>
 </div>
 <div class="buttonParent formMargin">
 <button type="reset" class="resetButton buttonStyle " >Reset</button>
-<button type="button" section="achievements" class="submitButton buttonStyle " id="achievements-submit" onclick="formSubmit(this)"  value="achievements" >Submit</button>
+<button type="button" section="achievements" class="submitButton buttonStyle " id="achievements-submit" onclick="formSubmit(this)"  value="submit" >Submit</button>
 </div>
 </form>`;
 

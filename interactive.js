@@ -4,18 +4,19 @@ import { formBlock, introBlock,personalInfoBlock, educationBlock,experienceBlock
 import { openModal } from "./previewModal.js"; 
 // const {openModal} = require('./previewModal');
 
-import { onSubmit } from "./introduction.js";
+import { onSubmit,fillIntroductionData } from "./introduction.js";
 import { onEducationSubmit } from "./education.js";
-import { onPersonalInformationSubmit } from "./personalContact.js";
+import { onPersonalInformationSubmit,fillpersonalData} from "./personalContact.js";
 import { onExperienceSubmit } from "./experience.js";
 import { onSkillsSubmit } from "./skill.js";
 import { onAchievementsSubmit } from "./achievement.js";
 import { inputValidation, handleSubmitState } from "./validation.js";
 import { imageOnLoad } from "./image.js";
-import {educationSubmit } from "./education.js";
-import { experienceSubmit } from "./experience.js";
-import { skillsSubmit } from "./skill.js";
-import { achievementSubmit } from "./achievement.js";
+import {addEducationPart } from "./education.js";
+import { addExperiencePart } from "./experience.js";
+import { addSkillsPart } from "./skill.js";
+import { addAchievementPart } from "./achievement.js";
+
 
 const sectionName = new Map([
     
@@ -157,39 +158,93 @@ const dataModel = {
     ["skills"] : skillItem,
     ["achievements"]: achievementItem,
 }
-const submit = {
-    ["intro"]:onSubmit,
-    ["education"]:onEducationSubmit,
-    ["personal-info"]:onPersonalInformationSubmit,
-    ["experience"]:onExperienceSubmit,
-    ["skills"]:onSkillsSubmit,
-    ["achievements"]:onAchievementsSubmit,
+// const submit = {
+//     ["intro"]:onSubmit,
+//     ["education"]:orderedData,
+//     ["personal-info"]:onPersonalInformationSubmit,
+//     ["experience"]:orderedData,
+//     ["skills"]:orderedData,
+//     ["achievements"]:orderedData,
+// }
+
+const appendData = {
+    
+    ["education"]:addEducationPart,
+    ["experience"]:addEducationPart,
+    ["skills"]:addSkillsPart,
+    ["achievements"]:addAchievementPart,
 }
 
 
+ function orderedData(currentData,currentSection){
+    console.log(currentData);
+   
+     let sectionData = getData(`${currentSection}`);
+     if(!sectionData)
+     sectionData={};
+    // const experienceSubmitButton = document.getElementById("experience-submit");
+    // experienceSubmitButton.addEventListener("click", (event)=> {
+        const currentId = Date.now() + Math.random().toString(16).slice(2);
+        sectionData[currentId] = currentData;
+        localStorage.setItem(`${currentSection}`,JSON.stringify(sectionData));
+        appendData[currentSection](currentData,currentId,currentSection);
+        emptyFormData(`${currentSection}`);
+    // })
 
-window.fetchValue  = (currentBlock) => {
-    const currentSection = currentBlock.getAttribute("section");
-            console.log(currentBlock,dataModel);
+}
+
+
+export function previewEditRemove(event,currentSection){
+    const currentEvent = event.target.innerHTML;
+    const currentEventId = (event.target.id).slice(0,-1);
+    const parentEvent = document.getElementById(currentEventId+previewBlockParentSuffixId);
+    const sectionData = getData(`${currentSection}`);
+    const currentData = sectionData[currentEventId];
+    switch (currentEvent) {
+        case buttonType.remove:
+            //  alert("removing container");
+             removeContainer(event);
+             break;
+        case buttonType.edit:
+
+            for( let key in currentData){
+                document.getElementById(`${key}`).value = currentData[key];
+            }
+            removeContainer(event);
+            // document.getElementById("jlocation").value = currentData.jlocation; 
+            // document.getElementById("jstart").value = currentData.jstart;
+            // document.getElementById("jend").value = currentData.jend;
+            // document.getElementById("jdescription").value = currentData.jdescription;
+            // document.getElementById("jposition").value = currentData.jposition;
+    }
+    delete sectionData[currentEventId];
+    localStorage.setItem(`${currentSection}`,JSON.stringify(sectionData));
+
+
+}
+
+// window.fetchValue  = (currentBlock) => {
+//     const currentSection = currentBlock.getAttribute("section");
+//             console.log(currentBlock,dataModel);
            
-            // 
-            // currentBlock.addEventListener ('change', (event)=> {
-               dataModel[currentSection][currentBlock.id] = currentBlock.value;
-            // })
-            // console.log(currentBlock.value);
+//             // 
+//             // currentBlock.addEventListener ('change', (event)=> {
+//                dataModel[currentSection][currentBlock.id] = currentBlock.value;
+//             // })
+//             // console.log(currentBlock.value);
 
           
 
-   }
+//    }
     
-window.formSubmit = (currentBlock) => {
-    const currentSection = currentBlock.getAttribute("section");
-   console.log("submit button clicked");
-    //  currentBlock.addEventListener ('click', (event)=> {
-        submit[currentSection](dataModel[currentSection]);
-    //  })
+// window.formSubmit = (currentBlock) => {
+//     const currentSection = currentBlock.getAttribute("section");
+//    console.log("submit button clicked");
+//     //  currentBlock.addEventListener ('click', (event)=> {
+//         submit[currentSection](dataModel[currentSection],currentSection);
+//     //  })
     
-   }
+//    }
 
 export const CUSTOMER_DATA = 'Mitul Vaghela'
 
@@ -231,7 +286,7 @@ export function removeContainer (event) {
     document.getElementById(parentId+previewBlockParentSuffixId)?.remove();
 }
 // duplicate  Tag  - removed it 😊.
-export function createPreviewContainer (previewContainer,currentContainer,currentId) {
+export function createPreviewContainer (previewContainer,currentContainer,currentId,currentSection) {
     const removeButton = createButton(buttonType.remove);
     const editButton = createButton(buttonType.edit);
     const previewBlock = createTag("div");
@@ -240,7 +295,9 @@ export function createPreviewContainer (previewContainer,currentContainer,curren
     const buttonParent = createTag("div");
      buttonParent.classList.add("buttonParent");
      removeButton.classList.add("buttonStyle","submitButton");
+     removeButton.setAttribute("section",currentSection);
      editButton.classList.add("buttonStyle","resetButton");
+     editButton.setAttribute("section",currentSection);
      buttonParent.appendChild(removeButton);
      buttonParent.appendChild(editButton);
      previewBlock.appendChild(buttonParent);
@@ -253,10 +310,6 @@ export function createPreviewContainer (previewContainer,currentContainer,curren
      currentContainer.setAttribute('id', currentId+resumeBlockSuffixId);
          
 }
-
-
-// const previewButton = document.getElementById("preview");
-
 
 
 window.modal = () => {
@@ -280,67 +333,24 @@ export const previewBlockParentSuffixId = "parent";
 export const removeButtonSuffixId = "r";
 export const editButtonSuffixId = "e";
 
-
-
-
 export function getData(string){
     return JSON.parse(localStorage.getItem(string));
 }
 function loadIntroductionData () {
-    const data = getData('introductionData');
+    const data = getData('intro');
     const imgSrc = localStorage.getItem('img');
     if(!data)
     return;
-    
-    document.querySelector('.name').innerHTML =  `${data.fname}
-                                                        <br/> ${data.lname}`;
-    document.querySelector('.sub-heading').innerHTML = data.roleName;
-    document.querySelector('#personal-intro').innerHTML = data.introduction;
-     
+
+    fillIntroductionData(data);
     document.querySelector("#profilePicture").src = imgSrc;
     
 }
 
-// function introFetch(currentBlockValue){
-    
-//      let introductionData = {};
-//      introductionData.firstName = document.getElementById("fname");
-//      introductionData.lastName = document.getElementById("lname");
-//      introductionData.roleName = document.getElementById("roleName");
-//      introductionData.introductionName = document.getElementById("introduction");
-     
-//     //  submitButton[currentBlockValue] = document.getElementById("intro-submit");
-    
-//      let flag=false;
-//     for(let key in introductionData){
-//         introductionData[key].addEventListener('input',e => {
-//             introductionStoreData[key] = e.target.value; 
-//             ValidationCheckerEachTime(currentBlockValue);
-          
-//         })  
-//     }
-//     imageOnLoad();
-//     console.log(introductionStoreData);
-//       onSubmit();
-      
-//     //  console.log("fetched dom of introduction part",submitButton.introSubmitButton );
-     
-
-// }
 
 
-export function fillpersonalData (data){
-    document.querySelector('#telephone').innerHTML =  `Tel: ${data.tnumber}`;
-    document.querySelector('#telephone').href = `Tel:+91${data.tnumber}`
-    document.querySelector('#email').innerHTML =  ` ${data.emailid}`;
-    document.querySelector('#email').href = `mailto:${data.emailid}?
-    subject=How you doing!&body= Smelly cat smelly cat!, What are they feeding you`;
-    document.querySelector('#linkedin').innerHTML =  ` ${data.linkedinid}`;
-    document.querySelector('#linkedin').href = `${data.linkedinid}`;
-    document.querySelector('#address').innerHTML =  `${data.addressForm}`;
-}
 function loadPersonalData() {
-    const data = getData('personalData');
+    const data = getData('personal-info');
     if(!data)
     return;
    fillpersonalData(data);
@@ -349,7 +359,7 @@ function loadPersonalData() {
 
 
 function loadEducationData() {
-    const data = getData('educationData');
+    const data = getData('education');
     console.log(data);
     if(!data)
     return;
@@ -361,7 +371,7 @@ function loadEducationData() {
 
 
 function loadJobData() {
-    const data = getData('jobData');
+    const data = getData('experience');
     console.log(data);
     if(!data)
     return;
@@ -375,7 +385,7 @@ function loadJobData() {
 
 export const skillStoreData = {};
 function loadskillData() {
-    const data = getData('skillData');
+    const data = getData('skills');
     console.log(data);
     if(!data)
     return;
@@ -387,7 +397,7 @@ function loadskillData() {
 
 
 function loadAchievementData() {
-    const data = getData('achievementData');
+    const data = getData('achievements');
     console.log(data);
     if(!data)
     return;
@@ -445,6 +455,7 @@ const jumpOnPrevSection = () => {
 
     formReload(currentSection);
 }
+
 
 
 

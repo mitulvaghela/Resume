@@ -1,40 +1,40 @@
-import { createTag,emptyFormData, getData,createPreviewContainer,previewBlockParentSuffixId,resumeBlockSuffixId ,removeButtonSuffixId,editButtonSuffixId,buttonType,removeContainer } from "./interactive.js";
+import { createTag,emptyFormData, getData,previewEditRemove,createPreviewContainer,previewBlockParentSuffixId,resumeBlockSuffixId ,removeButtonSuffixId,editButtonSuffixId,buttonType,removeContainer } from "./interactive.js";
 import { previewBlockDOM } from "./interactive.js";
 
 
 
-function EducationPreviewEditRemoveFeatures (event) {
+// function EducationPreviewEditRemoveFeatures (event) {
 
-    event.preventDefault();
-    const currentEvent = event.target.innerHTML;
-    const currentEventId =  (event.target.id).slice(0,-1);
-    const parentId = currentEventId + previewBlockParentSuffixId;
-    const educationStoreData= getData('educationData');
-    const currentData = educationStoreData[currentEventId];
+//     event.preventDefault();
+//     const currentEvent = event.target.innerHTML;
+//     const currentEventId =  (event.target.id).slice(0,-1);
+//     const parentId = currentEventId + previewBlockParentSuffixId;
+//     const educationStoreData= getData('educationData');
+//     const currentData = educationStoreData[currentEventId];
     
-// for many buttons : do it without condition
-    switch (currentEvent) {
-        case buttonType.remove:
-            removeContainer(event);
-            break;
+// // for many buttons : do it without condition
+//     switch (currentEvent) {
+//         case buttonType.remove:
+//             removeContainer(event);
+//             break;
 
-        case buttonType.edit:
-            for( let key in currentData){
-                document.getElementById(`${key}`).value = currentData[key];
-            }
-            removeContainer(event);
-            // removeData  -> change in model via controller 
-    }
+//         case buttonType.edit:
+//             for( let key in currentData){
+//                 document.getElementById(`${key}`).value = currentData[key];
+//             }
+//             removeContainer(event);
+//             // removeData  -> change in model via controller 
+//     }
     
-    delete educationStoreData[currentEventId];
-    localStorage.setItem('educationData',JSON.stringify(educationStoreData));
-}
+//     delete educationStoreData[currentEventId];
+//     localStorage.setItem('educationData',JSON.stringify(educationStoreData));
+// }
 
-export function addEducationPart(currentData,currentId) {
-    let educationStoreData= getData('educationData')
+export function addEducationPart(currentData,currentId,currentSection) {
+    let educationStoreData= getData(`${currentSection}`)
       console.log(educationStoreData);
     //  saveEducationData();
-    let educationDetails = document.getElementById("edu-details");
+    let educationDetails = document.getElementById("education-details");
     let previewEducationBlock = createTag("div");
   
 //    console.log(currentData);
@@ -61,22 +61,23 @@ export function addEducationPart(currentData,currentId) {
             currentEducationBlock.appendChild(courseNameBlock);
             educationDetails.appendChild(currentEducationBlock);
 
-            createPreviewContainer(previewEducationBlock,currentEducationBlock,currentId);
+            createPreviewContainer(previewEducationBlock,currentEducationBlock,currentId,currentSection);
 
             
             // console.log(previewEducationBlock);
             // console.log(previewEducationFormContainer);
-            previewBlockDOM["education"].appendChild(previewEducationBlock);
+            previewBlockDOM[`${currentSection}`].appendChild(previewEducationBlock);
 
             previewEducationBlock.addEventListener("click", (event)=> { 
-                EducationPreviewEditRemoveFeatures(event);
+                // EducationPreviewEditRemoveFeatures(event);
+                previewEditRemove(event,currentSection);
             })
      
-    emptyFormData("education");
+  
     // ValidationCheckerEachTime();
 }
 
-function onEducationSubmit(currentEducationItem) {
+function onEducationSubmit(currentEducationItem,currentSection) {
         
     console.log(currentEducationItem);
     // const educationSubmitButton = document.getElementById("education-submit");
@@ -85,14 +86,17 @@ function onEducationSubmit(currentEducationItem) {
         console.log(currentEducationItem);
         console.log("education submit button has been clicked");
         const currentId = Date.now() + Math.random().toString(16).slice(2);
-        const educationStoreData =  getData('educationData');
+        let educationStoreData =  getData(`${currentSection}`);
+        if(!educationStoreData)
+        educationStoreData={};
         // console.log(educationStoreData);  
         educationStoreData[currentId] = currentEducationItem;
         // console.log(educationStoreData);
-        localStorage.setItem('educationData',JSON.stringify(educationStoreData));
+        localStorage.setItem(`${currentSection}`,JSON.stringify(educationStoreData));
         if(!currentEducationItem)
         return;
-        addEducationPart(currentEducationItem,currentId);
+        addEducationPart(currentEducationItem,currentId,currentSection);
+        emptyFormData(`${currentSection}`);
     // })
 
 }

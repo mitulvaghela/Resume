@@ -1,22 +1,26 @@
 import { emptyFormData,ValidationCheckerEachTime } from "./interactive.js";
 
-
-export const onSubmit =(introductionStoreData)=> {
+export function fillIntroductionData (data){
+        console.log("changing introductiondata");
+        document.querySelector('.name').innerHTML =  `${data.fname}
+        <br/> ${data.lname}`;
+    document.querySelector('.sub-heading').innerHTML = data.roleName;
+    document.querySelector('#personal-intro').innerHTML = data.introduction;
+    }
+    
+export const onSubmit =(sectionData,currentSection)=> {
    
         // e.preventDefault();
         console.log("clicked on submit");
         // saveData();
-        localStorage.setItem('introductionData',JSON.stringify(introductionStoreData));
+        localStorage.setItem(`${currentSection}`,JSON.stringify(sectionData));
+        fillIntroductionData(sectionData);
+        // const introductionSection = document.getElementsByClassName("introduction-section")[0];   
         
-        const introductionSection = document.getElementsByClassName("introduction-section")[0];   
-        document.querySelector('.name').innerHTML =  `${introductionStoreData.fname}
-                                                        <br/> ${introductionStoreData.lname}`;
-         document.querySelector('.sub-heading').innerHTML = introductionStoreData.roleName;
-         document.querySelector('#personal-intro').innerHTML = introductionStoreData.introduction;
-
+  
    
         // saveData();
-        emptyFormData("intro");
+        emptyFormData(`${sectionData}`);
           
         // ValidationCheckerEachTime("intro");
 

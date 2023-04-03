@@ -5,7 +5,9 @@ import Menubar from './molecules/MenuBar/Menubar';
 import Resume from './resume/Resume';
 import Form from './form/Form';
 import { Provider } from 'react-redux';
-import datamodel from './reduce/datamodel';
+import datamodel from './redux/dataModel';
+import { store } from './redux/store';
+// import { store } from './reduce/store';
 export const FormContext = React.createContext("Mitul");
 
 const initialModel = {
@@ -20,18 +22,18 @@ const initialModel = {
 
 function App() {
   // const [dataModel,setDataModel] = useState(initialModel);
-  const [formSection,setFormSection] = useState("");
+  // const [formSection,setFormSection] = useState("");
  
  
   return (
-    <Provider store={datamodel}>
-    <FormContext.Provider value={{formSection,setFormSection}}>
+    <Provider store={store}>
+    {/* <FormContext.Provider value={{formSection,setFormSection}}> */}
     <Menubar/>
     <div className='main'>
       <Form/>
       <Resume/>
     </div>
-    </FormContext.Provider>
+    {/* </FormContext.Provider> */}
     </Provider>
   );
 }

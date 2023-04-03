@@ -6,5 +6,4 @@ export const SECTION_TYPES = {
     SKILLS:'skills',
     ACHIEVEMENTS:"achievements",
     PERSONALINFORMATION:'personal-info',
-    IMAGE:'image',
 }

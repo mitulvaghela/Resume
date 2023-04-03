@@ -7,9 +7,12 @@ import { FormContext } from '../ResumeBuilder';
 import List from '../molecules/List/List';
 import { useSelector } from 'react-redux';
 import { SECTION_TYPES } from '../../constants/sectionTypes';
+import { STORE_TYPES } from '../redux/storeTypes';
 function EducationList() {
 
-  const ListItems = useSelector((state) => state[SECTION_TYPES["EDUCATION"]]);
+  const ListItems = useSelector( state => {
+    return state[STORE_TYPES.DATAMODEL][SECTION_TYPES.EDUCATION];
+  })
   return (
     <>
     

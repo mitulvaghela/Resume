@@ -4,7 +4,8 @@ import Button from '../../molecules/atoms/Button';
 import InputLabel from '../../molecules/InputLabel'
 import ParentWrapper from '../../molecules/atoms/ParentWrapper';
 import withForm from '../../hoc/withForm';
-
+import { useSelector } from 'react-redux';
+import { STORE_TYPES } from '../../redux/storeTypes';
 
 const initialList = {
     "tnumber":"",
@@ -12,10 +13,10 @@ const initialList = {
     "linkedinid":"",
     "address":"",     
 }
-function PersonalInfoForm ({initialList, sectionData, setSectionData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
+function PersonalInfoForm ({initialList, formData, setFormData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
       
-  const {formSection} = useContext(FormContext);
-  const { tnumber,linkedinid,emailid,address } = sectionData;
+  const {formSection} = useSelector( (state) => state[STORE_TYPES.SECTIONNAME]);
+  const { tnumber,linkedinid,emailid,address } = formData;
   const handleReset = (e) => {
     resetForm();
   }

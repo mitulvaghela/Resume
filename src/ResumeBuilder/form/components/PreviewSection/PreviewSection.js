@@ -5,11 +5,12 @@ import { FormContext } from '../../../ResumeBuilder';
 import ParentWrapper from '../../../molecules/atoms/ParentWrapper';
 import Button from '../../../molecules/atoms/Button';
 import { useSelector } from 'react-redux';
-import { SECTION_TYPES } from '../../../reduce/datamodelTypes';
+import { SECTION_TYPES } from '../../../redux/dataModel/dataModelTypes';
+import { STORE_TYPES } from '../../../redux/storeTypes';
 // {HelperPreviewSection({editItemPhase,deleteItem,EducationSection})}
 function HelperPreviewSection({editItemPhase,deleteItem,ChildComponent}) {
-    const {formSection} = useContext(FormContext);
-    let List = useSelector( (state) => state[formSection]);
+   const {formSection} = useSelector( (state) => state[STORE_TYPES.SECTIONNAME]);
+    let List = useSelector( (state) => state["datamodel"][formSection]);
      console.log(List);
   return (
      <>

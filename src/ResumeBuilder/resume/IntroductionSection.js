@@ -2,16 +2,19 @@ import React, { useContext } from 'react'
 import { FormContext } from '../ResumeBuilder';
 import ParentWrapper from '../molecules/atoms/ParentWrapper';
 import Tag from '../molecules/atoms/Tag'
-import { SECTION_TYPES } from '../reduce/datamodelTypes';
+import { SECTION_TYPES } from '../redux/dataModel/dataModelTypes';
 import { useSelector } from 'react-redux';
+import { STORE_TYPES } from '../redux/storeTypes';
 function IntroductionSection() {
 
   /*
     Redux: 
      
   */
-    const List = useSelector((state) => state[SECTION_TYPES["INTRODUCTION"]]);
-    const Image = useSelector ( (state) => state[SECTION_TYPES["IMAGE"]]);
+    const List =useSelector( state => {
+      return state[STORE_TYPES.DATAMODEL][SECTION_TYPES.INTRODUCTION];
+    })
+    // const Image = useSelector ( (state) => state["datamodel"][SECTION_TYPES["IMAGE"]]);
   // console.log(dataModel,"IntroductionSection has not been called");
 
   return (
@@ -22,7 +25,7 @@ function IntroductionSection() {
               <Tag className="sub-heading" tag={"h2"} content = { List.rolename}/>
           </ParentWrapper>
 
-          <img id="profilePicture" className="pic" alt="Profile Pics" src={Image.src} />
+          <img id="profilePicture" className="pic" alt="Profile Pics" src={List.src} />
 
           <ParentWrapper className="content-layout">
               <Tag tag="h3" content="Profile" />

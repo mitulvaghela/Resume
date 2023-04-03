@@ -7,11 +7,13 @@ import SectionHeader from '../molecules/atoms/SectionHeader';
 // import HelperMap from '../../Helper/HelperMap';
 import List from '../molecules/List/List';
 import { useSelector } from 'react-redux';
-import { SECTION_TYPES } from '../reduce/datamodelTypes';
-
+import { SECTION_TYPES } from '../redux/dataModel/dataModelTypes';
+import { STORE_TYPES } from '../redux/storeTypes';
 function AchievementList() {
     // const {dataModel,setDataModel} = useContext(FormContext);
-    const ListItems = useSelector((state) => state[SECTION_TYPES["ACHIEVEMENTS"]]);
+    const ListItems = useSelector( state => {
+      return state[STORE_TYPES.DATAMODEL][SECTION_TYPES.ACHIEVEMENTS];
+    })
     // let ListItems = dataModel["achievements"];
 
   return (

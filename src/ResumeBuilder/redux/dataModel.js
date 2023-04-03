@@ -5,7 +5,7 @@
 
 import { createStore } from 'redux';
 // import { COUNTER_ } from './counters/countersTypes';
-import { datamodelReducer } from './datamodelReducer';
+import { datamodelReducer } from './dataModel/dataModelReducer';
 // const redux = require('redux');
 
 

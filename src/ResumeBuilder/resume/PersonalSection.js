@@ -4,16 +4,16 @@ import ParentWrapper from '../molecules/atoms/ParentWrapper'
 import Tag from '../molecules/atoms/Tag'
 import { useSelector } from 'react-redux';
 import { SECTION_TYPES } from '../../constants/sectionTypes';
-
-
-
+import { STORE_TYPES } from '../redux/storeTypes';
 
 // ----------------------------
 
 
 function PersonalSection() {
   // const {dataModel,setDataModel} = useContext(FormContext);
-  let List = useSelector( (state) => state[SECTION_TYPES["PERSONALINFORMATION"]])
+  let List = useSelector( state => {
+    return state[STORE_TYPES.DATAMODEL][SECTION_TYPES.PERSONALINFORMATION];
+  })
 
   return (
      

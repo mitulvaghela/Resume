@@ -7,6 +7,8 @@ import { FormEditContext } from '../Form';
 import withForm from '../../hoc/withForm';
 import ExperienceSection from '../../components/ExperienceSection';
 import HelperPreviewSection from '../components/PreviewSection/PreviewSection';
+import { useSelector } from 'react-redux';
+import { STORE_TYPES } from '../../redux/storeTypes';
 const initialList = {
     "id":"",
     "jposition":"",
@@ -16,9 +18,9 @@ const initialList = {
     "jdescription":"",
 }
 
-function ExperienceForm({initialList, sectionData, setSectionData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
+function ExperienceForm({initialList, formData, setFormData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
     
-    const {formSection} = useContext(FormContext);
+  const {formSection} = useSelector( (state) => state[STORE_TYPES.SECTIONNAME]);
     const handleReset = (e) => {
       resetForm();
     }
@@ -38,21 +40,21 @@ function ExperienceForm({initialList, sectionData, setSectionData,resetForm,form
      
      
         <ParentWrapper className='firstLastName'>
-            <InputLabel className="halfChild" value={sectionData.jposition} labelname = "Job Position :" type="text" section="experience"
+            <InputLabel className="halfChild" value={formData.jposition} labelname = "Job Position :" type="text" section="experience"
               onInputChange={handleSetValue} id="jposition" placeholder="e.g. Software Engineer" name="jposition" />
-            <InputLabel className="halfChild" value={sectionData.jlocation} labelname = "Job Location :" type="text" section="experience" 
+            <InputLabel className="halfChild" value={formData.jlocation} labelname = "Job Location :" type="text" section="experience" 
             onInputChange={handleSetValue}  id="jlocation" placeholder="e.g. Surat " name="jlocation" />
         </ParentWrapper>
 
         
         <ParentWrapper className='firstLastName'>
-           <InputLabel className="halfChild" value={sectionData.jstart} labelname="Job Start" type="text" section="experience"  placeholder="Date" 
+           <InputLabel className="halfChild" value={formData.jstart} labelname="Job Start" type="month" section="experience"  placeholder="Date" 
             onInputChange={handleSetValue} onblur="(this.type='text')"   id="jstart" name="jstart" />
-           <InputLabel className="halfChild" value={sectionData.jend}  labelname = "Job End" type="text" section="experience"   placeholder="Date" 
+           <InputLabel className="halfChild" value={formData.jend}  labelname = "Job End" type="month" section="experience"   placeholder="Date" 
            onInputChange={handleSetValue} onblur="(this.type='text')" id="jend" name="jend"/>
         </ParentWrapper>
 
-        <InputLabel className="halfChild" value={sectionData.jdescription}  labelname = "Description" type="text" section="experience" 
+        <InputLabel className="halfChild" value={formData.jdescription}  labelname = "Description" type="text" section="experience" 
         onInputChange={handleSetValue}  id="jdescription" placeholder="I have worked on many techonologies,..." name="jdescription"/>
         
         <div className='buttonParent formMargin'>

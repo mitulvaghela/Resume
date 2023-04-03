@@ -6,9 +6,11 @@ import SectionHeader from '../molecules/atoms/SectionHeader';
 import List from '../molecules/List/List';
 import { useSelector } from 'react-redux';
 import { SECTION_TYPES } from '../../constants/sectionTypes';
-
+import { STORE_TYPES } from '../redux/storeTypes';
 function SkillList() {
-    const ListItems = useSelector ( (state) => state[SECTION_TYPES["SKILLS"]])
+    const ListItems = useSelector( state => {
+      return state[STORE_TYPES.DATAMODEL][SECTION_TYPES.SKILLS];
+    })
   return (
     <>
       <SectionHeader  className="fa-solid fa-flask icon-color" content = "Skills" />  

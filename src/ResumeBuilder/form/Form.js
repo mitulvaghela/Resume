@@ -8,7 +8,8 @@ import ExperienceForm from './Experience/ExperienceForm';
 import SkillsForm from './Skill/SkillsForm';
 import AchievementForm from './Achievement/AchievementForm';
 import { SECTION_TYPES } from '../../constants/sectionTypes';
-
+import { useSelector } from 'react-redux';
+import { STORE_TYPES } from '../redux/storeTypes';
 const Fallback = () => null;
 
 // Create a HOC => pass IntroductionForm as children and sectionName
@@ -25,8 +26,8 @@ export const FormEditContext = React.createContext("Edit");
 
 function Form() {
    
-   
-  const {formSection} = useContext(FormContext);
+    
+  const {formSection} = useSelector( (state) => state[STORE_TYPES.SECTIONNAME]);
  
  
   // const [isEditing,setIsEditing] = useState("");

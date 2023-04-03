@@ -7,6 +7,8 @@ import { FormEditContext } from '../Form';
 import withForm from '../../hoc/withForm';
 import HelperPreviewSection from '../components/PreviewSection/PreviewSection';
 import EducationSection from '../../components/EducationSection';
+import { STORE_TYPES } from '../../redux/storeTypes';
+import { useSelector } from 'react-redux';
 const initialList = {
     "id":"",
     "uname":"",
@@ -16,11 +18,11 @@ const initialList = {
     "eyear":"",
 }
  
-const EducationForm = ({ initialList, sectionData, setSectionData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) => {
+const EducationForm = ({ initialList, formData, setFormData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) => {
     
    
     
-    const {formSection} = useContext(FormContext);
+  const {formSection} = useSelector( (state) => state[STORE_TYPES.SECTIONNAME]);
     const handleReset = (e) => {
       resetForm();
    }
@@ -38,19 +40,19 @@ const EducationForm = ({ initialList, sectionData, setSectionData,resetForm,form
       <form className={formSection + " " + "form-layout"} section={formSection}> 
      
         <ParentWrapper className='firstLastName'>
-            <InputLabel className="halfChild" value={sectionData.uname} labelname = "University Name:" type="text" section="education" 
+            <InputLabel className="halfChild" value={formData.uname} labelname = "University Name:" type="text" section="education" 
             onInputChange={handleSetValue} id="uname" placeholder="e.g. DAIICT " name="uname"/>
-            <InputLabel className="halfChild" value={sectionData.qname}labelname = "Qualification:" type="text" section="education" 
+            <InputLabel className="halfChild" value={formData.qname}labelname = "Qualification:" type="text" section="education" 
             onInputChange={handleSetValue} id="qname" placeholder="e.g. Bachelor Degree " name="qname"/>
         </ParentWrapper>
 
-        <InputLabel className="halfChild" value={sectionData.cname}labelname="Course Name:" type="text" section="education" 
+        <InputLabel className="halfChild" value={formData.cname}labelname="Course Name:" type="text" section="education" 
         onInputChange={handleSetValue} id="cname"  placeholder="e.g. Computer Science " name="cname" />
         
         <ParentWrapper className='firstLastName'>
-                <InputLabel className="halfChild" value={sectionData.syear}  labelname = "Start Year :" type="text" section="education"  placeholder="Date"
+                <InputLabel className="halfChild" value={formData.syear}  labelname = "Start Year :" type="month" section="education"  placeholder="Date"
                 onInputChange={handleSetValue}  onblur="(this.type='text')" id="syear" name="syear"/>
-                <InputLabel className="halfChild" value={sectionData.eyear}  labelname = "End Year :" type="text" section="education" placeholder="Date" 
+                <InputLabel className="halfChild" value={formData.eyear}  labelname = "End Year :" type="month" section="education" placeholder="Date" 
                 onInputChange={handleSetValue}  onblur="(this.type='text') " id="eyear" name="eyear"/>
         </ParentWrapper>
 

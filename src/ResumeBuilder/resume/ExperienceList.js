@@ -4,10 +4,13 @@ import ExperienceSection from '../components/ExperienceSection';
 import ParentWrapper from '../molecules/atoms/ParentWrapper';
 import SectionHeader from '../molecules/atoms/SectionHeader';
 import List from '../molecules/List/List';
-import { SECTION_TYPES } from '../reduce/datamodelTypes';
+import { SECTION_TYPES } from '../redux/dataModel/dataModelTypes';
 import { useSelector } from 'react-redux';
+import { STORE_TYPES } from '../redux/storeTypes';
 function ExperienceList() {
-    const ListItems = useSelector((state) => state[SECTION_TYPES["EXPERIENCE"]]);
+    const ListItems = useSelector( state => {
+        return state[STORE_TYPES.DATAMODEL][SECTION_TYPES.EXPERIENCE];
+      })
     // let ListItems = dataModel["experience"];
 
 return (

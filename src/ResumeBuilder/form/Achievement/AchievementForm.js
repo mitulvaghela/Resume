@@ -8,13 +8,17 @@ import Label from '../../molecules/atoms/Label';
 import withForm from '../../hoc/withForm';
 import AchievementSection from '../../components/AchievementSection';
 import HelperPreviewSection from '../components/PreviewSection/PreviewSection';
+import { useSelector } from 'react-redux';
+import { STORE_TYPES } from '../../redux/storeTypes';
 
 const initialList = {
     "id":"",
     "achievementsField":"",
 }
-function AchievementForm({ initialList, sectionData, setSectionData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
-    const {formSection} = useContext(FormContext);
+function AchievementForm({ initialList, formData, setFormData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
+    // const {formSection} = useContext(FormContext);
+    const {formSection} = useSelector( (state) => state[STORE_TYPES.SECTIONNAME]);
+    console.log(formData);
     const handleReset = (e) => {
        resetForm();
     }
@@ -30,7 +34,7 @@ function AchievementForm({ initialList, sectionData, setSectionData,resetForm,fo
             <div className='formOptions'>
                 <form className={formSection + " " + "form-layout"} section={formSection}> 
                     <Label for="achievementsField" labelname="Achievements"/>
-                    <TextArea value={sectionData.achievementsField} type="text" section="achievements" onInputChange={handleSetValue} placeHolder="e.g. I have secured 4th Rank in Regional Board Exam " id="achievementsField" name="achievementsField"/>
+                    <TextArea value={formData.achievementsField} type="text" section="achievements" onInputChange={handleSetValue} placeHolder="e.g. I have secured 4th Rank in Regional Board Exam " id="achievementsField" name="achievementsField"/>
                     <div className='buttonParent formMargin'>
                             <Button buttonName="Reset" type="reset" section="achievements"   onclick={handleReset} className="buttonStyle resetButton" />
                             <Button buttonName="Submit" type="button" section="achievements" id="achievements-submit"  className="buttonStyle submitButton"  onclick={handleSubmit} value="submit"/>

@@ -6,14 +6,15 @@ import ParentWrapper from '../../molecules/atoms/ParentWrapper';
 import withForm from '../../hoc/withForm';
 import HelperPreviewSection from '../components/PreviewSection/PreviewSection';
 import SkillSection from '../../components/SkillSection';
-
+import { useSelector } from 'react-redux';
+import { STORE_TYPES } from '../../redux/storeTypes';
 
 const initialList = {
     "id":"",
     "skillField":"",
 }
-function SkillsForm({initialList, sectionData, setSectionData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
-    const {formSection} = useContext(FormContext);
+function SkillsForm({initialList, formData, setFormData,resetForm,formSubmit,fetchValue, deleteItem,editItemPhase}) {
+  const {formSection} = useSelector( (state) => state[STORE_TYPES.SECTIONNAME]);
     const handleReset = (e) => {
       resetForm();
     }
@@ -30,7 +31,7 @@ function SkillsForm({initialList, sectionData, setSectionData,resetForm,formSubm
     <>
     <div className='formOptions'>
       <form className={formSection + " " + "form-layout"} section={formSection}> 
-        <InputLabel value={sectionData.skillField} className="halfChild" labelname="Skills" type="text" section="skills"   placeholder="e.g. Java, MATLAB,... " 
+        <InputLabel value={formData.skillField} className="halfChild" labelname="Skills" type="text" section="skills"   placeholder="e.g. Java, MATLAB,... " 
         onInputChange={handleSetValue} id="skillField" name="skillField" />
         
         <div className='buttonParent formMargin'>

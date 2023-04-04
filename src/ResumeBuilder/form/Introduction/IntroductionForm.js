@@ -1,7 +1,7 @@
 import React,{useContext, useState} from 'react'
 import { FormContext } from '../../ResumeBuilder';
 import Button from '../../molecules/atoms/Button';
-import Image from '../Image';
+import Image from './Image';
 import InputLabel from '../../molecules/InputLabel'
 import ParentWrapper from '../../molecules/atoms/ParentWrapper';
 import withForm from '../../hoc/withForm';

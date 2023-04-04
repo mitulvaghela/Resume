@@ -32,6 +32,9 @@ function ExperienceForm({initialList, formData, setFormData,resetForm,formSubmit
         const id = e.target.id;
         fetchValue(value,id);
     }
+    const handleBlur = (e) => {
+      e.target.type = "text";
+}
 
   return (
     <> 
@@ -49,9 +52,9 @@ function ExperienceForm({initialList, formData, setFormData,resetForm,formSubmit
         
         <ParentWrapper className='firstLastName'>
            <InputLabel className="halfChild" value={formData.jstart} labelname="Job Start" type="month" section="experience"  placeholder="Date" 
-            onInputChange={handleSetValue} onblur="(this.type='text')"   id="jstart" name="jstart" />
+            onInputChange={handleSetValue} onblur={handleBlur}   id="jstart" name="jstart" />
            <InputLabel className="halfChild" value={formData.jend}  labelname = "Job End" type="month" section="experience"   placeholder="Date" 
-           onInputChange={handleSetValue} onblur="(this.type='text')" id="jend" name="jend"/>
+           onInputChange={handleSetValue} onblur={handleBlur} id="jend" name="jend"/>
         </ParentWrapper>
 
         <InputLabel className="halfChild" value={formData.jdescription}  labelname = "Description" type="text" section="experience" 

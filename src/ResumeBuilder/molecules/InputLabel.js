@@ -9,7 +9,7 @@ function InputLabel(props) {
     
     <div className={ props.className + " " + "formMargin"} >
     <Label id={props.id} labelname={props.labelname}/>
-    <Input id={props.id} value={props.value} type={props.type} onInputChange={props.onInputChange} placeholder={props.placeholder} name={props.name}/>
+    <Input id={props.id} value={props.value} onblur={props.onblur} type={props.type} onInputChange={props.onInputChange} placeholder={props.placeholder} name={props.name}/>
     </div>
   )
 }

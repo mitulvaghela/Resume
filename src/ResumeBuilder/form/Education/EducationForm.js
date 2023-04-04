@@ -34,6 +34,9 @@ const EducationForm = ({ initialList, formData, setFormData,resetForm,formSubmit
        const id = e.target.id;
        fetchValue(value,id);
    }
+   const handleBlur = (e) => {
+         e.target.type = "text";
+   }
   return (
   <>
    <div className='formOptions'>
@@ -51,9 +54,9 @@ const EducationForm = ({ initialList, formData, setFormData,resetForm,formSubmit
         
         <ParentWrapper className='firstLastName'>
                 <InputLabel className="halfChild" value={formData.syear}  labelname = "Start Year :" type="month" section="education"  placeholder="Date"
-                onInputChange={handleSetValue}  onblur="(this.type='text')" id="syear" name="syear"/>
+                onInputChange={handleSetValue}  onblur={handleBlur} id="syear" name="syear"/>
                 <InputLabel className="halfChild" value={formData.eyear}  labelname = "End Year :" type="month" section="education" placeholder="Date" 
-                onInputChange={handleSetValue}  onblur="(this.type='text') " id="eyear" name="eyear"/>
+                onInputChange={handleSetValue}  onblur={handleBlur} id="eyear" name="eyear"/>
         </ParentWrapper>
 
         <div className='buttonParent formMargin'>

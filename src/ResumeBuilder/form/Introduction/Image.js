@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { datamodelAction } from '../redux/dataModel/dataModelActions';
-import { SECTION_TYPES } from '../redux/dataModel/dataModelTypes';
-import { FormContext } from '../ResumeBuilder';
-import { STORE_TYPES } from '../redux/storeTypes';
+import { datamodelAction } from '../../redux/dataModel/dataModelActions';
+import { SECTION_TYPES } from '../../redux/dataModel/dataModelTypes';
+import { FormContext } from '../../ResumeBuilder';
+import { STORE_TYPES } from '../../redux/storeTypes';
 
 
 
